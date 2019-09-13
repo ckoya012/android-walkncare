@@ -6,3 +6,6 @@ Student#: 300021664
 
 Name: Charita Koya
 Student#: 7239507
+
+Name: Thomas Hai Li
+Student#: 8666856
