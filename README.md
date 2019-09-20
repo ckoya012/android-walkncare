@@ -9,3 +9,6 @@ Student#: 7239507
 
 Name: Thomas Hai Li
 Student#: 8666856
+
+Name: Ahmad Yama Ayubi
+Student#: 300021236
