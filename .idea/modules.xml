@@ -2,8 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/Walk In Clinc App SEG2105 Group 5.iml" filepath="$PROJECT_DIR$/Walk In Clinc App SEG2105 Group 5.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/SEG2105-Group5.iml" filepath="$PROJECT_DIR$/SEG2105-Group5.iml" />
+>>>>>>> 4b36de0b59599a82c3fc69123326573131ddcc95
     </modules>
   </component>
 </project>
