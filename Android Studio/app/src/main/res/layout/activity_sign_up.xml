@@ -8,8 +8,8 @@
 
     <EditText
         android:id="@+id/TFpassword"
-        android:layout_width="309dp"
-        android:layout_height="43dp"
+        android:layout_width="350dp"
+        android:layout_height="40dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -33,8 +33,8 @@
 
     <EditText
         android:id="@+id/TFemail"
-        android:layout_width="309dp"
-        android:layout_height="44dp"
+        android:layout_width="350dp"
+        android:layout_height="40dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -70,8 +70,8 @@
 
     <EditText
         android:id="@+id/TFname"
-        android:layout_width="323dp"
-        android:layout_height="42dp"
+        android:layout_width="350dp"
+        android:layout_height="40dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
