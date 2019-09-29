@@ -24,9 +24,9 @@
         android:id="@+id/nameFirst"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:layout_marginTop="50dp"
         android:hint="First name"
-        android:layout_marginTop="100dp"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
         app:layout_constraintTop_toTopOf="parent" />
@@ -76,6 +76,43 @@
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@+id/nameFirst" />
 
+    <TextView
+        android:id="@+id/userTypeLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="You are a..."
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintBottom_toTopOf="@+id/userType"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@+id/passwordConfirm"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <RadioGroup
+        android:id="@+id/userType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSignUp"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@+id/passwordConfirm">
+
+        <RadioButton
+            android:id="@+id/isPatient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Patient"
+            android:onClick="setUserType" />
+
+        <RadioButton
+            android:id="@+id/isClinicEmployee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clinic Employee"
+            android:onClick="setUserType" />
+    </RadioGroup>
+
     <Button
         android:id="@+id/buttonSignUp"
         android:layout_width="wrap_content"
@@ -86,12 +123,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.90999997" />
-
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-        tools:layout_editor_absoluteY="455dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
