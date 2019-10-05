@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WalkInClinic</string>
+    <string name="registration_success">Patient was registered</string>
+    <string name="WelcomePerson">Welcome name! You are logged in as role</string>
 </resources>

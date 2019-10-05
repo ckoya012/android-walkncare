@@ -1,7 +1,9 @@
 package com.example.walkinclinic;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +16,10 @@ import android.widget.Toast;
 import com.example.walkinclinic.account.*;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,6 +30,8 @@ public class SignUpActivity extends AppCompatActivity {
     private char userType;
     private Button buttonSignUp;
     private DatabaseReference ref;
+    private FirebaseAuth mAuth;
+
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
@@ -33,6 +41,7 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         // Get input fields
+        mAuth = FirebaseAuth.getInstance();
         fieldFirstName = findViewById(R.id.nameFirst);
         fieldLastName = findViewById(R.id.nameLast);
         fieldEmail = findViewById(R.id.email);
@@ -44,25 +53,109 @@ public class SignUpActivity extends AppCompatActivity {
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String firstName = fieldFirstName.getText().toString().trim();
-                String lastName = fieldLastName.getText().toString().trim();
-                String email = fieldEmail.getText().toString().trim();
-                String pwd = fieldPwd.getText().toString().trim();
-                String pwdConfirm = fieldPwdConfirm.getText().toString().trim();
+               final String firstName = fieldFirstName.getText().toString().trim();
+                final String lastName = fieldLastName.getText().toString().trim();
+                final String email = fieldEmail.getText().toString().trim();
+                final String pwd = fieldPwd.getText().toString().trim();
+                 String pwdConfirm = fieldPwdConfirm.getText().toString().trim();
+
+                mAuth.createUserWithEmailAndPassword(email,pwd)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if(task.isSuccessful()){
+                                    Patient patient = new Patient(
+                                            email,
+                                            pwd,
+                                            firstName,
+                                            lastName
+
+                                    );
+                                    FirebaseDatabase.getInstance().getReference("Patients")
+                                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                            .setValue(patient).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(SignUpActivity.this, getString(R.string.registration_success), Toast.LENGTH_LONG).show();
+                                            } else {
+                                                //display a failure message
+                                            }
+                                        }
+                                    });
+                                }else {
+                                    Toast.makeText(SignUpActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
 
                 if (fieldsAreValid(firstName, lastName, email, pwd, pwdConfirm)) {
-                    UserAccount newUser;
                     if (userType == 'P') {
-                        newUser = new Patient(email, pwd, firstName, lastName, 12345);      // placeholder UID
-                        ref = FirebaseDatabase.getInstance().getReference().child("patients");
-                    }
+                        mAuth.createUserWithEmailAndPassword(email,pwd)
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if(task.isSuccessful()){
+                                            Patient patient = new Patient(
+                                                    email,
+                                                    pwd,
+                                                    firstName,
+                                                    lastName
+
+                                            );
+                                            FirebaseDatabase.getInstance().getReference("Patients")
+                                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                    .setValue(patient).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(SignUpActivity.this, getString(R.string.registration_success), Toast.LENGTH_LONG).show();
+                                                    } else {
+                                                        //display a failure message
+                                                    }
+                                                }
+                                            });
+                                        }else {
+                                            Toast.makeText(SignUpActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                }); }
                     // userType == 'E'
                     else {
-                        newUser = new Employee(email, pwd, firstName, lastName, 12345);     // placeholder UID
-                        ref = FirebaseDatabase.getInstance().getReference().child("employees");
+                        mAuth.createUserWithEmailAndPassword(email,pwd)
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if(task.isSuccessful()){
+                                            Employee employee = new Employee(
+                                                    email,
+                                                    pwd,
+                                                    firstName,
+                                                    lastName
+
+                                            );
+                                            FirebaseDatabase.getInstance().getReference("Employee")
+                                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                    .setValue(employee).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(SignUpActivity.this, getString(R.string.registration_success), Toast.LENGTH_LONG).show();
+                                                        startActivity(new Intent(SignUpActivity.this, WelcomeActivity.class));
+                                                    } else {
+                                                        Toast.makeText(SignUpActivity.this.getApplicationContext(),
+                                                                "SignUp unsuccessful: " + task.getException().getMessage(),
+                                                                Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+                                        }else {
+                                            Toast.makeText(SignUpActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
                     }
-                    ref.push().setValue(newUser);
-                    Toast.makeText(SignUpActivity.this, "Registration successful!", Toast.LENGTH_LONG).show();
+
                 }
             }
         });
