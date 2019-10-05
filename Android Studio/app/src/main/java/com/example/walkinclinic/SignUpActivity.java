@@ -1,5 +1,6 @@
 package com.example.walkinclinic;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -12,6 +13,10 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.walkinclinic.account.*;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -22,10 +27,12 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText fieldFirstName, fieldLastName, fieldEmail, fieldPwd, fieldPwdConfirm;
     private RadioGroup fieldUserTypeSelection;
     private char userType;
-    private Button buttonSignUp;
-    private DatabaseReference ref;
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+    // Firebase stuff
+    private DatabaseReference ref;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,33 +46,56 @@ public class SignUpActivity extends AppCompatActivity {
         fieldPwd = findViewById(R.id.password);
         fieldPwdConfirm = findViewById(R.id.passwordConfirm);
         fieldUserTypeSelection = findViewById(R.id.userType);
-        buttonSignUp = findViewById(R.id.buttonSignUp);
 
-        buttonSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String firstName = fieldFirstName.getText().toString().trim();
-                String lastName = fieldLastName.getText().toString().trim();
-                String email = fieldEmail.getText().toString().trim();
-                String pwd = fieldPwd.getText().toString().trim();
-                String pwdConfirm = fieldPwdConfirm.getText().toString().trim();
+        // Setup Firebase
+        mAuth = FirebaseAuth.getInstance();
+    }
 
-                if (fieldsAreValid(firstName, lastName, email, pwd, pwdConfirm)) {
-                    UserAccount newUser;
-                    if (userType == 'P') {
-                        newUser = new Patient(email, pwd, firstName, lastName, 12345);      // placeholder UID
-                        ref = FirebaseDatabase.getInstance().getReference().child("patients");
-                    }
-                    // userType == 'E'
-                    else {
-                        newUser = new Employee(email, pwd, firstName, lastName, 12345);     // placeholder UID
-                        ref = FirebaseDatabase.getInstance().getReference().child("employees");
-                    }
-                    ref.push().setValue(newUser);
-                    Toast.makeText(SignUpActivity.this, "Registration successful!", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+    @Override
+    protected  void onStart() {
+        super.onStart();
+
+        if (mAuth.getCurrentUser() != null) {
+            // handle user already logged in
+        }
+    }
+
+    public void onClickSignUpBtn (View v) {
+        final String firstName = fieldFirstName.getText().toString().trim();
+        final String lastName = fieldLastName.getText().toString().trim();
+        final String email = fieldEmail.getText().toString().trim();
+        final String pwd = fieldPwd.getText().toString().trim();
+        String pwdConfirm = fieldPwdConfirm.getText().toString().trim();
+
+        if (fieldsAreValid(firstName, lastName, email, pwd, pwdConfirm)) {
+            // Create user w/ Firebase
+            mAuth.createUserWithEmailAndPassword(email, pwd)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Store in database
+                                UserAccount newUser;
+                                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                if (userType == 'P') {
+                                    newUser = new Patient(email, pwd, firstName, lastName, 12345);      // placeholder UID
+                                    ref = FirebaseDatabase.getInstance().getReference().child("patients");
+                                }
+                                // userType == 'E'
+                                else {
+                                    newUser = new Employee(email, pwd, firstName, lastName, 12345);     // placeholder UID
+                                    ref = FirebaseDatabase.getInstance().getReference().child("employees");
+                                }
+                                ref.child(uid).setValue(newUser);
+                                Toast.makeText(SignUpActivity.this, "Sign up successful!", Toast.LENGTH_LONG).show();
+                            }
+                            else {
+                                // Print out error message
+                                Toast.makeText(SignUpActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+        }
     }
 
     public boolean fieldsAreValid(String firstName, String lastName, String email, String pwd, String pwdConfirm) {
