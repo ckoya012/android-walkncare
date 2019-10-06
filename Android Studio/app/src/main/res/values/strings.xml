@@ -2,4 +2,16 @@
     <string name="app_name">WalkInClinic</string>
     <string name="registration_success">Patient was registered</string>
     <string name="WelcomePerson">Welcome name! You are logged in as role</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="loginbtn">Login</string>
+    <string name="notregistered">Not registered? Sign Up here!</string>
+    <string name="fname">First name</string>
+    <string name="lname">Last name</string>
+    <string name="patient">Patient</string>
+    <string name="clipboard">medical clipboard clipart</string>
+    <string name="clinic">Clinic Employee</string>
+    <string name="singupbtn">Signup</string>
+    <string name="youAreA">You are a...</string>
+    <string name="alreadySignedup">Already have an account? Sign in here!</string>
 </resources>
