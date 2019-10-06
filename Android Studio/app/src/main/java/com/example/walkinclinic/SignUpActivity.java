@@ -3,6 +3,7 @@ package com.example.walkinclinic;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.walkinclinic.account.*;
@@ -24,9 +26,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+
 public class SignUpActivity extends AppCompatActivity {
-    private EditText fieldFirstName, fieldLastName, fieldEmail, fieldPwd, fieldPwdConfirm;
+    private EditText fieldFirstName, fieldLastName, fieldEmail, fieldPwd;
     private RadioGroup fieldUserTypeSelection;
+    private Button btnSignUp;
+    private TextView signIn;
     private char userType;
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
@@ -34,6 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
     // Firebase stuff
     private DatabaseReference ref;
     private FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +52,29 @@ public class SignUpActivity extends AppCompatActivity {
         fieldLastName = findViewById(R.id.nameLast);
         fieldEmail = findViewById(R.id.email);
         fieldPwd = findViewById(R.id.password);
-        fieldPwdConfirm = findViewById(R.id.passwordConfirm);
         fieldUserTypeSelection = findViewById(R.id.userType);
+        signIn= findViewById(R.id.alreadyLog);
+        btnSignUp = findViewById(R.id.buttonSignUp);
+
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickSignUpBtn();
+
+            }
+        });
+        signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent I = new Intent(SignUpActivity.this, LoginActivity.class);
+                startActivity(I);
+            }
+        });
 
         // Setup Firebase
         mAuth = FirebaseAuth.getInstance();
+
+
     }
 
     @Override
@@ -61,14 +86,15 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    public void onClickSignUpBtn (View v) {
+
+    public void onClickSignUpBtn () {
+
         final String firstName = fieldFirstName.getText().toString().trim();
         final String lastName = fieldLastName.getText().toString().trim();
         final String email = fieldEmail.getText().toString().trim();
         final String pwd = fieldPwd.getText().toString().trim();
-        String pwdConfirm = fieldPwdConfirm.getText().toString().trim();
 
-        if (fieldsAreValid(firstName, lastName, email, pwd, pwdConfirm)) {
+        if (fieldsAreValid(firstName, lastName, email, pwd)) {
             // Create user w/ Firebase
             mAuth.createUserWithEmailAndPassword(email, pwd)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -102,7 +128,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    public boolean fieldsAreValid(String firstName, String lastName, String email, String pwd, String pwdConfirm) {
+    public boolean fieldsAreValid(String firstName, String lastName, String email, String pwd) {
         // check name length
         if (firstName.length() < 3) {
             Toast.makeText(SignUpActivity.this, "First name should be at least 3 characters", Toast.LENGTH_LONG).show();
@@ -119,14 +145,11 @@ public class SignUpActivity extends AppCompatActivity {
             return false;
         }
         // check password length and match
-        if (pwd.length() < 6 || pwdConfirm.length() < 6) {
+        if (pwd.length() < 6 ) {
             Toast.makeText(SignUpActivity.this, "Password must be at least 6 characters", Toast.LENGTH_LONG).show();
             return false;
         }
-        if (! pwd.equals(pwdConfirm)) {
-            Toast.makeText(SignUpActivity.this, "Passwords must match", Toast.LENGTH_LONG).show();
-            return false;
-        }
+
         // check if user type is selected
         if (fieldUserTypeSelection.getCheckedRadioButtonId() == -1) {
             Toast.makeText(SignUpActivity.this, "Select your status", Toast.LENGTH_LONG).show();
