@@ -4,13 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,6 +46,7 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         // Get input fields
         fieldFirstName = findViewById(R.id.nameFirst);
@@ -93,8 +94,10 @@ public class SignUpActivity extends AppCompatActivity {
         final String lastName = fieldLastName.getText().toString().trim();
         final String email = fieldEmail.getText().toString().trim();
         final String pwd = fieldPwd.getText().toString().trim();
-
-        if (fieldsAreValid(firstName, lastName, email, pwd)) {
+        if (fieldUserTypeSelection.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(SignUpActivity.this, "Select your status", Toast.LENGTH_LONG).show();
+        }
+        if (fieldsAreValid(firstName, lastName, email, pwd,SignUpActivity.this) && !(fieldUserTypeSelection.getCheckedRadioButtonId() == -1)) {
             // Create user w/ Firebase
             mAuth.createUserWithEmailAndPassword(email, pwd)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -104,20 +107,27 @@ public class SignUpActivity extends AppCompatActivity {
                                 // Store in database
                                 UserAccount newUser;
                                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                ref = FirebaseDatabase.getInstance().getReference();
                                 if (userType == 'P') {
                                     newUser = new Patient(email, pwd, firstName, lastName);
-                                    ref = FirebaseDatabase.getInstance().getReference().child("patients");
                                 }
                                 // userType == 'E'
                                 else {
                                     newUser = new Employee(email, pwd, firstName, lastName);
-                                    ref = FirebaseDatabase.getInstance().getReference().child("employees");
                                 }
-                                ref.child(uid).setValue(newUser);
+                                ref.child("users").child(uid).setValue(newUser);
                                 Toast.makeText(SignUpActivity.this, "Sign up successful!", Toast.LENGTH_LONG).show();
 
                                 // Go to Welcome Screen
-                                startActivity(new Intent(SignUpActivity.this, WelcomeActivity.class));
+                                if(userType == 'P'){
+                                    Intent intent = new Intent(getApplicationContext(), PatientUI.class);   //Application Context and Activity
+                                    intent.putExtra("USER_FIRSTNAME", firstName);
+                                    startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
+                                } else {
+                                    Intent intent = new Intent(getApplicationContext(), EmployeeUI.class);   //Application Context and Activity
+                                    intent.putExtra("USER_FIRSTNAME", firstName);
+                                    startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
+                                }
                             }
                             else {
                                 // Print out error message
@@ -128,31 +138,25 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    public boolean fieldsAreValid(String firstName, String lastName, String email, String pwd) {
+    public static boolean fieldsAreValid(String firstName, String lastName, String email, String pwd, Context c) {
         // check name length
         if (firstName.length() < 3) {
-            Toast.makeText(SignUpActivity.this, "First name should be at least 3 characters", Toast.LENGTH_LONG).show();
+            Toast.makeText(c, "First name should be at least 3 characters", Toast.LENGTH_LONG).show();
             return false;
         }
         if (lastName.length() < 2) {
-            Toast.makeText(SignUpActivity.this, "Last name should be at least 2 characters", Toast.LENGTH_LONG).show();
+            Toast.makeText(c, "Last name should be at least 2 characters", Toast.LENGTH_LONG).show();
             return false;
         }
         // check email pattern
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(email);
         if (! matcher.find()) {
-            Toast.makeText(SignUpActivity.this, "Enter a valid email", Toast.LENGTH_LONG).show();
+            Toast.makeText(c, "Enter a valid email", Toast.LENGTH_LONG).show();
             return false;
         }
         // check password length and match
         if (pwd.length() < 6 ) {
-            Toast.makeText(SignUpActivity.this, "Password must be at least 6 characters", Toast.LENGTH_LONG).show();
-            return false;
-        }
-
-        // check if user type is selected
-        if (fieldUserTypeSelection.getCheckedRadioButtonId() == -1) {
-            Toast.makeText(SignUpActivity.this, "Select your status", Toast.LENGTH_LONG).show();
+            Toast.makeText(c, "Password must be at least 6 characters", Toast.LENGTH_LONG).show();
             return false;
         }
 
