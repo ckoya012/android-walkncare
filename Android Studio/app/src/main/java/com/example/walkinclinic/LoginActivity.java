@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,42 +25,51 @@ import android.content.pm.ActivityInfo;
 
 
 public class LoginActivity extends AppCompatActivity {
-    private FirebaseAuth mAuth;
-    private boolean isPatient;
-    private TextView signUp;
+    private FirebaseAuth mAuth; //used to authenticate user
+    private boolean isPatient; //keeps track whether user is patient or not
+    private TextView signUp;    //clickable text for going to sign up screen
+    private ProgressBar loading;    //loading view for when you need to load
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // prevents changing orientation
         signUp= findViewById(R.id.redirectSignup);
         mAuth = FirebaseAuth.getInstance();
+        loading = findViewById(R.id.progressBar);
+        loading.setVisibility(View.GONE);
+
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true); //caches login data for faster login in the future
     }
 
     public void onLoginClicked(View view) {
-
+        loading.setVisibility(View.VISIBLE);
         EditText email = (EditText) findViewById(R.id.loginEmail);
         EditText password = (EditText) findViewById(R.id.loginPwd);
         String sEmail = email.getText().toString().trim();
         String sPwd = password.getText().toString().trim();
-        if(SignUpActivity.fieldsAreValid("bob","bob",sEmail,sPwd,LoginActivity.this)){
-            if (sEmail.equals("admin") && sPwd.equals("5T5ptQ")) {
+
+        if(SignUpActivity.fieldsAreValid("bob","bob",sEmail,sPwd,LoginActivity.this)){ // checks if login inputs are valid
+            if (sEmail.equals("admin") && sPwd.equals("5T5ptQ")) { // hard code for admin login
                 Intent intent = new Intent(getApplicationContext(), AdminUI.class);   //Application Context and Activity
                 startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
             } else {
+                //creates listener used to authenticate login
                 mAuth.signInWithEmailAndPassword(sEmail, sPwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            getData();
+                            getData(); // if valid login, get user data
                         } else {
                             Toast.makeText(LoginActivity.this, "Login failed!", Toast.LENGTH_LONG).show();
-
+                            loading.setVisibility(View.GONE);
                         }
                     }
                 });
 
             }
+        }else{
+            loading.setVisibility(View.GONE);
         }
     }
 
@@ -74,15 +84,15 @@ public class LoginActivity extends AppCompatActivity {
 
         ValueEventListener postListener = new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                boolean typeData = dataSnapshot.child("isEmployee").getValue(Boolean.class);
-                String firstNameData = dataSnapshot.child("nameFirst").getValue(String.class);
+            public void onDataChange(DataSnapshot dataSnapshot) { // creates listener for datachanges, gets data using data snapshot
+                boolean typeData = dataSnapshot.child("isEmployee").getValue(Boolean.class); // gets user type
+                String firstNameData = dataSnapshot.child("nameFirst").getValue(String.class); // gets user first name
                 if(typeData){
-                    Intent intent = new Intent(getApplicationContext(), EmployeeUI.class);   //Application Context and Activity
+                    Intent intent = new Intent(getApplicationContext(), EmployeeUI.class);   //starts activity
                     intent.putExtra("USER_FIRSTNAME", firstNameData);
                     startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
                 } else {
-                    Intent intent = new Intent(getApplicationContext(), PatientUI.class);   //Application Context and Activity
+                    Intent intent = new Intent(getApplicationContext(), PatientUI.class);   //starts activity
                     intent.putExtra("USER_FIRSTNAME", firstNameData);
                     startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
                 }
@@ -90,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Toast.makeText(LoginActivity.this, "Login failed! DATABASE ERROR: "+databaseError, Toast.LENGTH_LONG).show();
             }
         };
         ref.addValueEventListener(postListener);

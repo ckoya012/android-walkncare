@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ public class SignUpActivity extends AppCompatActivity {
     private Button btnSignUp;
     private TextView signIn;
     private char userType;
+    private ProgressBar loading;
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
@@ -56,6 +58,8 @@ public class SignUpActivity extends AppCompatActivity {
         fieldUserTypeSelection = findViewById(R.id.userType);
         signIn= findViewById(R.id.alreadyLog);
         btnSignUp = findViewById(R.id.buttonSignUp);
+        loading = findViewById(R.id.signUpProgressBar);
+        loading.setVisibility(View.GONE);
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +98,7 @@ public class SignUpActivity extends AppCompatActivity {
         final String lastName = fieldLastName.getText().toString().trim();
         final String email = fieldEmail.getText().toString().trim();
         final String pwd = fieldPwd.getText().toString().trim();
+        loading.setVisibility(View.VISIBLE);
         if (fieldUserTypeSelection.getCheckedRadioButtonId() == -1) {
             Toast.makeText(SignUpActivity.this, "Select your status", Toast.LENGTH_LONG).show();
         }
@@ -116,8 +121,6 @@ public class SignUpActivity extends AppCompatActivity {
                                     newUser = new Employee(email, pwd, firstName, lastName);
                                 }
                                 ref.child("users").child(uid).setValue(newUser);
-                                Toast.makeText(SignUpActivity.this, "Sign up successful!", Toast.LENGTH_LONG).show();
-
                                 // Go to Welcome Screen
                                 if(userType == 'P'){
                                     Intent intent = new Intent(getApplicationContext(), PatientUI.class);   //Application Context and Activity
@@ -131,10 +134,13 @@ public class SignUpActivity extends AppCompatActivity {
                             }
                             else {
                                 // Print out error message
+                                loading.setVisibility(View.GONE);
                                 Toast.makeText(SignUpActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                             }
                         }
                     });
+        } else {
+            loading.setVisibility(View.GONE);
         }
     }
 

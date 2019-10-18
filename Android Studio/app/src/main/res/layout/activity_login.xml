@@ -63,18 +63,35 @@
                 android:onClick="onLoginClicked"
                 android:text="@string/loginbtn" />
 
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/redirectSignup"
+        <LinearLayout
+            android:id="@+id/bottomLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:clickable="true"
-            android:contextClickable="false"
-            android:onClick="onSignUp"
-            android:text="@string/notregistered" />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/redirectSignup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:contextClickable="false"
+                android:onClick="onSignUp"
+                android:text="@string/notregistered" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
