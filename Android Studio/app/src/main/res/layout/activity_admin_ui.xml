@@ -6,9 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".AdminUI">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logged in as admin" />
+    <LinearLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/adminLoginMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Welcome Admin! You are logged in as Admin." />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

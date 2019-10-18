@@ -49,11 +49,11 @@ public class LoginActivity extends AppCompatActivity {
         String sEmail = email.getText().toString().trim();
         String sPwd = password.getText().toString().trim();
 
-        if(SignUpActivity.fieldsAreValid("bob","bob",sEmail,sPwd,LoginActivity.this)){ // checks if login inputs are valid
-            if (sEmail.equals("admin") && sPwd.equals("5T5ptQ")) { // hard code for admin login
-                Intent intent = new Intent(getApplicationContext(), AdminUI.class);   //Application Context and Activity
-                startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
-            } else {
+        if (sEmail.equals("admin") && sPwd.equals("5T5ptQ")) { // hard code for admin login
+            Intent intent = new Intent(getApplicationContext(), AdminUI.class);   //Application Context and Activity
+            startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
+        } else {
+            if(SignUpActivity.fieldsAreValid("bob","bob",sEmail,sPwd,LoginActivity.this)) { // checks if login inputs are valid
                 //creates listener used to authenticate login
                 mAuth.signInWithEmailAndPassword(sEmail, sPwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -66,10 +66,10 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+            }else{
+                loading.setVisibility(View.GONE);
+             }
 
-            }
-        }else{
-            loading.setVisibility(View.GONE);
         }
     }
 
