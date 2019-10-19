@@ -19,5 +19,20 @@ public abstract class UserAccount extends Account {
     public String getNameLast() {
         return nameLast;
     }
-    public boolean getIsEmployee(){return isEmployee;}
+
+    public boolean getIsEmployee() {
+        return isEmployee;
+    }
+
+    public void setNameFirst(String nameFirst) {
+        this.nameFirst = nameFirst;
+    }
+
+    public void setNameLast(String nameLast) {
+        this.nameLast = nameLast;
+    }
+
+    public void setEmployee(boolean employee) {
+        isEmployee = employee;
+    }
 }
