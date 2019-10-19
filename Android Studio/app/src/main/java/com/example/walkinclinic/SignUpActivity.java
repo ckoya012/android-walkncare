@@ -24,6 +24,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -98,6 +100,8 @@ public class SignUpActivity extends AppCompatActivity {
         final String lastName = fieldLastName.getText().toString().trim();
         final String email = fieldEmail.getText().toString().trim();
         final String pwd = fieldPwd.getText().toString().trim();
+        final String hashedPwd = getHashedPassword(pwd);
+
         loading.setVisibility(View.VISIBLE);
         if (fieldUserTypeSelection.getCheckedRadioButtonId() == -1) {
             Toast.makeText(SignUpActivity.this, "Select your status", Toast.LENGTH_LONG).show();
@@ -114,11 +118,11 @@ public class SignUpActivity extends AppCompatActivity {
                                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                 ref = FirebaseDatabase.getInstance().getReference();
                                 if (userType == 'P') {
-                                    newUser = new Patient(email, pwd, firstName, lastName);
+                                    newUser = new Patient(email, hashedPwd, firstName, lastName);
                                 }
                                 // userType == 'E'
                                 else {
-                                    newUser = new Employee(email, pwd, firstName, lastName);
+                                    newUser = new Employee(email, hashedPwd, firstName, lastName);
                                 }
                                 ref.child("users").child(uid).setValue(newUser);
                                 // Go to Welcome Screen
@@ -178,5 +182,23 @@ public class SignUpActivity extends AppCompatActivity {
         else if (selectedID == R.id.isClinicEmployee) {
             userType = 'E';
         }
+    }
+
+    private static String getHashedPassword(String pwd) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(pwd.getBytes());
+
+            byte[] digestedBytes = md.digest();
+
+            StringBuilder hexDigest = new StringBuilder();
+            for (byte digestedByte : digestedBytes) {
+                hexDigest.append(Integer.toString((digestedByte & 0xff) + 0x100, 16).substring(1));
+            }
+            return hexDigest.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }
