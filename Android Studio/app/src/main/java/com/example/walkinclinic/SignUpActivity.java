@@ -104,7 +104,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         loading.setVisibility(View.VISIBLE);
         if (fieldUserTypeSelection.getCheckedRadioButtonId() == -1) {
-            Toast.makeText(SignUpActivity.this, "Select your status", Toast.LENGTH_LONG).show();
+            Toast.makeText(SignUpActivity.this, "Please select your status", Toast.LENGTH_LONG).show();
         }
         if (fieldsAreValid(firstName, lastName, email, pwd,SignUpActivity.this) && !(fieldUserTypeSelection.getCheckedRadioButtonId() == -1)) {
             // Create user w/ Firebase
@@ -161,7 +161,7 @@ public class SignUpActivity extends AppCompatActivity {
         // check email pattern
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(email);
         if (! matcher.find()) {
-            Toast.makeText(c, "Enter a valid email", Toast.LENGTH_LONG).show();
+            Toast.makeText(c, "Please enter a valid email", Toast.LENGTH_LONG).show();
             return false;
         }
         // check password length and match

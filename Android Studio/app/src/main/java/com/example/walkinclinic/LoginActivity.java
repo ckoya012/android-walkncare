@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             getData(); // if valid login, get user data
                         } else {
-                            Toast.makeText(LoginActivity.this, "Login failed!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "Login has failed!", Toast.LENGTH_LONG).show();
                             loading.setVisibility(View.GONE);
                         }
                     }
