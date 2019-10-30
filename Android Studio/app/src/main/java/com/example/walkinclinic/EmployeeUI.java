@@ -12,6 +12,6 @@ public class EmployeeUI extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_ui);
         TextView message = (TextView)findViewById(R.id.welcomeMsgEmp);
-        message.setText("Welcome "+(getIntent().getStringExtra("USER_FIRSTNAME"))+"! You are logged in as a employee.");
+        message.setText("Welcome "+(getIntent().getStringExtra("USER_FIRSTNAME"))+"! You are logged in as an employee.");
     }
 }

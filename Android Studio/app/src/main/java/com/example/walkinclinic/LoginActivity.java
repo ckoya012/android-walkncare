@@ -22,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import android.content.pm.ActivityInfo;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -29,6 +31,11 @@ public class LoginActivity extends AppCompatActivity {
     private boolean isPatient; //keeps track whether user is patient or not
     private TextView signUp;    //clickable text for going to sign up screen
     private ProgressBar loading;    //loading view for when you need to load
+
+    // Valid email pattern
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,25 +59,32 @@ public class LoginActivity extends AppCompatActivity {
         if (sEmail.equals("admin") && sPwd.equals("5T5ptQ")) { // hard code for admin login
             Intent intent = new Intent(getApplicationContext(), AdminUI.class);   //Application Context and Activity
             startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
-        } else {
-            if(SignUpActivity.fieldsAreValid("bob","bob",sEmail,sPwd,LoginActivity.this)) { // checks if login inputs are valid
+        }
+        else {
+            if (emailIsValid(sEmail)) { // checks if login inputs are valid
                 //creates listener used to authenticate login
                 mAuth.signInWithEmailAndPassword(sEmail, sPwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            getData(); // if valid login, get user data
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Login has failed!", Toast.LENGTH_LONG).show();
-                            loading.setVisibility(View.GONE);
-                        }
+                    if (task.isSuccessful()) {
+                        getData(); // if valid login, get user data
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Login has failed!", Toast.LENGTH_LONG).show();
+                        loading.setVisibility(View.GONE);
+                    }
                     }
                 });
-            }else{
+            }
+            else {
+                Toast.makeText(this, "Please enter a valid email", Toast.LENGTH_LONG).show();
                 loading.setVisibility(View.GONE);
-             }
-
+            }
         }
+    }
+
+    public static boolean emailIsValid(String email) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(email);
+        return matcher.find();
     }
 
     public void onSignUp(View view){
@@ -79,30 +93,38 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void getData(){
-        String userID = mAuth.getCurrentUser().getUid();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
+        final String userID = mAuth.getCurrentUser().getUid();
 
-        ValueEventListener postListener = new ValueEventListener() {
+        // Determine if the user is a patient
+        DatabaseReference patientsRef = FirebaseDatabase.getInstance().getReference().child("patients");
+        patientsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) { // creates listener for datachanges, gets data using data snapshot
-                boolean typeData = dataSnapshot.child("isEmployee").getValue(Boolean.class); // gets user type
-                String firstNameData = dataSnapshot.child("nameFirst").getValue(String.class); // gets user first name
-                if(typeData){
-                    Intent intent = new Intent(getApplicationContext(), EmployeeUI.class);   //starts activity
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild(userID)) {
+                    String firstNameData = dataSnapshot.child(userID).child("nameFirst").getValue(String.class);
+                    Intent intent = new Intent(getApplicationContext(), PatientUI.class);
                     intent.putExtra("USER_FIRSTNAME", firstNameData);
-                    startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
-                } else {
-                    Intent intent = new Intent(getApplicationContext(), PatientUI.class);   //starts activity
-                    intent.putExtra("USER_FIRSTNAME", firstNameData);
-                    startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
+                    startActivity(intent);
                 }
             }
-
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(LoginActivity.this, "Login failed! DATABASE ERROR: "+databaseError, Toast.LENGTH_LONG).show();
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+
+        // Determine if the user is an employee
+        DatabaseReference employeesRef = FirebaseDatabase.getInstance().getReference().child("employees");
+        employeesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild(userID)) {
+                    String firstNameData = dataSnapshot.child(userID).child("nameFirst").getValue(String.class);
+                    Intent intent = new Intent(getApplicationContext(), EmployeeUI.class);
+                    intent.putExtra("USER_FIRSTNAME", firstNameData);
+                    startActivity(intent);
+                }
             }
-        };
-        ref.addValueEventListener(postListener);
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
     }
 }

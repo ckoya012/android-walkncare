@@ -102,48 +102,53 @@ public class SignUpActivity extends AppCompatActivity {
         final String pwd = fieldPwd.getText().toString().trim();
         final String hashedPwd = getHashedPassword(pwd);
 
+        // Loading wheel
         loading.setVisibility(View.VISIBLE);
+
         if (fieldUserTypeSelection.getCheckedRadioButtonId() == -1) {
             Toast.makeText(SignUpActivity.this, "Please select your status", Toast.LENGTH_LONG).show();
         }
         if (fieldsAreValid(firstName, lastName, email, pwd,SignUpActivity.this) && !(fieldUserTypeSelection.getCheckedRadioButtonId() == -1)) {
             // Create user w/ Firebase
             mAuth.createUserWithEmailAndPassword(email, pwd)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Store in database
-                                UserAccount newUser;
-                                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                ref = FirebaseDatabase.getInstance().getReference();
-                                if (userType == 'P') {
-                                    newUser = new Patient(email, hashedPwd, firstName, lastName);
-                                }
-                                // userType == 'E'
-                                else {
-                                    newUser = new Employee(email, hashedPwd, firstName, lastName);
-                                }
-                                ref.child("users").child(uid).setValue(newUser);
-                                // Go to Welcome Screen
-                                if(userType == 'P'){
-                                    Intent intent = new Intent(getApplicationContext(), PatientUI.class);   //Application Context and Activity
-                                    intent.putExtra("USER_FIRSTNAME", firstName);
-                                    startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
-                                } else {
-                                    Intent intent = new Intent(getApplicationContext(), EmployeeUI.class);   //Application Context and Activity
-                                    intent.putExtra("USER_FIRSTNAME", firstName);
-                                    startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
-                                }
-                            }
-                            else {
-                                // Print out error message
-                                loading.setVisibility(View.GONE);
-                                Toast.makeText(SignUpActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                            }
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        // Store in database
+                        UserAccount newUser;
+                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        ref = FirebaseDatabase.getInstance().getReference();
+                        if (userType == 'P') {
+                            newUser = new Patient(email, hashedPwd, firstName, lastName);
+                            ref.child("patients").child(uid).setValue(newUser);
                         }
-                    });
-        } else {
+                        // userType == 'E'
+                        else {
+                            newUser = new Employee(email, hashedPwd, firstName, lastName);
+                            ref.child("employees").child(uid).setValue(newUser);
+                        }
+                        // Go to Welcome Screen
+                        if (userType == 'P') {
+                            Intent intent = new Intent(getApplicationContext(), PatientUI.class);   //Application Context and Activity
+                            intent.putExtra("USER_FIRSTNAME", firstName);
+                            startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
+                        }
+                        else {
+                            Intent intent = new Intent(getApplicationContext(), EmployeeUI.class);   //Application Context and Activity
+                            intent.putExtra("USER_FIRSTNAME", firstName);
+                            startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
+                        }
+                    }
+                    else {
+                        // Print out error message
+                        loading.setVisibility(View.GONE);
+                        Toast.makeText(SignUpActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                    }
+                });
+        }
+        else {
             loading.setVisibility(View.GONE);
         }
     }
