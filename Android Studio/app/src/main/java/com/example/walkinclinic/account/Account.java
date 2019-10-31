@@ -9,7 +9,7 @@ public abstract class Account {
         this.password = password;
     }
 
-    public String getemail() {
+    public String getEmail() {
         return this.email;
     }
 
@@ -17,7 +17,7 @@ public abstract class Account {
         return this.password;
     }
 
-    public void setemail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 

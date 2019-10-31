@@ -105,6 +105,8 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), PatientUI.class);
                     intent.putExtra("USER_FIRSTNAME", firstNameData);
                     startActivity(intent);
+                } else {
+                    return;
                 }
             }
             @Override
@@ -121,6 +123,8 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), EmployeeUI.class);
                     intent.putExtra("USER_FIRSTNAME", firstNameData);
                     startActivity(intent);
+                } else {
+                    return;
                 }
             }
             @Override

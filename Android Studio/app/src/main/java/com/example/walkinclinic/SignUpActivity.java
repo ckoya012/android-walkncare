@@ -120,12 +120,12 @@ public class SignUpActivity extends AppCompatActivity {
                         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         ref = FirebaseDatabase.getInstance().getReference();
                         if (userType == 'P') {
-                            newUser = new Patient(email, hashedPwd, firstName, lastName);
+                            newUser = new Patient(email, hashedPwd, firstName, lastName,uid);
                             ref.child("patients").child(uid).setValue(newUser);
                         }
                         // userType == 'E'
                         else {
-                            newUser = new Employee(email, hashedPwd, firstName, lastName);
+                            newUser = new Employee(email, hashedPwd, firstName, lastName,uid);
                             ref.child("employees").child(uid).setValue(newUser);
                         }
                         // Go to Welcome Screen
