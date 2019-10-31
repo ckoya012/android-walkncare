@@ -84,6 +84,8 @@
                 android:id="@+id/redirectSignup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:longClickable="true"
                 android:layout_gravity="center"
                 android:clickable="true"
                 android:contextClickable="false"

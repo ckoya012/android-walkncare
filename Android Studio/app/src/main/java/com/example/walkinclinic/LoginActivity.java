@@ -59,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         if (sEmail.equals("admin") && sPwd.equals("5T5ptQ")) { // hard code for admin login
             Intent intent = new Intent(getApplicationContext(), AdminUI.class);   //Application Context and Activity
             startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
+            finish();
         }
         else {
             if (emailIsValid(sEmail)) { // checks if login inputs are valid
@@ -90,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onSignUp(View view){
         Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);   //Application Context and Activity
         startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
+        finish();
     }
 
     private void getData(){
@@ -105,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), PatientUI.class);
                     intent.putExtra("USER_FIRSTNAME", firstNameData);
                     startActivity(intent);
+                    finish();
                 } else {
                     return;
                 }
@@ -123,6 +126,7 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), EmployeeUI.class);
                     intent.putExtra("USER_FIRSTNAME", firstNameData);
                     startActivity(intent);
+                    finish();
                 } else {
                     return;
                 }

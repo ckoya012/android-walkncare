@@ -136,6 +136,8 @@
                 android:id="@+id/alreadyLog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:longClickable="true"
                 android:layout_gravity="center"
                 android:text="@string/alreadySignedup" />
         </LinearLayout>

@@ -75,6 +75,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent I = new Intent(SignUpActivity.this, LoginActivity.class);
                 startActivity(I);
+                finish();
             }
         });
 
@@ -133,11 +134,13 @@ public class SignUpActivity extends AppCompatActivity {
                             Intent intent = new Intent(getApplicationContext(), PatientUI.class);   //Application Context and Activity
                             intent.putExtra("USER_FIRSTNAME", firstName);
                             startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
+                            finish();
                         }
                         else {
                             Intent intent = new Intent(getApplicationContext(), EmployeeUI.class);   //Application Context and Activity
                             intent.putExtra("USER_FIRSTNAME", firstName);
                             startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
+                            finish();
                         }
                     }
                     else {
