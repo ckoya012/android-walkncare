@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/adminDashboardLabel"
-                android:text="12 Employees registered"
+                android:text="0 Employees registered"
                 android:textColor="#A7FFEB"
                 android:textSize="14dp" />
 
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/numEmployeesLabel"
-                android:text="6 Patients registered"
+                android:text="0 Patients registered"
                 android:textColor="#A7FFEB"
                 android:textSize="14dp" />
 
@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/numPatientsLabel"
-                android:text="3 Services available"
+                android:text="0 Services available"
                 android:textColor="#A7FFEB"
                 android:textSize="14dp" />
 
