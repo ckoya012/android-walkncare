@@ -14,7 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class AdminUI extends AppCompatActivity {
+public class AdminMainActivity extends AppCompatActivity {
     // Label to display number of users and services in the database
     TextView numEmployeeLabel, numPatientsLabel, numServicesLabel;
     DatabaseReference refEmployees, refPatients, refServices;
@@ -75,7 +75,7 @@ public class AdminUI extends AppCompatActivity {
     }
 
     public void userManagementClicked(View view){
-        Intent intent = new Intent(getApplicationContext(), UserManagement.class);
+        Intent intent = new Intent(getApplicationContext(), AdminUserManagement.class);
         startActivity(intent);
     }
 }

@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         String sPwd = password.getText().toString().trim();
 
         if (sEmail.equals("admin") && sPwd.equals("5T5ptQ")) { // hard code for admin login
-            Intent intent = new Intent(getApplicationContext(), AdminUI.class);   //Application Context and Activity
+            Intent intent = new Intent(getApplicationContext(), AdminMainActivity.class);   //Application Context and Activity
             startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
             finish();
         }
@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChild(userID)) {
                     String firstNameData = dataSnapshot.child(userID).child("nameFirst").getValue(String.class);
-                    Intent intent = new Intent(getApplicationContext(), PatientUI.class);
+                    Intent intent = new Intent(getApplicationContext(), PatientMainActivity.class);
                     intent.putExtra("USER_FIRSTNAME", firstNameData);
                     startActivity(intent);
                     finish();
@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChild(userID)) {
                     String firstNameData = dataSnapshot.child(userID).child("nameFirst").getValue(String.class);
-                    Intent intent = new Intent(getApplicationContext(), EmployeeUI.class);
+                    Intent intent = new Intent(getApplicationContext(), EmployeeMainActivity.class);
                     intent.putExtra("USER_FIRSTNAME", firstNameData);
                     startActivity(intent);
                     finish();

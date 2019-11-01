@@ -5,12 +5,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserManagement extends AppCompatActivity {
+public class AdminUserManagement extends AppCompatActivity {
 
     ListView employeeList,patientList;
 
@@ -80,7 +78,7 @@ public class UserManagement extends AppCompatActivity {
                     Employee employee = new Employee(email,password,firstName,lastName,id);
                     employees.add(employee);
                 }
-                EmployeeList employeesAdapter = new EmployeeList(UserManagement.this,employees);
+                EmployeeList employeesAdapter = new EmployeeList(AdminUserManagement.this,employees);
                 employeeList.setAdapter(employeesAdapter);
             }
 
@@ -104,7 +102,7 @@ public class UserManagement extends AppCompatActivity {
                     Patient patient = new Patient(email,password,firstName,lastName,id);
                     patients.add(patient);
                 }
-                PatientList patientAdapter = new PatientList(UserManagement.this,patients);
+                PatientList patientAdapter = new PatientList(AdminUserManagement.this,patients);
                 patientList.setAdapter(patientAdapter);
             }
 
