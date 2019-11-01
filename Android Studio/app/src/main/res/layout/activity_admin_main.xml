@@ -70,7 +70,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:longClickable="true"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:layout_margin="12dp"
@@ -107,7 +106,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:longClickable="true"
+                android:clickable="true"
+                android:contextClickable="true"
+                android:onClick="serviceManagementClicked"
                 android:layout_columnWeight="1"
                 android:layout_rowWeight="1"
                 app:cardElevation="6dp"
@@ -129,7 +130,7 @@
                     <TextView
                         android:layout_marginTop="12dp"
                         android:textSize="18sp"
-                        android:text="Add Services"
+                        android:text="Manage Services"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -141,7 +142,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:longClickable="true"
+                android:clickable="true"
                 android:layout_columnWeight="1"
                 android:layout_rowWeight="1"
                 app:cardElevation="6dp"

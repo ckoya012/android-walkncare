@@ -22,7 +22,7 @@ public class AdminMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_ui);
+        setContentView(R.layout.activity_admin_main);
 
         numEmployeeLabel = findViewById(R.id.numEmployeesLabel);
         numPatientsLabel= findViewById(R.id.numPatientsLabel);
@@ -76,6 +76,11 @@ public class AdminMainActivity extends AppCompatActivity {
 
     public void userManagementClicked(View view){
         Intent intent = new Intent(getApplicationContext(), AdminUserManagement.class);
+        startActivity(intent);
+    }
+
+    public void serviceManagementClicked(View view){
+        Intent intent = new Intent(getApplicationContext(), AdminServiceManagement.class);
         startActivity(intent);
     }
 }

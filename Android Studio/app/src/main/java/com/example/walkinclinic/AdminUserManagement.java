@@ -33,7 +33,7 @@ public class AdminUserManagement extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_management);
+        setContentView(R.layout.activity_admin_user_management);
 
         employeeList = (ListView) findViewById(R.id.employeeList);
         databaseEmployee = FirebaseDatabase.getInstance().getReference("employees");
