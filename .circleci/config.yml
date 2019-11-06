@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/code/WalkInClinic
+    working_directory: ~/Android Studio/
     docker:
       - image: circleci/android:api-25-alpha
     environment:
@@ -15,7 +15,7 @@ jobs:
       #         command: sudo chmod +x ./gradlew
       - run:
           name: Download Dependencies
-          command: cd WalkInClinic;./gradlew androidDependencies
+          command: ./gradlew androidDependencies
       - save_cache:
           paths:
             - ~/.gradle
