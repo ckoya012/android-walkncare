@@ -16,9 +16,6 @@ jobs:
       - checkout
       - run:
           name: Setup environment variables
-      - *restore_gradle_cache
-      - *download_android_dependencies
-      - *save_gradle_cache
       - run: avdmanager create avd -n Pixel_2_API_26 -k "system-images;android-26;google_apis;x86" -g google_apis -d "Nexus 5"
       - run:
           name: Run emulator in background
