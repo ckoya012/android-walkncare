@@ -1,21 +1,29 @@
-#
-# Build configuration for Circle CI
-#
-
-general:
-  artifacts:
-    - /home/ubuntu/WalkInClinic/app/build/outputs/apk/
-
-machine:
-  environment:
-    ANDROID_HOME: /usr/local/android-sdk-linux
-
-dependencies:
-  override:
-    - echo y | android update sdk --no-ui --all --filter tools,platform-tools,build-tools-29.0.2,android-21,extra-google-m2repository,extra-google-google_play_services,extra-android-support
-    - ANDROID_HOME=/usr/local/android-sdk-linux ./gradlew dependencies
-
-test:
-  override:
-    - (./gradlew assemble):
-        timeout: 360
+version: 2
+reference:
+  ## Constants
+  gradle_cache_path: &gradle_cache_path
+    gradle_cache-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+  workspace: &workspace
+    ~/src
+  ## Configurations
+  android_config: &android_config
+    working_directory: *workspace
+    
+jobs:
+  ui_test:
+    <<: *android_config
+    steps:
+      - checkout
+      - run:
+          name: Setup environment variables
+      - *restore_gradle_cache
+      - *download_android_dependencies
+      - *save_gradle_cache
+      - run: avdmanager create avd -n Pixel_2_API_26 -k "system-images;android-26;google_apis;x86" -g google_apis -d "Nexus 5"
+      - run:
+          name: Run emulator in background
+          command: /usr/local/share/android-sdk/tools/emulator @Pixel_2_API_26 -skin 1080x2066 -memory 2048 -noaudio
+          background: true
+      - run:
+          name: Run Tests
+          command: ./gradlew app:connectedAndroidTest
