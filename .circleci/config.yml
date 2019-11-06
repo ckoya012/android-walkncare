@@ -1,26 +1,31 @@
 version: 2
-reference:
-  ## Constants
-  gradle_cache_path: &gradle_cache_path
-    gradle_cache-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-  workspace: &workspace
-    ~/src
-  ## Configurations
-  android_config: &android_config
-    working_directory: *workspace
-    
 jobs:
-  ui_test:
-    <<: *android_config
+  build:
+    working_directory: ~/code
+    docker:
+      - image: circleci/android:api-25-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
     steps:
       - checkout
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+#      - run:
+#         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+#         command: sudo chmod +x ./gradlew
       - run:
-          name: Setup environment variables
-      - run: avdmanager create avd -n Pixel_2_API_26 -k "system-images;android-26;google_apis;x86" -g google_apis -d "Nexus 5"
-      - run:
-          name: Run emulator in background
-          command: /usr/local/share/android-sdk/tools/emulator @Pixel_2_API_26 -skin 1080x2066 -memory 2048 -noaudio
-          background: true
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Run Tests
-          command: ./gradlew app:connectedAndroidTest
+          command: ./gradlew lint test
+      - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/ 
+          path: app/build/reports
+          destination: reports
+      - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
+          path: app/build/test-results
+      # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
