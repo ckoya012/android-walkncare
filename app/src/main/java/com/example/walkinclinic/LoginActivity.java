@@ -22,8 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import android.content.pm.ActivityInfo;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -33,8 +31,6 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar loading;    //loading view for when you need to load
 
     // Valid email pattern
-    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
-            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
         else {
-            if (emailIsValid(sEmail)) { // checks if login inputs are valid
+            if (FieldUtil.emailIsValid(sEmail)) { // checks if login inputs are valid
                 //creates listener used to authenticate login
                 mAuth.signInWithEmailAndPassword(sEmail, sPwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -83,10 +79,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public static boolean emailIsValid(String email) {
-        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(email);
-        return matcher.find();
-    }
 
     public void onSignUp(View view){
         Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);   //Application Context and Activity

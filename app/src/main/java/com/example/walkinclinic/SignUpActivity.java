@@ -38,8 +38,6 @@ public class SignUpActivity extends AppCompatActivity {
     private TextView signIn;
     private char userType;
     private ProgressBar loading;
-    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
-            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     // Firebase stuff
     private DatabaseReference ref;
@@ -109,7 +107,7 @@ public class SignUpActivity extends AppCompatActivity {
         if (fieldUserTypeSelection.getCheckedRadioButtonId() == -1) {
             Toast.makeText(SignUpActivity.this, "Please select your status", Toast.LENGTH_LONG).show();
         }
-        if (fieldsAreValid(firstName, lastName, email, pwd,SignUpActivity.this) && !(fieldUserTypeSelection.getCheckedRadioButtonId() == -1)) {
+        if (FieldUtil.fieldsAreValid(firstName, lastName, email, pwd,SignUpActivity.this) && !(fieldUserTypeSelection.getCheckedRadioButtonId() == -1)) {
             // Create user w/ Firebase
             mAuth.createUserWithEmailAndPassword(email, pwd)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -156,30 +154,6 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    public static boolean fieldsAreValid(String firstName, String lastName, String email, String pwd, Context c) {
-        // check name length
-        if (firstName.length() < 3) {
-            Toast.makeText(c, "First name should be at least 3 characters", Toast.LENGTH_LONG).show();
-            return false;
-        }
-        if (lastName.length() < 2) {
-            Toast.makeText(c, "Last name should be at least 2 characters", Toast.LENGTH_LONG).show();
-            return false;
-        }
-        // check email pattern
-        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(email);
-        if (! matcher.find()) {
-            Toast.makeText(c, "Please enter a valid email", Toast.LENGTH_LONG).show();
-            return false;
-        }
-        // check password length and match
-        if (pwd.length() < 6 ) {
-            Toast.makeText(c, "Password must be at least 6 characters", Toast.LENGTH_LONG).show();
-            return false;
-        }
-
-        return true;
-    }
 
     public void setUserType(View v) {
         int selectedID = fieldUserTypeSelection.getCheckedRadioButtonId();
