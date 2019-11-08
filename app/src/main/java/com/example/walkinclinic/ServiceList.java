@@ -40,15 +40,14 @@ public class ServiceList extends ArrayAdapter<Service> {
         LayoutInflater inflater = context.getLayoutInflater();
         View listViewItem = inflater.inflate(R.layout.activity_service_list, null, true);
 
-        TextView textViewService = (TextView) listViewItem.findViewById(R.id.textViewEmail);
-        TextView textViewPrice = (TextView) listViewItem.findViewById(R.id.textViewFirst);
-        TextView textViewRole = (TextView) listViewItem.findViewById(R.id.textViewLast);
+        TextView textViewService = (TextView) listViewItem.findViewById(R.id.textViewService);
+        TextView textViewPrice = (TextView) listViewItem.findViewById(R.id.textViewPrice);
+        TextView textViewRole = (TextView) listViewItem.findViewById(R.id.textViewRole);
 
         Service service = services.get(position);
         textViewService.setText(service.getService());
-        textViewPrice.setText("Price of service : "+service.getPrice());
+        textViewPrice.setText("Price of service: "+service.getPrice());
         textViewRole.setText("Administrator role: "+service.getRole());
         return listViewItem;
     }
-
 }

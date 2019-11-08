@@ -65,7 +65,13 @@ public class AdminMainActivity extends AppCompatActivity {
         refServices.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                long numServices = dataSnapshot.getChildrenCount();
+                long numServices = 0;
+
+                // iterate through the types of services
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    numServices += snapshot.getChildrenCount();
+                }
+
                 numServicesLabel.setText(numServices + " Services available");
             }
 
