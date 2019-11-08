@@ -4,25 +4,30 @@ public class Service {
     private String service;
     private double price;
     private String role;
+    private String id;
 
 
     public Service() {
 
     }
 
-    public Service(String service) {
+    public Service(String service,String id) {
         this.service = service;
+        this.id=id;
     }
 
-    public Service(String service, double price) {
+    public Service(String service, double price,String id) {
         this.service = service;
         this.price = price;
+        this.id=id;
+
     }
 
-    public Service(String service, double price, String role) {
+    public Service(String service, double price, String role,String id) {
         this.service = service;
         this.price = price;
         this.role = role;
+        this.id=id;
     }
 
 
@@ -44,6 +49,12 @@ public class Service {
 
     public String getRole() {
         return role;
+    }
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setRole(String r) {

@@ -1,11 +1,14 @@
 package com.example.walkinclinic;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -48,10 +51,12 @@ public class ServiceListViewerActivity extends AppCompatActivity {
 
         services = new ArrayList<>();
 
-        final String TYPE_OF_SERVICE = getIntent().getStringExtra("TYPE_OF_SERVICE");
+        final String TYPE_OF_SERVICE = (String) getIntent().getExtras().get("TYPE_OF_SERVICE");
         final String DB_REF_CHILD = TYPE_OF_SERVICE.toLowerCase();
 
         db = FirebaseDatabase.getInstance().getReference("services").child(DB_REF_CHILD);
+
+
 
         // Set the title of the service
         serviceTypeLabel = findViewById(R.id.serviceTypeLabel);
@@ -65,6 +70,14 @@ public class ServiceListViewerActivity extends AppCompatActivity {
         });
 
         // TODO: setOnItemLongClickListener to update and delete service
+        listViewServices.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Service service = services.get(i);
+                showUpdateDeleteDialog(service.getId(),service.getService());//
+                return true;
+            }
+        });
     }
 
     @Override
@@ -112,7 +125,7 @@ public class ServiceListViewerActivity extends AppCompatActivity {
         if (fieldsAreValid(name, price, role, ServiceListViewerActivity.this)) {
             // get UID for the service to be added
             String id = db.push().getKey();
-            Service service = new Service(name, price, role);
+            Service service = new Service(name, price, role, id);
             db.child(id).setValue(service);
 
             // clear all fields
@@ -146,8 +159,35 @@ public class ServiceListViewerActivity extends AppCompatActivity {
     }
 
     // TODO: showUpdateDeleteDialog() method
+    private void showUpdateDeleteDialog(final String productId, String productName) {
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.activity_delete_service, null);
+        dialogBuilder.setView(dialogView);
+
+        final Button buttonDelete = (Button) dialogView.findViewById(R.id.deleteServiceBtn);
+
+        dialogBuilder.setTitle(productName);
+        final AlertDialog b = dialogBuilder.create();
+        b.show();
+
+
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteService(productId);
+                b.dismiss();
+            }
+        });
+    }
+
+    // TODO: deleteService() method
+    private void deleteService(String sId){
+       db.child(sId).removeValue();
+        Toast.makeText(this, "Service Deleted", Toast.LENGTH_LONG).show();
+    }
 
     // TODO: updateService() method
 
-    // TODO: deleteService() method
 }
