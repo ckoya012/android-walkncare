@@ -4,7 +4,7 @@ package com.example.walkinclinic;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-public class PasswordHashTest {
+public class SignUpActivityTest {
     @Test
     public void getHashedPassword(){
         String hashOfPassword = SignUpActivity.getHashedPassword("password");
