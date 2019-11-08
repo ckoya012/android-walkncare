@@ -19,6 +19,10 @@ public class EmployeeList extends ArrayAdapter<Employee> {
     private Activity context;
     List<Employee> employees;
 
+    public EmployeeList(){
+       super(new Activity(), R.layout.activity_employee_list);
+    }
+
     public EmployeeList(Activity context, List<Employee> employees) {
         super(context, R.layout.activity_employee_list, employees);
         this.context = context;

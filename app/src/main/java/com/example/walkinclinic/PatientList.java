@@ -19,6 +19,10 @@ public class PatientList extends ArrayAdapter<Patient> {
     private Activity context;
     List<Patient> patients;
 
+    public PatientList(){
+        super(new Activity(), R.layout.activity_patient_list);
+    }
+
     public PatientList(Activity context, List<Patient> patients) {
         super(context, R.layout.activity_patient_list, patients);
         this.context = context;
