@@ -166,7 +166,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    private static String getHashedPassword(String pwd) {
+    public static String getHashedPassword(String pwd) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(pwd.getBytes());
