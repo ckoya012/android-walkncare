@@ -138,7 +138,7 @@ public class ServiceListViewerActivity extends AppCompatActivity {
         }
     }
 
-    private boolean fieldsAreValid(String name/*, double price*/, String role, Context c) {
+    public static boolean fieldsAreValid(String name/*, double price*/, String role, Context c) {
 
         // check service name
         if (name.length() < 1) {
@@ -157,6 +157,14 @@ public class ServiceListViewerActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    public static boolean serviceNameIsValid(String name){
+        return (name.length() > 1);
+    }
+
+    public static boolean roleIsValid(String role){
+        return (role.length() > 1);
     }
 
     // TODO: showUpdateDeleteDialog() method
@@ -202,13 +210,11 @@ public class ServiceListViewerActivity extends AppCompatActivity {
         });
     }
 
-    // TODO: deleteService() method
     private void deleteService(String sId){
        db.child(sId).removeValue();
         Toast.makeText(this, "Service Deleted", Toast.LENGTH_LONG).show();
     }
 
-    // TODO: updateService() method
     private void updateService(String sId, String name, String role){
         DatabaseReference dR = db.child(sId);
         //updating product
