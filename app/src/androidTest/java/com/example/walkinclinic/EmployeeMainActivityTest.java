@@ -10,19 +10,16 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-public class PatientMainActivityTest {
+public class EmployeeMainActivityTest {
 
     @Rule
-    public ActivityTestRule<PatientMainActivity> pMainActivityTestRule = new ActivityTestRule<PatientMainActivity>(PatientMainActivity.class);
+    public ActivityTestRule<EmployeeMainActivity> eMainActivityTestRule = new ActivityTestRule<EmployeeMainActivity>(EmployeeMainActivity.class);
 
     @Test
     // If I'm able to launch the view and it says 'logged in as patient', then activity launch is successful
     public void testLaunch() {
-        onView(withId(R.id.welcomeMsgPat))
-                .check(matches(withText("Welcome null! You are logged in as a patient.")));
-
-//        View view = pMainActivity.findViewById(R.id.welcomeMsgPat);
-//        assertNotNull(view);
+        onView(withId(R.id.welcomeMsgEmp))
+                .check(matches(withText("Welcome null! You are logged in as an employee.")));
     }
 
 }
