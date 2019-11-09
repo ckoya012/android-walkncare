@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,7 +30,7 @@ public class ServiceListViewerActivity extends AppCompatActivity {
 
     TextView serviceTypeLabel;
     EditText editTextName;
-    EditText editTextPrice;
+    //EditText editTextPrice;
     EditText editTextRole;
     Button buttonAddService;
     ListView listViewServices;
@@ -44,7 +45,7 @@ public class ServiceListViewerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_service_list_viewer);
 
         editTextName = findViewById(R.id.editTextName);
-        editTextPrice = findViewById(R.id.editTextPrice);
+        //editTextPrice = findViewById(R.id.editTextPrice);
         editTextRole = findViewById(R.id.editTextRole);
         listViewServices = findViewById(R.id.listViewServices);
         buttonAddService = findViewById(R.id.addServiceButton);
@@ -74,7 +75,7 @@ public class ServiceListViewerActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Service service = services.get(i);
-                showUpdateDeleteDialog(service.getId(),service.getService());//
+                showUpdateDeleteDialog(service.getId(),service.getService(), service.getRole());//
                 return true;
             }
         });
@@ -113,42 +114,42 @@ public class ServiceListViewerActivity extends AppCompatActivity {
     private void addService() {
         // get values to save
         String name = editTextName.getText().toString().trim();
-        double price;
+        /*double price;
         try {
             price = Double.parseDouble(editTextPrice.getText().toString().trim());
         }
         catch (NumberFormatException e) {
             price = -1;
-        }
+        }*/
         String role = editTextRole.getText().toString().trim();
 
-        if (fieldsAreValid(name, price, role, ServiceListViewerActivity.this)) {
+        if (fieldsAreValid(name/*, price*/, role, ServiceListViewerActivity.this)) {
             // get UID for the service to be added
             String id = db.push().getKey();
-            Service service = new Service(name, price, role, id);
+            Service service = new Service(name/*, price*/, role, id);
             db.child(id).setValue(service);
 
             // clear all fields
             editTextName.setText("");
-            editTextPrice.setText("");
+            //editTextPrice.setText("");
             editTextRole.setText("");
 
             Toast.makeText(getApplicationContext(), "Service added.", Toast.LENGTH_LONG).show();
         }
     }
 
-    private boolean fieldsAreValid(String name, double price, String role, Context c) {
+    private boolean fieldsAreValid(String name/*, double price*/, String role, Context c) {
 
         // check service name
         if (name.length() < 1) {
             Toast.makeText(c, "Please enter a service", Toast.LENGTH_LONG).show();
             return false;
         }
-        // check negative price
+        /* check negative price
         if (price < 0) {
             Toast.makeText(c, "Please enter a valid price", Toast.LENGTH_LONG).show();
             return false;
-        }
+        }*/
         // check role
         if (role.length() < 1) {
             Toast.makeText(c, "Please enter a role", Toast.LENGTH_LONG).show();
@@ -159,14 +160,21 @@ public class ServiceListViewerActivity extends AppCompatActivity {
     }
 
     // TODO: showUpdateDeleteDialog() method
-    private void showUpdateDeleteDialog(final String productId, String productName) {
+    private void showUpdateDeleteDialog(final String productId, String productName, String serviceRole) {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.activity_delete_service, null);
         dialogBuilder.setView(dialogView);
 
+        final EditText newServiceName= (EditText) dialogView.findViewById(R.id.editTextName2);
+        newServiceName.setText(productName);
+        final EditText newRoleName= (EditText) dialogView.findViewById(R.id.editTextRole2);
+        newRoleName.setText(serviceRole);
+
         final Button buttonDelete = (Button) dialogView.findViewById(R.id.deleteServiceBtn);
+        final Button buttonUpdate = (Button) dialogView.findViewById(R.id.updateBtn);
+
 
         dialogBuilder.setTitle(productName);
         final AlertDialog b = dialogBuilder.create();
@@ -180,6 +188,18 @@ public class ServiceListViewerActivity extends AppCompatActivity {
                 b.dismiss();
             }
         });
+        buttonUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String name= newServiceName.getText().toString().trim();
+                String role= newRoleName.getText().toString().trim();
+                if (!TextUtils.isEmpty(name)&& !TextUtils.isEmpty(role)) {
+                    updateService(productId, name, role );
+                    b.dismiss();
+                }
+
+            }
+        });
     }
 
     // TODO: deleteService() method
@@ -189,5 +209,13 @@ public class ServiceListViewerActivity extends AppCompatActivity {
     }
 
     // TODO: updateService() method
+    private void updateService(String sId, String name, String role){
+        DatabaseReference dR = db.child(sId);
+        //updating product
+        Service service = new Service(name,/*,0.0*/role,sId);
+        dR.setValue(service);
+        Toast.makeText(this, "Service Updated", Toast.LENGTH_LONG).show();
+    }
+
 
 }

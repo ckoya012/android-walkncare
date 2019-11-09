@@ -16,4 +16,7 @@
     <string name="alreadySignedup">Already have an account? Sign in here!</string>
     <string name="DeleteService">Delete Service</string>
     <string name="UpdateBtn">Update Service</string>
+    <string name="Enterservice">Enter service</string>
+    <string name="Enterrole">Enter role</string>
+    <string name="Enterprice">Enter price</string>
 </resources>
