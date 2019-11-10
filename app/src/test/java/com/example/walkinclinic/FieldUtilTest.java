@@ -14,16 +14,7 @@ public class FieldUtilTest {
         boolean actual = FieldUtil.fieldsAreValid("Bob","Bobby","bob@gmail.com","password",null);
         assertTrue("Fields Are Valid Test: ", actual);
     }
-    @Test
-    public void testEmailsValid(){
-        boolean actual = FieldUtil.emailIsValid("bob@gmail.com");
-        assertTrue("Fields Are Valid Test: ", actual);
-    }
-    @Test
-    public void testEmailsInvalid(){
-        boolean actual = FieldUtil.emailIsValid("bobgmailcom");
-        assertFalse("Fields Are Valid Test: ", actual);
-    }
+
     @Test
     public void testPwdValid(){
         boolean actual = FieldUtil.validPWD("Password");
