@@ -5,6 +5,9 @@
 
 https://github.com/SEG2105-uottawa/seg2105-project-team-f19-5
 
+#### CircleCI Link:
+
+https://circleci.com/gh/SEG2105-uottawa/seg2105-project-team-f19-5
 
 #### Group 5 Members:
 
