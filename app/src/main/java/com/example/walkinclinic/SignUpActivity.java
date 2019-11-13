@@ -115,31 +115,34 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         // Store in database
-                        UserAccount newUser;
+
                         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         ref = FirebaseDatabase.getInstance().getReference();
                         if (userType == 'P') {
-                            newUser = new Patient(email, hashedPwd, firstName, lastName,uid);
+                            Patient newUser = new Patient(email, hashedPwd, firstName, lastName,uid);
                             ref.child("patients").child(uid).setValue(newUser);
-                        }
-                        // userType == 'E'
-                        else {
-                            newUser = new Employee(email, hashedPwd, firstName, lastName,uid);
-                            ref.child("employees").child(uid).setValue(newUser);
-                        }
-                        // Go to Welcome Screen
-                        if (userType == 'P') {
+
                             Intent intent = new Intent(getApplicationContext(), PatientMainActivity.class);   //Application Context and Activity
                             intent.putExtra("USER_FIRSTNAME", firstName);
                             startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
                             finish();
                         }
+                        // userType == 'E'
                         else {
-                            Intent intent = new Intent(getApplicationContext(), EmployeeMainActivity.class);   //Application Context and Activity
-                            intent.putExtra("USER_FIRSTNAME", firstName);
+                            Employee newUser = new Employee(email, hashedPwd, firstName, lastName,uid);
+                            newUser.setPaymentTypes("000");
+                            newUser.setInsuranceTypes("000");
+                            newUser.setTitle(" ");
+                            newUser.setPhoneNumber(" ");
+                            newUser.setAddress(" ");
+                            ref.child("employees").child(uid).setValue(newUser);
+
+                            Intent intent = new Intent(getApplicationContext(), EmployeeSetupActivity.class);   //Application Context and Activity
+                            intent.putExtra("USER_DATA", newUser);
                             startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
                             finish();
                         }
+
                     }
                     else {
                         // Print out error message

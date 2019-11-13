@@ -14,8 +14,15 @@
         <TextView
             android:id="@+id/welcomeMsgEmp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="setInfoClicked"
+            android:text="Update Profile Information" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
