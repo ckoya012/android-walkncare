@@ -1,6 +1,7 @@
 package com.example.walkinclinic.account;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Employee extends UserAccount {
     private String address;
@@ -8,8 +9,11 @@ public class Employee extends UserAccount {
     private String insuranceTypes;
     private String paymentTypes;
     private String phoneNumber;
+    private ArrayList<String> associatedServices;
+
     public Employee(String email, String password, String nameFirst, String nameLast, String id) {
         super(email, password, nameFirst, nameLast, id);
+        associatedServices = new ArrayList<String>();
     }
 
     public void setAddress(String x){

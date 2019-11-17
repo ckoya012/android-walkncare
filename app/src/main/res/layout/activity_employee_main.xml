@@ -18,11 +18,42 @@
             android:gravity="center" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnUpdateEmployeeInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="setInfoClicked"
             android:text="Update Profile Information" />
+
+        <TextView
+            android:id="@+id/manageServicesLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Manage services offered by your clinic:" />
+
+        <Button
+            android:id="@+id/btnManageGPServices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GP Services" />
+
+        <Button
+            android:id="@+id/btnManageInjectionServices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Injection Services" />
+
+        <Button
+            android:id="@+id/btnManageTestServices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Test Services" />
+
+        <Button
+            android:id="@+id/btnManageAdminServices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Administrative Services" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
