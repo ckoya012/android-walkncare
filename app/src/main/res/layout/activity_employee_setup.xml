@@ -164,13 +164,11 @@
                     android:layout_weight="1"
                     android:text="AM  -" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/endTime1"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="1"
-                    android:inputType="time" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/textView24"
@@ -202,13 +200,11 @@
                     android:layout_weight="1"
                     android:text="Tuesday:" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/startTime2"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="1"
-                    android:inputType="time" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/textView26"
@@ -217,13 +213,11 @@
                     android:layout_weight="1"
                     android:text="AM -" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/endTime2"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="1"
-                    android:inputType="time" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/textView28"
@@ -254,13 +248,11 @@
                     android:layout_weight="1"
                     android:text="Wednesday:" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/startTime3"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="1"
-                    android:inputType="time" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/textView29"
@@ -269,13 +261,11 @@
                     android:layout_weight="1"
                     android:text="AM -" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/endTime3"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="1"
-                    android:inputType="time" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/textView31"
@@ -306,13 +296,11 @@
                     android:layout_weight="1"
                     android:text="Thursday:" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/startTime4"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="1"
-                    android:inputType="time" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/textView32"
@@ -321,13 +309,11 @@
                     android:layout_weight="1"
                     android:text="AM -" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/endTime4"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="1"
-                    android:inputType="time" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/textView34"
@@ -358,13 +344,11 @@
                     android:layout_weight="1"
                     android:text="Friday:" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/startTime5"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="1"
-                    android:inputType="time" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/textView35"
@@ -373,13 +357,11 @@
                     android:layout_weight="1"
                     android:text="AM -" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/endTime5"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="1"
-                    android:inputType="time" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/textView37"
@@ -410,13 +392,11 @@
                     android:layout_weight="1"
                     android:text="Saturday:" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/startTime6"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="1"
-                    android:inputType="time" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/textView38"
@@ -425,13 +405,11 @@
                     android:layout_weight="1"
                     android:text="AM -" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/endTime6"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="1"
-                    android:inputType="time" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/textView40"
@@ -462,13 +440,11 @@
                     android:layout_weight="1"
                     android:text="Sunday:" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/startTime7"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="1"
-                    android:inputType="time" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/textView41"
@@ -477,13 +453,11 @@
                     android:layout_weight="1"
                     android:text="AM -" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/endTime7"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="1"
-                    android:inputType="time" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/textView43"

@@ -179,4 +179,5 @@ public class EmployeeSetupActivity extends AppCompatActivity {
         Button btn = (Button)findViewById(R.id.setButton);
         btn.performClick();
     }
+
 }
