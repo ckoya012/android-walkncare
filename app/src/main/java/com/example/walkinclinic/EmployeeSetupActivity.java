@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.walkinclinic.account.Employee;
@@ -20,7 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class EmployeeSetupActivity extends AppCompatActivity {
+public class EmployeeSetupActivity extends AppCompatActivity  {
     private DatabaseReference ref;
     private String uid,sInsurance,sPayment;
     private FirebaseAuth mAuth;
@@ -30,6 +32,26 @@ public class EmployeeSetupActivity extends AppCompatActivity {
     private CheckBox c1, c2, c3, c4, c5, c6, c7;
     private Employee user;
     private boolean valid;
+    private Spinner spinner1,spinner2,spinner3,spinner4,
+            spinner5,spinner6,spinner7,spinner8,spinner9,
+            spinner10,spinner11,spinner12,spinner13,spinner14;
+    private String[] timeTable = new String[24];
+
+    public String timeSlot(int position){
+        int hour=12;
+        int minute= 00;
+        timeTable[0]=hour+":"+minute;
+        for(int i=1;i<24;i++){
+            if(i%2==0){
+                hour= (hour+1)%12;
+                minute= 00;
+            }else{
+                minute=30;
+            }
+            timeTable[i]=hour+":"+minute;
+        }
+        return timeTable[position];
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,13 +70,32 @@ public class EmployeeSetupActivity extends AppCompatActivity {
         uid = user.getID();
         ref = FirebaseDatabase.getInstance().getReference().child("employees").child(uid);
 
-        c1 = findViewById(R.id.closedBox1);
-        c2 = findViewById(R.id.closedBox2); // closedBox for Wednesday
-        c3 = findViewById(R.id.closedBox3);
-        c4 = findViewById(R.id.closedBox4);
-        c5 = findViewById(R.id.closedBox5);
-        c6 = findViewById(R.id.closedBox6);
-        c7 = findViewById(R.id.closedBox7); // closedBox for tuesday
+        c1 = findViewById(R.id.closedBox1);// closedBox for Monday
+        c2 = findViewById(R.id.closedBox2); // closedBox for Tuesday
+        c3 = findViewById(R.id.closedBox3);// closedBox for Wednesday
+        c4 = findViewById(R.id.closedBox4);// closedBox for Thursday
+        c5 = findViewById(R.id.closedBox5);// closedBox for Friday
+        c6 = findViewById(R.id.closedBox6);//  closedBox for Saturday
+        c7 = findViewById(R.id.closedBox7); // closedBox for Sunday
+
+        spinner1= findViewById(R.id.spinnerAmMonday);
+        spinner2= findViewById(R.id.spinnerPmMonday);
+        spinner3= findViewById(R.id.spinnerAmTuesday);
+        spinner4= findViewById(R.id.spinnerPmTuesday);
+        spinner5= findViewById(R.id.spinnerAmWednesday);
+        spinner6= findViewById(R.id.spinnerPmWednesday);
+        spinner7= findViewById(R.id.spinnerAmThrusday);
+        spinner8= findViewById(R.id.spinnerPmThrusday);
+        spinner9= findViewById(R.id.spinnerAmFriday);
+        spinner10= findViewById(R.id.spinnerPmFriday);
+        spinner11= findViewById(R.id.spinnerAmSaturday);
+        spinner12= findViewById(R.id.spinnerPmSaturday);
+        spinner13= findViewById(R.id.spinnerAmSunday);
+        spinner14= findViewById(R.id.spinnerPmSunday);
+
+        // Spinner click listener
+
+
 
     }
 

@@ -233,11 +233,12 @@
                         android:text="PM" />
 
                     <CheckBox
-                        android:id="@+id/closedBox7"
+                        android:id="@+id/closedBox2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Closed" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -281,7 +282,7 @@
                         android:text="PM" />
 
                     <CheckBox
-                        android:id="@+id/closedBox2"
+                        android:id="@+id/closedBox3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -329,7 +330,7 @@
                         android:text="PM" />
 
                     <CheckBox
-                        android:id="@+id/closedBox3"
+                        android:id="@+id/closedBox4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -377,7 +378,7 @@
                         android:text="PM" />
 
                     <CheckBox
-                        android:id="@+id/closedBox4"
+                        android:id="@+id/closedBox5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -425,7 +426,7 @@
                         android:text="PM" />
 
                     <CheckBox
-                        android:id="@+id/closedBox5"
+                        android:id="@+id/closedBox6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -473,11 +474,12 @@
                         android:text="PM" />
 
                     <CheckBox
-                        android:id="@+id/closedBox6"
+                        android:id="@+id/closedBox7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Closed" />
+
                 </LinearLayout>
             </RelativeLayout>
 
