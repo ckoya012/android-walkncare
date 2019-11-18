@@ -8,7 +8,7 @@
     tools:context=".EmployeeServiceManagementActivity">
 
     <TextView
-        android:id="@+id/serviceTypeLabelEmp"
+        android:id="@+id/serviceTypeLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
@@ -18,7 +18,7 @@
         android:id="@+id/listViewServices"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/serviceTypeLabelEmp">
+        android:layout_below="@+id/serviceTypeLabel">
     </ListView>
 
 </RelativeLayout>

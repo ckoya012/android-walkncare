@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EmployeeServiceManagementActivity"></activity>
+        <activity android:name=".ServiceListCheckable"></activity>
+        <activity android:name=".EmployeeServiceManagementActivity" />
         <activity android:name=".EmployeeSetupActivity" />
         <activity android:name=".ServiceListViewerActivity" />
         <activity android:name=".AdminServiceManagement" />
