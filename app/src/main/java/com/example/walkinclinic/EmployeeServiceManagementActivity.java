@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.walkinclinic.account.Employee;
 import com.example.walkinclinic.account.Service;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,8 +28,13 @@ public class EmployeeServiceManagementActivity extends AppCompatActivity {
     private TextView typeOfServiceLabel;
     private ListView listViewServices;
 
-    private DatabaseReference db;
-    List<Service> availableServices; // services made available by the admin
+    private Employee user;
+    private String uid;
+
+    private DatabaseReference refAvailableServices;
+    private DatabaseReference refAssociatedServices;
+    List<Service> availableServices; // services that were made available by the admin
+    List<String> associatedServiceIDs; // services that are associated with the employee / clinic
 
 
     @Override
@@ -45,9 +52,17 @@ public class EmployeeServiceManagementActivity extends AppCompatActivity {
         listViewServices.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         typeOfServiceLabel.setText("Add/remove " + typeOfService + " services offered by your clinic");
 
-        // set the DB ref and create array to store services fetched from db
-        db = FirebaseDatabase.getInstance().getReference("services").child(typeOfService);
+        // get user data
+        user = (Employee) getIntent().getSerializableExtra("USER_DATA");
+        uid = user.getID();
+
+        // set the database refs
+        refAvailableServices = FirebaseDatabase.getInstance().getReference("services").child(typeOfService);
+        refAssociatedServices = FirebaseDatabase.getInstance().getReference().child("employees").child(uid).child("services").child(typeOfService);
+
+        // create the lists to store services offerred by the admin & services that the employee/clinic are currently associated to
         availableServices = new ArrayList<>();
+        associatedServiceIDs = new ArrayList<>();
 
         // event listener for checkable list items
         // TODO:
@@ -55,7 +70,28 @@ public class EmployeeServiceManagementActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Service service = availableServices.get(i);
-                Toast.makeText(getApplicationContext(), "Service: " + service.getService(), Toast.LENGTH_LONG).show();
+                String serviceID = service.getId();
+                String serviceName = service.getService();
+
+                View listViewItem = getViewByPosition(i, listViewServices);
+                final CheckedTextView checkBox = listViewItem.findViewById(R.id.checkBox);
+                final boolean isChecked = checkBox.isChecked();
+
+                // whether or not the service is associated can be determined if the checkbox was checked
+                if (isChecked) {
+                    // remove the serviceID
+                    checkBox.setChecked(false);
+                    associatedServiceIDs.remove(serviceID);
+                    refAssociatedServices.child(serviceID).removeValue();
+                    Toast.makeText(getApplicationContext(), associatedServiceIDs.toString(), Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    // add the serviceID
+                    checkBox.setChecked(true);
+                    associatedServiceIDs.add(serviceID);
+                    refAssociatedServices.child(serviceID).setValue(serviceID);
+                    Toast.makeText(getApplicationContext(), associatedServiceIDs.toString(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -64,7 +100,27 @@ public class EmployeeServiceManagementActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        db.addValueEventListener(new ValueEventListener() {
+        // get list of service IDs offered by clinic
+        refAssociatedServices.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // clear previous services
+                associatedServiceIDs.clear();
+
+                // iterate through all nodes
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    // get service
+                    String serviceID = postSnapshot.getValue(String.class);
+                    // add service to list
+                    associatedServiceIDs.add(serviceID);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+
+        // get list of services offered and display them in a list view
+        refAvailableServices.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // clear previous services
@@ -81,11 +137,39 @@ public class EmployeeServiceManagementActivity extends AppCompatActivity {
                 ServiceListCheckable servicesAdapter = new ServiceListCheckable(EmployeeServiceManagementActivity.this, availableServices);
                 // attach adapter to ListView
                 listViewServices.setAdapter(servicesAdapter);
+
+                for (int i = 0; i < availableServices.size(); i ++) {
+                    Service service = availableServices.get(i);
+                    String serviceID = service.getId();
+
+                    if (associatedServiceIDs.contains(serviceID)) {
+                        // check the checkbox
+                        listViewServices.setItemChecked(i, true);
+                        View listViewItem = getViewByPosition(i, listViewServices);
+                        CheckedTextView checkBox = listViewItem.findViewById(R.id.checkBox);
+                        // TODO: find out why the following line doesnt work
+                        checkBox.setChecked(true);
+                        Toast.makeText(getApplicationContext(), checkBox.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
+    }
+
+    public View getViewByPosition(int pos, ListView listView) {
+        final int firstListItemPosition = listView.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
+
+        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+            return listView.getAdapter().getView(pos, null, listView);
+        }
+        else {
+            final int childIndex = pos - firstListItemPosition;
+            return listView.getChildAt(childIndex);
+        }
     }
 }

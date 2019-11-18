@@ -38,27 +38,9 @@ public class ServiceListCheckable extends ArrayAdapter<Service> {
         TextView textViewService = listViewItem.findViewById(R.id.textViewService);
         TextView textViewRole = listViewItem.findViewById(R.id.textViewRole);
 
-        listViewItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkBoxOnClick(v);
-            }
-        });
-
         Service service = services.get(position);
         textViewService.setText(service.getService());
         textViewRole.setText("Administrator role: "+service.getRole());
         return listViewItem;
-    }
-
-    public void checkBoxOnClick(View listViewItem) {
-        final CheckedTextView checkBox = listViewItem.findViewById(R.id.checkBox);
-        final boolean isChecked = checkBox.isChecked();
-        if (isChecked) {
-            checkBox.setChecked(false);
-        }
-        else {
-            checkBox.setChecked(true);
-        }
     }
 }

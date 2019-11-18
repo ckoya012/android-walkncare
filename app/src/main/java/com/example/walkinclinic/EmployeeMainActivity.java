@@ -69,6 +69,7 @@ public class EmployeeMainActivity extends AppCompatActivity {
     public void manageServicesClicked(View view, String typeOfService){
         Intent intent = new Intent(getApplicationContext(), EmployeeServiceManagementActivity.class);   //Application Context and Activity
         intent.putExtra("TYPE_OF_SERVICE", typeOfService);
+        intent.putExtra("USER_DATA", user);
         startActivity(intent);
     }
 }
