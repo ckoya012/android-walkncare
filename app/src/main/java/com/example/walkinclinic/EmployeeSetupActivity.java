@@ -27,6 +27,7 @@ public class EmployeeSetupActivity extends AppCompatActivity {
     private EditText addressView,phoneView,titleView;
     private char[] insurance, payment;
     private CheckBox in1,in2,in3,p1,p2,p3;
+    private CheckBox c1, c2, c3, c4, c5, c6, c7;
     private Employee user;
     private boolean valid;
     @Override
@@ -46,6 +47,14 @@ public class EmployeeSetupActivity extends AppCompatActivity {
         user = (Employee) getIntent().getSerializableExtra("USER_DATA");
         uid = user.getID();
         ref = FirebaseDatabase.getInstance().getReference().child("employees").child(uid);
+
+        c1 = findViewById(R.id.closedBox1);
+        c2 = findViewById(R.id.closedBox2); // closedBox for Wednesday
+        c3 = findViewById(R.id.closedBox3);
+        c4 = findViewById(R.id.closedBox4);
+        c5 = findViewById(R.id.closedBox5);
+        c6 = findViewById(R.id.closedBox6);
+        c7 = findViewById(R.id.closedBox7); // closedBox for tuesday
 
     }
 
@@ -95,8 +104,6 @@ public class EmployeeSetupActivity extends AppCompatActivity {
     }
 
     public void setButtonClicked(View view){
-
-
 
         if(in1.isChecked()){
             insurance[0] = '1';
@@ -179,5 +186,8 @@ public class EmployeeSetupActivity extends AppCompatActivity {
         Button btn = (Button)findViewById(R.id.setButton);
         btn.performClick();
     }
+
+
+
 
 }
