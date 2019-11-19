@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -29,7 +30,6 @@ public class EmployeeSetupActivity extends AppCompatActivity  {
     private EditText addressView,phoneView,titleView;
     private char[] insurance, payment;
     private CheckBox in1,in2,in3,p1,p2,p3;
-    private CheckBox c1, c2, c3, c4, c5, c6, c7;
     private Employee user;
     private boolean valid;
     private Spinner spinner1,spinner2,spinner3,spinner4,
@@ -37,21 +37,6 @@ public class EmployeeSetupActivity extends AppCompatActivity  {
             spinner10,spinner11,spinner12,spinner13,spinner14;
     private String[] timeTable = new String[24];
 
-    public String timeSlot(int position){
-        int hour=12;
-        int minute= 00;
-        timeTable[0]=hour+":"+minute;
-        for(int i=1;i<24;i++){
-            if(i%2==0){
-                hour= (hour+1)%12;
-                minute= 00;
-            }else{
-                minute=30;
-            }
-            timeTable[i]=hour+":"+minute;
-        }
-        return timeTable[position];
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,14 +54,6 @@ public class EmployeeSetupActivity extends AppCompatActivity  {
         user = (Employee) getIntent().getSerializableExtra("USER_DATA");
         uid = user.getID();
         ref = FirebaseDatabase.getInstance().getReference().child("employees").child(uid);
-
-        c1 = findViewById(R.id.closedBox1);// closedBox for Monday
-        c2 = findViewById(R.id.closedBox2); // closedBox for Tuesday
-        c3 = findViewById(R.id.closedBox3);// closedBox for Wednesday
-        c4 = findViewById(R.id.closedBox4);// closedBox for Thursday
-        c5 = findViewById(R.id.closedBox5);// closedBox for Friday
-        c6 = findViewById(R.id.closedBox6);//  closedBox for Saturday
-        c7 = findViewById(R.id.closedBox7); // closedBox for Sunday
 
         spinner1= findViewById(R.id.spinnerAmMonday);
         spinner2= findViewById(R.id.spinnerPmMonday);
@@ -96,6 +73,26 @@ public class EmployeeSetupActivity extends AppCompatActivity  {
         // Spinner click listener
 
 
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(EmployeeSetupActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.HoursAM));
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        ArrayAdapter<String> myAdapter2 = new ArrayAdapter<String>(EmployeeSetupActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.HoursPM));
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner1.setAdapter((myAdapter));
+        spinner2.setAdapter((myAdapter2));
+        spinner3.setAdapter((myAdapter));
+        spinner4.setAdapter((myAdapter2));
+        spinner5.setAdapter((myAdapter2));
+        spinner6.setAdapter((myAdapter));
+        spinner7.setAdapter((myAdapter2));
+        spinner8.setAdapter((myAdapter2));
+        spinner9.setAdapter((myAdapter));
+        spinner10.setAdapter((myAdapter2));
+        spinner11.setAdapter((myAdapter2));
+        spinner12.setAdapter((myAdapter2));
+        spinner13.setAdapter((myAdapter));
+        spinner14.setAdapter((myAdapter2));
 
     }
 
@@ -227,6 +224,7 @@ public class EmployeeSetupActivity extends AppCompatActivity  {
         Button btn = (Button)findViewById(R.id.setButton);
         btn.performClick();
     }
+
 
 
 

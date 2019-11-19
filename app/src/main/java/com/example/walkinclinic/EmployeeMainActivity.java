@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.walkinclinic.account.Employee;
@@ -58,6 +60,7 @@ public class EmployeeMainActivity extends AppCompatActivity {
                 manageServicesClicked(view, "Administrative");
             }
         });
+
     }
 
     public void setInfoClicked(View view){
@@ -72,4 +75,6 @@ public class EmployeeMainActivity extends AppCompatActivity {
         intent.putExtra("USER_DATA", user);
         startActivity(intent);
     }
+
+
 }
