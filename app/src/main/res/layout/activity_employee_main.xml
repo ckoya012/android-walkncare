@@ -35,7 +35,7 @@
             android:id="@+id/btnManageGPServices"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GP Services" />
+            android:text="General Practice Services" />
 
         <Button
             android:id="@+id/btnManageInjectionServices"

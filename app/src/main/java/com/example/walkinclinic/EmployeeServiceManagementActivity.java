@@ -83,14 +83,20 @@ public class EmployeeServiceManagementActivity extends AppCompatActivity {
                     checkBox.setChecked(false);
                     associatedServiceIDs.remove(serviceID);
                     refAssociatedServices.child(serviceID).removeValue();
-                    Toast.makeText(getApplicationContext(), associatedServiceIDs.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Service removed: " + serviceName, Toast.LENGTH_SHORT).show();
                 }
                 else {
                     // add the serviceID
                     checkBox.setChecked(true);
-                    associatedServiceIDs.add(serviceID);
-                    refAssociatedServices.child(serviceID).setValue(serviceID);
-                    Toast.makeText(getApplicationContext(), associatedServiceIDs.toString(), Toast.LENGTH_SHORT).show();
+                    // remove this if statement once setChecked works inside of onStart
+                    if (associatedServiceIDs.contains(serviceID)) {
+                        Toast.makeText(getApplicationContext(), "You already offer this service.", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        associatedServiceIDs.add(serviceID);
+                        refAssociatedServices.child(serviceID).setValue(serviceID);
+                        Toast.makeText(getApplicationContext(), "Service added: " + serviceName, Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -144,12 +150,10 @@ public class EmployeeServiceManagementActivity extends AppCompatActivity {
 
                     if (associatedServiceIDs.contains(serviceID)) {
                         // check the checkbox
-                        listViewServices.setItemChecked(i, true);
                         View listViewItem = getViewByPosition(i, listViewServices);
                         CheckedTextView checkBox = listViewItem.findViewById(R.id.checkBox);
                         // TODO: find out why the following line doesnt work
                         checkBox.setChecked(true);
-                        Toast.makeText(getApplicationContext(), checkBox.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
