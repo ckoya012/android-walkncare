@@ -7,359 +7,365 @@
     tools:context=".EmployeeSetupActivity">
 
     <LinearLayout
-        android:id="@+id/mainLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Complete/Set Profile Information" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Address:" />
-
-        <EditText
-            android:id="@+id/addressView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPostalAddress" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Phone Number" />
-
-        <EditText
-            android:id="@+id/numberView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="phone" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Clinic Name:" />
-
-        <EditText
-            android:id="@+id/clinicView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName" />
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Insurance Types Accepted:" />
-
         <LinearLayout
+            android:id="@+id/mainLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/diBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Disability Insurance" />
-
-            <CheckBox
-                android:id="@+id/ppBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Prescription Plan Insurance" />
-
-            <CheckBox
-                android:id="@+id/wcBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Workers' Compensation" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Payment Methods Accepted:" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/ccBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Credit Card" />
-
-            <CheckBox
-                android:id="@+id/dcBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Debit Card" />
-
-            <CheckBox
-                android:id="@+id/cBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Cash" />
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/textView8"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:text="Clinc Hours (AM to PM)"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Complete/Set Profile Information" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Address:" />
+
+            <EditText
+                android:id="@+id/addressView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPostalAddress" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Phone Number" />
+
+            <EditText
+                android:id="@+id/numberView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="phone" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Clinic Name:" />
+
+            <EditText
+                android:id="@+id/clinicView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Insurance Types Accepted:" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/diBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Disability Insurance" />
+
+                <CheckBox
+                    android:id="@+id/ppBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Prescription Plan Insurance" />
+
+                <CheckBox
+                    android:id="@+id/wcBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Workers' Compensation" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Payment Methods Accepted:" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/ccBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Credit Card" />
+
+                <CheckBox
+                    android:id="@+id/dcBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Debit Card" />
+
+                <CheckBox
+                    android:id="@+id/cBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Cash" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:text="Clinc Hours (AM to PM)"
+                    android:textAlignment="center" />
+
+                <LinearLayout
+                    android:id="@+id/layout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textView10"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/monday"
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Monday:"
+                        android:textSize="15sp" />
+
+                    <Spinner
+                        android:id="@+id/spinnerAmMonday"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:dropDownWidth="wrap_content"
+                        android:scrollbarSize="1dp" />
+
+                    <Spinner
+                        android:id="@+id/spinnerPmMonday"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:scrollbarSize="1dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/layout1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tuesday"
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Tuesday:"
+                        android:textSize="15sp" />
+
+                    <Spinner
+                        android:id="@+id/spinnerAmTuesday"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1" />
+
+                    <Spinner
+                        android:id="@+id/spinnerPmTuesday"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:baselineAligned="false" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/layout2"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/wednesday"
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Wednesday:"
+                        android:textSize="15sp" />
+
+                    <Spinner
+                        android:id="@+id/spinnerAmWednesday"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1" />
+
+                    <Spinner
+                        android:id="@+id/spinnerPmWednesday"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/layout3"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/thursday"
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Thursday:"
+                        android:textSize="15sp" />
+
+                    <Spinner
+                        android:id="@+id/spinnerAmThrusday"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1" />
+
+                    <Spinner
+                        android:id="@+id/spinnerPmThrusday"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/layout4"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/friday"
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Friday:"
+                        android:textSize="15sp" />
+
+                    <Spinner
+                        android:id="@+id/spinnerAmFriday"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1" />
+
+                    <Spinner
+                        android:id="@+id/spinnerPmFriday"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/layout5"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/saturday"
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Saturday:"
+                        android:textSize="15sp" />
+
+                    <Spinner
+                        android:id="@+id/spinnerAmSaturday"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1" />
+
+                    <Spinner
+                        android:id="@+id/spinnerPmSaturday"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/layout6"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/sunday"
+                        android:layout_width="25dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Sunday:"
+                        android:textSize="15sp" />
+
+                    <Spinner
+                        android:id="@+id/spinnerAmSunday"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1" />
+
+                    <Spinner
+                        android:id="@+id/spinnerPmSunday"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Note: Leave both empty for closed days"
                 android:textAlignment="center" />
 
-            <LinearLayout
-                android:id="@+id/layout1"
+            <Button
+                android:id="@+id/setButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textView10"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/monday"
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Monday:"
-                    android:textSize="15sp" />
-
-                <Spinner
-                    android:id="@+id/spinnerAmMonday"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1"
-                    android:dropDownWidth="wrap_content"
-                    android:scrollbarSize="1dp" />
-
-                <Spinner
-                    android:id="@+id/spinnerPmMonday"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1"
-                    android:scrollbarSize="1dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/layout1"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tuesday"
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Tuesday:"
-                    android:textSize="15sp" />
-
-                <Spinner
-                    android:id="@+id/spinnerAmTuesday"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1" />
-
-                <Spinner
-                    android:id="@+id/spinnerPmTuesday"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1"
-                    android:baselineAligned="false" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/layout2"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/wednesday"
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Wednesday:"
-                    android:textSize="15sp" />
-
-                <Spinner
-                    android:id="@+id/spinnerAmWednesday"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1" />
-
-                <Spinner
-                    android:id="@+id/spinnerPmWednesday"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/layout3"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/thursday"
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Thursday:"
-                    android:textSize="15sp" />
-
-                <Spinner
-                    android:id="@+id/spinnerAmThrusday"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1" />
-
-                <Spinner
-                    android:id="@+id/spinnerPmThrusday"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/layout4"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/friday"
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Friday:"
-                    android:textSize="15sp" />
-
-                <Spinner
-                    android:id="@+id/spinnerAmFriday"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1" />
-
-                <Spinner
-                    android:id="@+id/spinnerPmFriday"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/layout5"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/saturday"
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Saturday:"
-                    android:textSize="15sp" />
-
-                <Spinner
-                    android:id="@+id/spinnerAmSaturday"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1" />
-
-                <Spinner
-                    android:id="@+id/spinnerPmSaturday"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/layout6"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/sunday"
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Sunday:"
-                    android:textSize="15sp" />
-
-                <Spinner
-                    android:id="@+id/spinnerAmSunday"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1" />
-
-                <Spinner
-                    android:id="@+id/spinnerPmSunday"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Note: Leave both empty for closed days"
-            android:textAlignment="center" />
-
-        <Button
-            android:id="@+id/setButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="setButtonClicked"
-            android:text="Set" />
+                android:onClick="setButtonClicked"
+                android:text="Set" />
 
 
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
