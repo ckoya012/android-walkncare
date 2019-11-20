@@ -18,16 +18,18 @@ import java.util.List;
 public class ServiceListCheckable extends ArrayAdapter<Service> {
 
     private Activity context;
-    List<Service> services;
+    private List<Service> services;
+    private List<Boolean> checkBoxState;
 
     public ServiceListCheckable(){
         super(new Activity(), R.layout.activity_service_list_checkable);
     }
 
-    public ServiceListCheckable(Activity context, List<Service> services) {
+    public ServiceListCheckable(Activity context, List<Service> services, List<Boolean> checkBoxState) {
         super(context, R.layout.activity_service_list_checkable, services);
         this.context = context;
         this.services = services;
+        this.checkBoxState = checkBoxState;
     }
 
     @Override
@@ -37,10 +39,22 @@ public class ServiceListCheckable extends ArrayAdapter<Service> {
 
         TextView textViewService = listViewItem.findViewById(R.id.textViewService);
         TextView textViewRole = listViewItem.findViewById(R.id.textViewRole);
+        CheckedTextView checkBox = listViewItem.findViewById(R.id.checkBox);
 
         Service service = services.get(position);
+
+        // set UI element attributes
         textViewService.setText(service.getService());
         textViewRole.setText("Administrator role: "+service.getRole());
+
+        // case: the current checkbox @ position is supposed to be checked
+        if (checkBoxState.get(position)) {
+            checkBox.setChecked(true);
+        }
+        else {
+            checkBox.setChecked(false);
+        }
+
         return listViewItem;
     }
 }
