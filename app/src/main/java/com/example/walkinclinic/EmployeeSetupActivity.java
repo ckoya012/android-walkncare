@@ -211,7 +211,12 @@ public class EmployeeSetupActivity extends AppCompatActivity  {
         }
 
         if(valid == true) {
-            ref.setValue(user);
+            ref.child("address").setValue(user.getAddress());
+            ref.child("phoneNumber").setValue(user.getPhoneNumber());
+            ref.child("title").setValue(user.getTitle());
+            ref.child("paymentTypes").setValue(user.getPaymentTypes());
+            ref.child("insuranceTypes").setValue(user.getInsuranceTypes());
+
             Toast.makeText(EmployeeSetupActivity.this, "Profile Information Set", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getApplicationContext(), EmployeeMainActivity.class);   //Application Context and Activity
             intent.putExtra("USER_DATA", user);
