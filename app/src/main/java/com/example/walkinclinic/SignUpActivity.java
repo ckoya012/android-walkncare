@@ -137,6 +137,7 @@ public class SignUpActivity extends AppCompatActivity {
                             newUser.setAddress(" ");
                             ref.child("employees").child(uid).setValue(newUser);
 
+
                             Intent intent = new Intent(getApplicationContext(), EmployeeSetupActivity.class);   //Application Context and Activity
                             intent.putExtra("USER_DATA", newUser);
                             startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
