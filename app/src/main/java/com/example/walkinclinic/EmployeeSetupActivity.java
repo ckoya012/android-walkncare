@@ -438,14 +438,14 @@ public class EmployeeSetupActivity extends AppCompatActivity  {
             user.setTitle((titleView.getText().toString().trim()));
         }
 
-        if (new String(payment).equals("000")) {
+        if (noneChecked(new String(payment))) {
             valid = false;
             Toast.makeText(EmployeeSetupActivity.this, "Select At Least 1 Payment Method", Toast.LENGTH_LONG).show();
         } else {
             user.setPaymentTypes(new String(payment));
         }
 
-        if (new String(insurance).equals("000")) {
+        if (noneChecked((new String(insurance)))) {
             valid = false;
             Toast.makeText(EmployeeSetupActivity.this, "Select At Least 1 Insurance Type", Toast.LENGTH_LONG).show();
         } else {
@@ -512,5 +512,8 @@ public class EmployeeSetupActivity extends AppCompatActivity  {
         btn.performClick();
     }
 
+    public static boolean noneChecked(String x){
+        return x.equals("000");
+    }
 
 }
