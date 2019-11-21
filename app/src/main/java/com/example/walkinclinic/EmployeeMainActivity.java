@@ -123,6 +123,7 @@ public class EmployeeMainActivity extends AppCompatActivity {
                     String start = postSnapshot.getValue().toString();
                     String end = postSnapshot.child(day).child("time2").getValue(String.class);
 
+
                     DailySchedule dailySchedule = new DailySchedule(start, end);
                     dailySchedule.setDay(day);
                     scheduleLists.add(dailySchedule);

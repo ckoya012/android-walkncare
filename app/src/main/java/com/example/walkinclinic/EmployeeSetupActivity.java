@@ -146,15 +146,7 @@ public class EmployeeSetupActivity extends AppCompatActivity  {
 
     }
 
-    public int getSpinnerIndex(String s, Spinner spinner){
-        int pos=0;
-        for (int i=0;i<spinner.getCount();i++){
-            if (spinner.getItemAtPosition(i).equals(s)){
-                pos = i;
-            }
-        }
-        return pos;
-    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -169,9 +161,6 @@ public class EmployeeSetupActivity extends AppCompatActivity  {
                 titleView.setText(dataSnapshot.child("title").getValue(String.class));
                 sInsurance = dataSnapshot.child("insuranceTypes").getValue(String.class);
                 sPayment = dataSnapshot.child("paymentTypes").getValue(String.class);
-
-
-
 
                 insurance[0] = sInsurance.charAt(0);
                 insurance[1] = sInsurance.charAt(1);
@@ -203,10 +192,121 @@ public class EmployeeSetupActivity extends AppCompatActivity  {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-        scheduleRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        DatabaseReference mondayRef = scheduleRef.child("1_monday");
+
+        mondayRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-               //TODO: store previous values
+                String s1= dataSnapshot.child("time1").getValue(String.class);
+                String s2= dataSnapshot.child("time2").getValue(String.class);
+                int p1= getSpinnerIndex(s1,spinner1);
+                int p2=getSpinnerIndex(s2,spinner2);
+                spinner1.setSelection(p1);
+                spinner2.setSelection(p2);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        DatabaseReference tuesdayRef = scheduleRef.child("2_tuesday");
+        tuesdayRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String s3= dataSnapshot.child("time1").getValue(String.class);
+                String s4= dataSnapshot.child("time2").getValue(String.class);
+                int p3= getSpinnerIndex(s3,spinner3);
+                int p4=getSpinnerIndex(s4,spinner4);
+                spinner3.setSelection(p3);
+                spinner4.setSelection(p4);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        DatabaseReference wednesdayRef = scheduleRef.child("3_wednesday");
+        wednesdayRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String s5= dataSnapshot.child("time1").getValue(String.class);
+                String s6= dataSnapshot.child("time2").getValue(String.class);
+                int p5= getSpinnerIndex(s5,spinner5);
+                int p6=getSpinnerIndex(s6,spinner6);
+                spinner5.setSelection(p5);
+                spinner6.setSelection(p6);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        DatabaseReference thursdayRef = scheduleRef.child("4_thursday");
+        thursdayRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String s7= dataSnapshot.child("time1").getValue(String.class);
+                String s8= dataSnapshot.child("time2").getValue(String.class);
+                int p7= getSpinnerIndex(s7,spinner7);
+                int p8=getSpinnerIndex(s8,spinner8);
+                spinner7.setSelection(p7);
+                spinner8.setSelection(p8);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        DatabaseReference fridayRef = scheduleRef.child("5_friday");
+        fridayRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String s9= dataSnapshot.child("time1").getValue(String.class);
+                String s10= dataSnapshot.child("time2").getValue(String.class);
+                int p9= getSpinnerIndex(s9,spinner9);
+                int p10=getSpinnerIndex(s10,spinner10);
+                spinner9.setSelection(p9);
+                spinner10.setSelection(p10);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        DatabaseReference saturdayRef = scheduleRef.child("6_saturday");
+        saturdayRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String s11= dataSnapshot.child("time1").getValue(String.class);
+                String s12= dataSnapshot.child("time2").getValue(String.class);
+                int p11= getSpinnerIndex(s11,spinner11);
+                int p12=getSpinnerIndex(s12,spinner12);
+                spinner11.setSelection(p11);
+                spinner12.setSelection(p12);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        DatabaseReference sundayRef = scheduleRef.child("7_sunday");
+        sundayRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String s13= dataSnapshot.child("time1").getValue(String.class);
+                String s14= dataSnapshot.child("time2").getValue(String.class);
+                int p13= getSpinnerIndex(s13,spinner13);
+                int p14=getSpinnerIndex(s14,spinner14);
+                spinner13.setSelection(p13);
+                spinner14.setSelection(p14);
             }
 
             @Override
@@ -215,7 +315,28 @@ public class EmployeeSetupActivity extends AppCompatActivity  {
             }
         });
 
+        /*scheduleRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            }
 
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+   */ }
+    public int getSpinnerIndex(String s, Spinner spinner){
+        int pos=0;
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).equals(s)){
+                pos = i;
+            }
+        }
+        return pos;
     }
 
     //checks to seee all spinners are selected
