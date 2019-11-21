@@ -452,6 +452,36 @@ public class EmployeeSetupActivity extends AppCompatActivity  {
             user.setInsuranceTypes(new String(insurance));
         }
 
+        // validate the 7 pairs of spinners
+        if (! validSpinnerPair(spinner1, spinner2)) {
+            valid = false;
+            Toast.makeText(EmployeeSetupActivity.this, "Please enter a valid schedule for Monday", Toast.LENGTH_LONG).show();
+        }
+        else if (! validSpinnerPair(spinner3, spinner4)) {
+            valid = false;
+            Toast.makeText(EmployeeSetupActivity.this, "Please enter a valid schedule for Tuesday", Toast.LENGTH_LONG).show();
+        }
+        else if (! validSpinnerPair(spinner5, spinner6)) {
+            valid = false;
+            Toast.makeText(EmployeeSetupActivity.this, "Please enter a valid schedule for Wednesday", Toast.LENGTH_LONG).show();
+        }
+        else if (! validSpinnerPair(spinner7, spinner8)) {
+            valid = false;
+            Toast.makeText(EmployeeSetupActivity.this, "Please enter a valid schedule for Thursday", Toast.LENGTH_LONG).show();
+        }
+        else if (! validSpinnerPair(spinner9, spinner10)) {
+            valid = false;
+            Toast.makeText(EmployeeSetupActivity.this, "Please enter a valid schedule for Friday", Toast.LENGTH_LONG).show();
+        }
+        else if (! validSpinnerPair(spinner11, spinner12)) {
+            valid = false;
+            Toast.makeText(EmployeeSetupActivity.this, "Please enter a valid schedule for Saturday", Toast.LENGTH_LONG).show();
+        }
+        else if (! validSpinnerPair(spinner13, spinner14)) {
+            valid = false;
+            Toast.makeText(EmployeeSetupActivity.this, "Please enter a valid schedule for Sunday", Toast.LENGTH_LONG).show();
+        }
+
 
         if (valid == true) {
             ref.child("address").setValue(user.getAddress());
@@ -465,6 +495,15 @@ public class EmployeeSetupActivity extends AppCompatActivity  {
             startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
             finish();
         }
+    }
+
+    // returns true if one spinner is empty (index = 0), but not both (xor)
+    private boolean validSpinnerPair(Spinner s1, Spinner s2) {
+        if (s1.getSelectedItemPosition() == 0 && s2.getSelectedItemPosition() != 0)
+            return false;
+        if (s2.getSelectedItemPosition() == 0 && s1.getSelectedItemPosition() != 0)
+            return false;
+        return true;
     }
 
     @Override
