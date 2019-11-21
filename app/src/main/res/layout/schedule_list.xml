@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/endTime_textView"
+        android:id="@+id/dayOfWeek_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -18,9 +18,10 @@
         android:text="TextView" />
 
     <TextView
-        android:id="@+id/dayOfWeek_textView"
+        android:id="@+id/endTime_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="TextView" />
+
 </LinearLayout>
