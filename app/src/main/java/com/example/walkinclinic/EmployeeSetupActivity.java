@@ -424,7 +424,7 @@ public class EmployeeSetupActivity extends AppCompatActivity  {
             user.setAddress(addressView.getText().toString().trim());
         }
 
-        if (phoneView.getText().toString().trim().length() != 10) {
+        if (phoneView.getText().toString().trim().length() < 10) {
             valid = false;
             Toast.makeText(EmployeeSetupActivity.this, "Invalid Phone Number, Try Again", Toast.LENGTH_LONG).show();
         } else {
