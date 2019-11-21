@@ -19,4 +19,36 @@
     <string name="Enterservice">Enter service</string>
     <string name="Enterrole">Enter role</string>
     <string name="Enterprice">Enter price</string>
+    
+    <string-array name="HoursPM">
+        <item>     </item>
+        <item>12:00pm</item>
+        <item>1:00pm</item>
+        <item>2:00pm</item>
+        <item>3:00pm</item>
+        <item>4:00pm</item>
+        <item>5:00pm</item>
+        <item>6:00pm</item>
+        <item>7:00pm</item>
+        <item>8:00pm</item>
+        <item>9:00pm</item>
+        <item>10:00pm</item>
+        <item>11:00pm</item>
+    </string-array>
+
+    <string-array name="HoursAM">
+        <item>     </item>
+        <item>12:00am</item>
+        <item>1:00am</item>
+        <item>2:00am</item>
+        <item>3:00am</item>
+        <item>4:00am</item>
+        <item>5:00am</item>
+        <item>6:00am</item>
+        <item>7:00am</item>
+        <item>8:00am</item>
+        <item>9:00am</item>
+        <item>10:00am</item>
+        <item>11:00am</item>
+    </string-array>
 </resources>

@@ -70,7 +70,6 @@ public class ServiceListViewerActivity extends AppCompatActivity {
             }
         });
 
-        // TODO: setOnItemLongClickListener to update and delete service
         listViewServices.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -167,7 +166,6 @@ public class ServiceListViewerActivity extends AppCompatActivity {
         return (role.length() > 1);
     }
 
-    // TODO: showUpdateDeleteDialog() method
     private void showUpdateDeleteDialog(final String productId, String productName, String serviceRole) {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);

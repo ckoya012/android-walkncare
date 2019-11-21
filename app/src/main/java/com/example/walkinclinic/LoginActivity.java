@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.walkinclinic.account.Employee;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -32,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView signUp;    //clickable text for going to sign up screen
     private ProgressBar loading;    //loading view for when you need to load
 
+
     private static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
@@ -42,12 +44,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // prevents changing orientation
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true); //caches login data for faster login in the future
         signUp= findViewById(R.id.redirectSignup);
         mAuth = FirebaseAuth.getInstance();
         loading = findViewById(R.id.progressBar);
         loading.setVisibility(View.GONE);
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true); //caches login data for faster login in the future
+
     }
 
     public void onLoginClicked(View view) {
@@ -119,9 +122,25 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChild(userID)) {
+                    String lastNameData = dataSnapshot.child(userID).child("nameLast").getValue(String.class);;
+                    String address = dataSnapshot.child(userID).child("address").getValue(String.class);;
+                    String email = dataSnapshot.child(userID).child("email").getValue(String.class);;
+                    String id = dataSnapshot.child(userID).child("id").getValue(String.class);;
+                    String insuranceTypes = dataSnapshot.child(userID).child("insuranceTypes").getValue(String.class);;
+                    String paymentTypes = dataSnapshot.child(userID).child("paymentTypes").getValue(String.class);;
+                    String phone = dataSnapshot.child(userID).child("phone").getValue(String.class);;
+                    String title = dataSnapshot.child(userID).child("title").getValue(String.class);;
                     String firstNameData = dataSnapshot.child(userID).child("nameFirst").getValue(String.class);
+                    String password = dataSnapshot.child(userID).child("password").getValue(String.class);
                     Intent intent = new Intent(getApplicationContext(), EmployeeMainActivity.class);
-                    intent.putExtra("USER_FIRSTNAME", firstNameData);
+
+                    Employee user = new Employee(email,password,firstNameData,lastNameData,id);
+                    user.setTitle(title);
+                    user.setInsuranceTypes(insuranceTypes);
+                    user.setPaymentTypes(paymentTypes);
+                    user.setPhoneNumber(phone);
+                    user.setAddress(address);
+                    intent.putExtra("USER_DATA", user);
                     startActivity(intent);
                     finish();
                 } else {
@@ -137,4 +156,5 @@ public class LoginActivity extends AppCompatActivity {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(email);
         return matcher.find();
     }
+
 }
