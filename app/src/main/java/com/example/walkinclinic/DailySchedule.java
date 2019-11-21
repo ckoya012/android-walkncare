@@ -1,6 +1,14 @@
 package com.example.walkinclinic;
 
 public class DailySchedule {
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
+
     String day;
     String time1;
     String time2;
