@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class PatientMainActivity extends AppCompatActivity {
 
     @Override
@@ -20,5 +22,11 @@ public class PatientMainActivity extends AppCompatActivity {
     public void goToBookAppointmentActivity(View view) {
         Intent intent = new Intent(getApplicationContext(), PatientBookAppointmentActivity.class);
         startActivity(intent);
+    }
+
+    public void onClickSignOut (View view) {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        finish();
     }
 }

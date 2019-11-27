@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.walkinclinic.account.Employee;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,13 +24,12 @@ import java.util.List;
 
 public class EmployeeMainActivity extends AppCompatActivity {
     private Employee user;
-    private CardView manageGP, manageInjection, manageTest, manageAdmin;
+    private CardView manageGP, manageInjection, manageTest, manageAdmin, signOut;
 
-    ListView scheduleList;
-    List<DailySchedule> scheduleLists;
+    private ListView scheduleList;
+    private List<DailySchedule> scheduleLists;
 
-    DatabaseReference scheduleRef;
-
+    private DatabaseReference scheduleRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +81,15 @@ public class EmployeeMainActivity extends AppCompatActivity {
                 manageServicesClicked(view, "Administrative");
             }
         });
-        // DB references for schedule
 
+        // set click listener for sign-out card
+        signOut = findViewById(R.id.cardSignOut);
+        signOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signOutClicked(view);
+            }
+        });
     }
 
     public void setInfoClicked(View view) {
@@ -96,6 +103,12 @@ public class EmployeeMainActivity extends AppCompatActivity {
         intent.putExtra("TYPE_OF_SERVICE", typeOfService);
         intent.putExtra("USER_DATA", user);
         startActivity(intent);
+    }
+
+    public void signOutClicked (View view) {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        finish();
     }
 
     @Override
