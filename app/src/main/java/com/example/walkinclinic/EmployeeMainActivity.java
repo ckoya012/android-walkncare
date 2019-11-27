@@ -2,14 +2,13 @@ package com.example.walkinclinic;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.walkinclinic.account.Employee;
@@ -24,10 +23,7 @@ import java.util.List;
 
 public class EmployeeMainActivity extends AppCompatActivity {
     private Employee user;
-    private Button manageGP;
-    private Button manageInjection;
-    private Button manageTest;
-    private Button manageAdmin;
+    private CardView manageGP, manageInjection, manageTest, manageAdmin;
 
     ListView scheduleList;
     List<DailySchedule> scheduleLists;
@@ -49,13 +45,13 @@ public class EmployeeMainActivity extends AppCompatActivity {
         scheduleRef = FirebaseDatabase.getInstance().getReference("employees").child(user.getID()).child("schedule");
 
 
-        message.setText("Welcome " + user.getNameFirst() + "! You are logged in as an employee.");
+        message.setText("Welcome " + user.getNameFirst() + "! This is your clinic.");
 
         // set click listeners for the service-management buttons
-        manageGP = findViewById(R.id.btnManageGPServices);
-        manageInjection = findViewById(R.id.btnManageInjectionServices);
-        manageTest = findViewById(R.id.btnManageTestServices);
-        manageAdmin = findViewById(R.id.btnManageAdminServices);
+        manageGP = findViewById(R.id.cardManageGPServices);
+        manageInjection = findViewById(R.id.cardManageInjectionServices);
+        manageTest = findViewById(R.id.cardManageTestServices);
+        manageAdmin = findViewById(R.id.cardManageAdminServices);
 
 
         manageGP.setOnClickListener(new View.OnClickListener() {

@@ -19,7 +19,7 @@
     <string name="Enterservice">Enter service</string>
     <string name="Enterrole">Enter role</string>
     <string name="Enterprice">Enter price</string>
-    
+
     <string-array name="HoursPM">
         <item>     </item>
         <item>12:00pm</item>
