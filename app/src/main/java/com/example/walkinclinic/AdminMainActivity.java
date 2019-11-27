@@ -89,4 +89,10 @@ public class AdminMainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), AdminServiceManagement.class);
         startActivity(intent);
     }
+
+    public void logoutClicked(View view) {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }
