@@ -122,7 +122,7 @@ public class SignUpActivity extends AppCompatActivity {
                             Patient newUser = new Patient(email, hashedPwd, firstName, lastName,uid);
                             ref.child("patients").child(uid).setValue(newUser);
 
-                            Intent intent = new Intent(getApplicationContext(), PatientMainActivity.class);   //Application Context and Activity
+                            Intent intent = new Intent(getApplicationContext(), PatientSearch.class);   //Application Context and Activity
                             intent.putExtra("USER_FIRSTNAME", firstName);
                             startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
                             finish();
