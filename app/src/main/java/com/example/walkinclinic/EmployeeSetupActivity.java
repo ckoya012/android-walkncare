@@ -1,8 +1,10 @@
 package com.example.walkinclinic;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -43,9 +45,9 @@ public class EmployeeSetupActivity extends AppCompatActivity  {
 
     private String[] timeTableAm = new String[25];
     private String[] timeTablePm = new String[25];
-    String[] dayOfWeek = {"1_monday", "2_tuesday", "3_wednesday", "4_thursday", "5_friday", "6_saturday", "7_sunday"};
+    private String[] dayOfWeek = {"1_monday", "2_tuesday", "3_wednesday", "4_thursday", "5_friday", "6_saturday", "7_sunday"};
 
-    public String[] timeOptionAm() {
+    private String[] timeOptionAm() {
         timeTableAm[0] = "  ";
         int hour = 12;
         for (int i = 0; i < 24; i++) {
@@ -63,7 +65,7 @@ public class EmployeeSetupActivity extends AppCompatActivity  {
         return timeTableAm;
     }
 
-    public String[] timeOptionPm() {
+    private String[] timeOptionPm() {
         timeTablePm[0] = "  ";
         int hour = 12;
         for (int i = 0; i < 24; i++) {
@@ -81,8 +83,10 @@ public class EmployeeSetupActivity extends AppCompatActivity  {
         return timeTablePm;
     }
 
-    public String[] startTime;
-    public String[] endTime ;
+    private String[] startTime;
+    private String[] endTime ;
+
+    private Button btnSetInfo;
 
 
     @Override
@@ -144,6 +148,14 @@ public class EmployeeSetupActivity extends AppCompatActivity  {
         spinner13.setAdapter(adapterAM);
         spinner14.setAdapter(adapterPM);
 
+        // attach click handler
+        btnSetInfo = findViewById(R.id.setButton);
+        btnSetInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setButtonClicked();
+            }
+        });
     }
 
 
@@ -382,7 +394,7 @@ public class EmployeeSetupActivity extends AppCompatActivity  {
     }
 
 
-    public void setButtonClicked(View view) {
+    public void setButtonClicked() {
         //if hours validate the set hours
         setHours(" ");
         if (in1.isChecked()) {
@@ -508,8 +520,16 @@ public class EmployeeSetupActivity extends AppCompatActivity  {
 
     @Override
     public void onBackPressed() {
-        Button btn = (Button) findViewById(R.id.setButton);
-        btn.performClick();
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Discard changes?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 
     public static boolean noneChecked(String x){

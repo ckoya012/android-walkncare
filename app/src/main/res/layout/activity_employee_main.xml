@@ -89,7 +89,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="70dp"
-                        android:src="@drawable/ic_info" />
+                        android:src="@drawable/ic_clinic" />
 
                     <TextView
                         android:layout_width="wrap_content"
