@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChild(userID)) {
                     String firstNameData = dataSnapshot.child(userID).child("nameFirst").getValue(String.class);
-                    Intent intent = new Intent(getApplicationContext(), PatientMainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), PatientSearch.class);
                     intent.putExtra("USER_FIRSTNAME", firstNameData);
                     startActivity(intent);
                     finish();

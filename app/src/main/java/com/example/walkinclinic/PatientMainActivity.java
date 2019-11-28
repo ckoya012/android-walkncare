@@ -16,7 +16,8 @@ public class PatientMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_main);
         TextView message = (TextView)findViewById(R.id.welcomeMsgPat);
-        message.setText("Welcome "+(getIntent().getStringExtra("USER_FIRSTNAME"))+"! You are logged in as a patient.");
+        message.setText("hello");
+       //message.setText("Welcome "+(getIntent().getStringExtra("USER_FIRSTNAME"))+"! You are logged in as a patient.");
     }
 
     public void goToBookAppointmentActivity(View view) {

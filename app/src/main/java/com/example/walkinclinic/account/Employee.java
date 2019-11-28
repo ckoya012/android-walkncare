@@ -9,9 +9,38 @@ public class Employee extends UserAccount {
     private String insuranceTypes;
     private String paymentTypes;
     private String phoneNumber;
+    private final String CLOSED = "  ";
+    private String schedule;
+    private float rating=0;
+    private float numUsers=0;
 
     public Employee(String email, String password, String nameFirst, String nameLast, String id) {
         super(email, password, nameFirst, nameLast, id);
+    }
+
+    public String getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(String time1, String time2) {
+        if(time1==null){
+            return;
+        }
+        if (time1.compareTo(CLOSED)==0){
+            schedule = "Closed";
+        }else{
+            schedule= "Open today from "+time1+" to "+time2;
+        }
+
+    }
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        numUsers++;
+        this.rating= (this.rating +rating)/numUsers;
+
     }
 
     public void setAddress(String x){
