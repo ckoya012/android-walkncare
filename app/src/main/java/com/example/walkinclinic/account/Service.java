@@ -60,5 +60,15 @@ public class Service {
     public void setRole(String r) {
         this.role = r;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if(other instanceof Service){
+            Service otherService = (Service) other;
+            return this.id.equals(otherService.getId());
+        }
+
+        return false;
+    }
 }
 

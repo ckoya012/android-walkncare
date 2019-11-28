@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckedTextView;
@@ -34,7 +35,7 @@ public class EmployeeServiceListViewerActivity extends AppCompatActivity {
     private DatabaseReference refAvailableServices;
     private DatabaseReference refAssociatedServices;
     List<Service> availableServices; // services that were made available by the admin
-    List<String> associatedServiceIDs; // services that are associated with the employee / clinic
+    List<Service> associatedServices; // services that are associated with the employee / clinic
     List<Boolean> checkBoxState; // this gets populated when comparing available services to associated services
 
 
@@ -63,7 +64,7 @@ public class EmployeeServiceListViewerActivity extends AppCompatActivity {
 
         // init as arraylists
         availableServices = new ArrayList<>();
-        associatedServiceIDs = new ArrayList<>();
+        associatedServices = new ArrayList<>();
         checkBoxState = new ArrayList<>();
 
         // event listener for checkable list items
@@ -80,24 +81,24 @@ public class EmployeeServiceListViewerActivity extends AppCompatActivity {
 
                 // whether or not the service is associated can be determined if the checkbox was checked
                 if (isChecked) {
-                    // remove the serviceID
+                    // remove the service
                     checkBox.setChecked(false);
                     checkBoxState.set(i, false);
-                    associatedServiceIDs.remove(serviceID);
+                    associatedServices.remove(service);
                     refAssociatedServices.child(serviceID).removeValue();
                     Toast.makeText(getApplicationContext(), "Service removed: " + serviceName, Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    // add the serviceID
+                    // add the service
                     checkBox.setChecked(true);
                     checkBoxState.set(i, true);
                     // in the case that the checkbox is unchecked && the employee is already associated to this service
-                    if (associatedServiceIDs.contains(serviceID)) {
+                    if (associatedServices.contains(service)) {
                         Toast.makeText(getApplicationContext(), "You already offer this service.", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        associatedServiceIDs.add(serviceID);
-                        refAssociatedServices.child(serviceID).setValue(serviceID);
+                        associatedServices.add(service);
+                        refAssociatedServices.child(serviceID).setValue(service);
                         Toast.makeText(getApplicationContext(), "Service added: " + serviceName, Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -109,19 +110,18 @@ public class EmployeeServiceListViewerActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        // get list of service IDs offered by clinic
+        // get list of service offered by clinic
         refAssociatedServices.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // clear previous services
-                associatedServiceIDs.clear();
+                associatedServices.clear();
 
                 // iterate through all nodes
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    // get service
-                    String serviceID = postSnapshot.getValue(String.class);
-                    // add service to list
-                    associatedServiceIDs.add(serviceID);
+                    // get service and add to list
+                    Service service = postSnapshot.getValue(Service.class);
+                    associatedServices.add(service);
                 }
             }
             @Override
@@ -147,10 +147,9 @@ public class EmployeeServiceListViewerActivity extends AppCompatActivity {
                 // populate the boolean list to determine the state of checkboxes
                 for (int i = 0; i < availableServices.size(); i ++) {
                     Service service = availableServices.get(i);
-                    String serviceID = service.getId();
 
-                    // case: the employee already provides the service @ index i
-                    if (associatedServiceIDs.contains(serviceID)) {
+                    // case: the employee already provides the service at index i
+                    if (associatedServices.contains(service)) {
                         checkBoxState.add(true);
                     }
                     else {
