@@ -44,10 +44,11 @@ public class AdminServiceManagement extends AppCompatActivity {
         refTestServices = FirebaseDatabase.getInstance().getReference("services").child("test");
         refAdminServices = FirebaseDatabase.getInstance().getReference("services").child("administrative");
 
+        // set onClick listeners for each card, to determine the corresponding String to send to the next activity
         GP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), ServiceListViewerActivity.class);
+                Intent intent = new Intent(getBaseContext(), AdminServiceListViewerActivity.class);
                 intent.putExtra("TYPE_OF_SERVICE", "GP"); // needed for Firebase
                 startActivity(intent);
             }
@@ -56,7 +57,7 @@ public class AdminServiceManagement extends AppCompatActivity {
         injection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), ServiceListViewerActivity.class);
+                Intent intent = new Intent(getBaseContext(), AdminServiceListViewerActivity.class);
                 intent.putExtra("TYPE_OF_SERVICE", "Injection"); // needed for Firebase
                 startActivity(intent);
             }
@@ -65,7 +66,7 @@ public class AdminServiceManagement extends AppCompatActivity {
         test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), ServiceListViewerActivity.class);
+                Intent intent = new Intent(getBaseContext(), AdminServiceListViewerActivity.class);
                 intent.putExtra("TYPE_OF_SERVICE", "Test"); // needed for Firebase
                 startActivity(intent);
             }
@@ -74,7 +75,7 @@ public class AdminServiceManagement extends AppCompatActivity {
         admin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), ServiceListViewerActivity.class);
+                Intent intent = new Intent(getBaseContext(), AdminServiceListViewerActivity.class);
                 intent.putExtra("TYPE_OF_SERVICE", "Administrative"); // needed for Firebase
                 startActivity(intent);
             }

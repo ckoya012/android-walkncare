@@ -9,11 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PatientBookAppointmentActivity"></activity>
+        <activity android:name=".EmployeeServiceManagementActivity"></activity>
+        <activity android:name=".PatientBookAppointmentActivity" />
         <activity android:name=".ServiceListCheckable" />
-        <activity android:name=".EmployeeServiceManagementActivity" />
+        <activity android:name=".EmployeeServiceListViewerActivity" />
         <activity android:name=".EmployeeSetupActivity" />
-        <activity android:name=".ServiceListViewerActivity" />
+        <activity android:name=".AdminServiceListViewerActivity" />
         <activity android:name=".AdminServiceManagement" />
         <activity android:name=".PatientList" />
         <activity android:name=".EmployeeList" />

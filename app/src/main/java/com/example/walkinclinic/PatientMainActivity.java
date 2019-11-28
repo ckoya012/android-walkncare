@@ -26,7 +26,8 @@ public class PatientMainActivity extends AppCompatActivity {
 
     public void onClickSignOut (View view) {
         FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
         finish();
     }
 }

@@ -26,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceListViewerActivity extends AppCompatActivity {
+public class AdminServiceListViewerActivity extends AppCompatActivity {
 
     TextView serviceTypeLabel;
     EditText editTextName;
@@ -42,7 +42,7 @@ public class ServiceListViewerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_service_list_viewer);
+        setContentView(R.layout.activity_admin_service_list_viewer);
 
         editTextName = findViewById(R.id.editTextName);
         //editTextPrice = findViewById(R.id.editTextPrice);
@@ -98,7 +98,7 @@ public class ServiceListViewerActivity extends AppCompatActivity {
                     services.add(service);
                 }
                 // create adapter
-                ServiceList servicesAdapter = new ServiceList(ServiceListViewerActivity.this, services);
+                ServiceList servicesAdapter = new ServiceList(AdminServiceListViewerActivity.this, services);
                 // attach adapter to ListView
                 listViewServices.setAdapter(servicesAdapter);
             }
@@ -122,7 +122,7 @@ public class ServiceListViewerActivity extends AppCompatActivity {
         }*/
         String role = editTextRole.getText().toString().trim();
 
-        if (fieldsAreValid(name/*, price*/, role, ServiceListViewerActivity.this)) {
+        if (fieldsAreValid(name/*, price*/, role, AdminServiceListViewerActivity.this)) {
             // get UID for the service to be added
             String id = db.push().getKey();
             Service service = new Service(name/*, price*/, role, id);
