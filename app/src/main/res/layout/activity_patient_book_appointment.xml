@@ -50,6 +50,20 @@
             android:gravity="center"
             android:text="dd-mm-yyyy" />
 
+        <TextView
+            android:id="@+id/textViewTESTDATE"
+            android:textSize="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="HH:mm" />
+
+        <ListView
+            android:id="@+id/listViewDates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </ListView>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
