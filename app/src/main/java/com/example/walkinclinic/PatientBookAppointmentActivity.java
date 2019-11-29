@@ -36,10 +36,12 @@ import java.util.Locale;
 public class PatientBookAppointmentActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private Patient user;
+    private Employee clinic;
+    private String clinicName;
     private DatabaseReference ref;
     private String uid;
     private String selectedTime;
-    private TextView dateTime, test;
+    private TextView textWaitTimeLabel, dateTime, test;
 
 
     ListView listViewDates;
@@ -60,6 +62,11 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
                 datePicker.show(getSupportFragmentManager(), "date picker");
             }
         });
+
+        clinic = (Employee) getIntent().getSerializableExtra("CLINIC_DATA");
+        clinicName = clinic.getTitle();
+        textWaitTimeLabel = findViewById(R.id.textViewWaitingTimeLabel);
+        textWaitTimeLabel.setText("Current waiting time for " + clinicName + ":");
 
         user = (Patient) getIntent().getSerializableExtra("USER_DATA");
         uid = user.getID();

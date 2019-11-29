@@ -31,15 +31,14 @@ import java.util.List;
 
 public class SearchWalkin extends AppCompatActivity {
 
-    ListView clinicListV;
-    DatabaseReference clinicRef;
-    int section;
-    String filter;
-    List<Employee> employees;
-    DatabaseReference rateRef;
+    private ListView clinicListV;
+    private DatabaseReference clinicRef;
+    private int section;
+    private String filter;
+    private List<Employee> employees;
+    private DatabaseReference rateRef;
 
     private Patient user;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +68,18 @@ public class SearchWalkin extends AppCompatActivity {
             }
         });
 
+        clinicListV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                // get the clinic that was clicked
+                Employee clinic = employees.get(i);
+                Intent intent = new Intent(getApplicationContext(), PatientBookAppointmentActivity.class);
+                intent.putExtra("USER_DATA", user);
+                intent.putExtra("CLINIC_DATA", clinic);
+                startActivity(intent);
+            }
+        });
 
 
 
@@ -179,11 +190,6 @@ public class SearchWalkin extends AppCompatActivity {
         });
     }
 
-    public void clinicVClick(View view){
-        Intent intent = new Intent(getApplicationContext(), PatientBookAppointmentActivity.class);
-        intent.putExtra("USER_DATA", user);
-        startActivity(intent);
-    }
     //TODO: search by service and hours
     //TODO: rate method
 }

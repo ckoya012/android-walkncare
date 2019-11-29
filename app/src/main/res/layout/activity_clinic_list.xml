@@ -14,7 +14,6 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:onClick="clinicVClick"
         android:layout_margin="10dp"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="4dp"
