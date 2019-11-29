@@ -42,6 +42,7 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
     private String uid;
     private String selectedTime;
     private TextView textWaitTimeLabel, dateTime, test;
+    private boolean delete;
 
     private Calendar cal;
     private int day;
@@ -195,12 +196,16 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
     }
 
     public void onClickCancelAppointment(View view) {
+        delete = true;
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String s1= dataSnapshot.child("appointments").getValue(String.class);
-                ref.child("appointments").removeValue();
-                Toast.makeText(PatientBookAppointmentActivity.this, "Your appointment on " + s1 + " has been cancelled.", Toast.LENGTH_LONG).show();
+                if(delete) {
+                    String s1 = dataSnapshot.child("appointments").getValue(String.class);
+                    ref.child("appointments").removeValue();
+                    Toast.makeText(PatientBookAppointmentActivity.this, "Your appointment on " + s1 + " has been cancelled.", Toast.LENGTH_LONG).show();
+                    delete = false;
+                }
             }
 
             @Override
