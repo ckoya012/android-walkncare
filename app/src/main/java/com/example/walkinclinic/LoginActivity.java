@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.walkinclinic.account.Employee;
+import com.example.walkinclinic.account.Patient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -103,9 +104,16 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChild(userID)) {
-                    String firstNameData = dataSnapshot.child(userID).child("nameFirst").getValue(String.class);
-                    Intent intent = new Intent(getApplicationContext(), PatientSearch.class);
-                    intent.putExtra("USER_FIRSTNAME", firstNameData);
+                    String email = dataSnapshot.child(userID).child("email").getValue(String.class);
+                    String pwd = dataSnapshot.child(userID).child("password").getValue(String.class);
+                    String firstName = dataSnapshot.child(userID).child("nameFirst").getValue(String.class);
+                    String lastName = dataSnapshot.child(userID).child("nameLast").getValue(String.class);
+                    String id = dataSnapshot.child(userID).child("id").getValue(String.class);
+                    String currentAppointment = dataSnapshot.child(userID).child("appointment").getValue(String.class);
+
+                    Intent intent = new Intent(getApplicationContext(), PatientSearchActivity.class);
+                    Patient user = new Patient(email, pwd, firstName, lastName, id, currentAppointment);
+                    intent.putExtra("USER_DATA", user);
                     startActivity(intent);
                     finish();
                 } else {

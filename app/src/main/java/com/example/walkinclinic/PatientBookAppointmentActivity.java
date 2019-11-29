@@ -34,7 +34,7 @@ import java.util.Locale;
 
 public class PatientBookAppointmentActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    public Patient user;
+    private Patient user;
     private DatabaseReference ref;
     private DatabaseReference scheduleRef;
     private String uid;
@@ -60,6 +60,10 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
                 datePicker.show(getSupportFragmentManager(), "date picker");
             }
         });
+
+        user = (Patient) getIntent().getSerializableExtra("USER_DATA");
+        uid = user.getID();
+        ref = FirebaseDatabase.getInstance().getReference().child("patients").child(uid);
 
         dates = new ArrayList<>();
         checkBoxState = new ArrayList<>();
@@ -101,29 +105,9 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
 
 
 
-        // book appt time
-//        user = (Patient) getIntent().getSerializableExtra("USER_DATA");
-//        uid = user.getID();
-//        user = (Patient) getIntent().getSerializableExtra("USER_DATA");
-        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        ref = FirebaseDatabase.getInstance().getReference().child("patients").child(uid);
-
-
+        // book appointment time
 
         user.setAppointment("January 1st, 2019");
-
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                user = dataSnapshot.getValue(Patient.class);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
 
         scheduleRef = FirebaseDatabase.getInstance().getReference().child("patients").child(uid).child("schedule");
 

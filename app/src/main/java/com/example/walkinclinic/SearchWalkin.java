@@ -16,6 +16,7 @@ import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.example.walkinclinic.account.Employee;
+import com.example.walkinclinic.account.Patient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,6 +38,8 @@ public class SearchWalkin extends AppCompatActivity {
     List<Employee> employees;
     DatabaseReference rateRef;
 
+    private Patient user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class SearchWalkin extends AppCompatActivity {
 
         filter = intent.getStringExtra("FILTER");
         section = intent.getIntExtra("SECTION", 0);
+        user = (Patient) getIntent().getSerializableExtra("USER_DATA");
 
         clinicListV = findViewById(R.id.clinicList);
         clinicRef = FirebaseDatabase.getInstance().getReference("employees");
@@ -176,7 +180,8 @@ public class SearchWalkin extends AppCompatActivity {
     }
 
     public void clinicVClick(View view){
-        Intent intent = new Intent(getApplicationContext(), PatientMainActivity.class);
+        Intent intent = new Intent(getApplicationContext(), PatientBookAppointmentActivity.class);
+        intent.putExtra("USER_DATA", user);
         startActivity(intent);
     }
     //TODO: search by service and hours

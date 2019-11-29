@@ -12,12 +12,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.walkinclinic.account.Employee;
+import com.example.walkinclinic.account.Patient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,10 +28,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PatientSearch extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class PatientSearchActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     Spinner searchSpinner;
     String[] searchTypes = {"Address","Services","Name","Hours"};
-    String[] searchCategories = {"Administative", "GP", "Injection","Test"};
+    String[] searchCategories = {"Administrative", "GP", "Injection","Test"};
     String [] hoursList= {"0","1","2"};
     ImageView btnSearch;
     String validMatch;
@@ -44,7 +44,7 @@ public class PatientSearch extends AppCompatActivity implements AdapterView.OnIt
     List<String> adresses;
     List<String> clinicNames;
 
-
+    private Patient user;
 
     List<Employee> employeeList;
 
@@ -53,9 +53,13 @@ public class PatientSearch extends AppCompatActivity implements AdapterView.OnIt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        user = (Patient) getIntent().getSerializableExtra("USER_DATA");
+        String userFirstName = user.getNameFirst();
+
         setContentView(R.layout.activity_patient_search);
         TextView message = (TextView) findViewById(R.id.welcomeMsgPat);
-        message.setText("Welcome " + (getIntent().getStringExtra("USER_FIRSTNAME")) + "! You are logged in as a patient.");
+        message.setText("Welcome " + userFirstName + "! You are logged in as a patient.");
 
         searchByTV = findViewById(R.id.searchByTV);
         searchSpinner = findViewById(R.id.searchType);
@@ -73,7 +77,7 @@ public class PatientSearch extends AppCompatActivity implements AdapterView.OnIt
         clinicNames= new ArrayList<>();
 
 
-        ArrayAdapter<String> searchFilter = new ArrayAdapter<String>(PatientSearch.this, android.R.layout.simple_list_item_1, searchTypes);
+        ArrayAdapter<String> searchFilter = new ArrayAdapter<String>(PatientSearchActivity.this, android.R.layout.simple_list_item_1, searchTypes);
         searchFilter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         searchSpinner.setAdapter(searchFilter);
 
@@ -119,8 +123,8 @@ public class PatientSearch extends AppCompatActivity implements AdapterView.OnIt
             Intent intent = new Intent(this, SearchWalkin.class);
             intent.putExtra("FILTER",validMatch );
             intent.putExtra("SECTION", searchSection);
+            intent.putExtra("USER_DATA", user);
             startActivity(intent);
-            finish();
         }else{
             Toast.makeText(this, "Please select a valid address", Toast.LENGTH_LONG).show();
         }
