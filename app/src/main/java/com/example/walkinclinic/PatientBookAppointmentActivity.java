@@ -43,6 +43,12 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
     private String selectedTime;
     private TextView textWaitTimeLabel, dateTime, test;
 
+    private Calendar cal;
+    private int day;
+    private int month;
+    private int year;
+
+    static final int DATE_PICKER_ID = 1111;
 
     ListView listViewDates;
     List<Date> dates;
@@ -58,8 +64,16 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment datePicker = new DatePickerFragment();
-                datePicker.show(getSupportFragmentManager(), "date picker");
+//                DialogFragment datePicker = new DatePickerFragment();
+//                datePicker.show(getSupportFragmentManager(), "date picker");
+
+
+                cal = Calendar.getInstance();
+                day = cal.get(Calendar.DAY_OF_MONTH);
+                month = cal.get(Calendar.MONTH);
+                year = cal.get(Calendar.YEAR);
+                showDialog(DATE_PICKER_ID);
+
             }
         });
 
@@ -77,43 +91,63 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
 
         listViewDates = findViewById(R.id.listViewDates);
 
-
         Button cancelBtn = (Button) findViewById(R.id.btnCancelAppt);
         test = findViewById(R.id.textViewTESTDATE);
 
-
     }
 
+    @Override
+    protected DatePickerDialog onCreateDialog(int id) {
+        switch (id) {
+            case DATE_PICKER_ID:
+                // create a new DatePickerDialog with values you want to show
 
+                DatePickerDialog datePickerDialog = new DatePickerDialog(this, datePickerListener, year, month, day);
+                Calendar calendar = Calendar.getInstance();
+
+                calendar.add(Calendar.DATE, 0); // Add 0 days to Calendar
+                Date newDate = calendar.getTime();
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                return datePickerDialog;
+        }
+        return null;
+    }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
 
-        TextView selectedDateLabel = findViewById(R.id.textViewSelectedDate);
-        selectedDateLabel.setText(currentDateString);
-
-        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-
-        dates.clear();
-
-
-
-
-        String fromTime = currentDateString + " 10:00 AM";
-        String toTime = currentDateString + " 11:30 AM";
-        formatAndAddTimes(fromTime, toTime);
-
-        // create adapter
-        DateAdapter adapter = new DateAdapter(PatientBookAppointmentActivity.this, dates);
-
-        // attach adapter to ListView
-        listViewDates.setAdapter(adapter);
     }
+
+
+    public DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+        // the callback received when the user "sets" the Date in the
+        // DatePickerDialog
+        @Override
+        public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
+            Calendar c = Calendar.getInstance();
+            c.set(Calendar.YEAR, selectedYear);
+            c.set(Calendar.MONTH, selectedMonth);
+            c.set(Calendar.DAY_OF_MONTH, selectedDay);
+            String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+
+            TextView selectedDateLabel = findViewById(R.id.textViewSelectedDate);
+            selectedDateLabel.setText(currentDateString);
+
+            int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+
+            dates.clear();
+
+            String fromTime = currentDateString + " 10:00 AM";
+            String toTime = currentDateString + " 11:30 AM";
+            formatAndAddTimes(fromTime, toTime);
+
+            // create adapter
+            DateAdapter adapter = new DateAdapter(PatientBookAppointmentActivity.this, dates);
+
+            // attach adapter to ListView
+            listViewDates.setAdapter(adapter);
+        }
+    };
 
 
     private void formatAndAddTimes(String fromTime, String toTime) {
@@ -150,7 +184,7 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         String text = value.getText().toString();
 
         TextView test = findViewById(R.id.textViewTESTDATE);
-//        test.setText(text);
+        test.setText(text);
 
         // book appointment time
         user.setAppointment(text);
@@ -175,5 +209,6 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
             }
         });
     }
+
 
 }
