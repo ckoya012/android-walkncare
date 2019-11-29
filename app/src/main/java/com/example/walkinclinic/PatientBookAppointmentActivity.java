@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,12 +37,11 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
 
     private Patient user;
     private DatabaseReference ref;
-    private DatabaseReference scheduleRef;
     private String uid;
-    private FirebaseAuth mAuth;
+    private String selectedTime;
+    private TextView dateTime;
 
 
-    DatabaseReference monday;
     ListView listViewDates;
     List<Date> dates;
     List<Boolean> checkBoxState; // this gets populated when comparing available services to associated services
@@ -69,6 +69,8 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         checkBoxState = new ArrayList<>();
 
         listViewDates = findViewById(R.id.listViewDates);
+
+
     }
 
 
@@ -101,30 +103,12 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
 
         // attach adapter to ListView
         listViewDates.setAdapter(adapter);
-
-
-
-
-        // book appointment time
-
-        user.setAppointment("January 1st, 2019");
-
-        scheduleRef = FirebaseDatabase.getInstance().getReference().child("patients").child(uid).child("schedule");
-
-
-
-
-
-
-
-
     }
 
 
     private void formatAndAddTimes(String fromTime, String toTime) {
         // Convert currentDateString into target format
         DateFormat originalFormat = new SimpleDateFormat("EEEE, MMMM dd, yyyy HH:mm a", Locale.ENGLISH);
-//        DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm a");
         Date date1 = null;
         Date date2 = null;
         try {
@@ -133,9 +117,6 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         } catch (ParseException e) {
             e.printStackTrace();
         }
-//        String formattedDate = targetFormat.format(date2);
-
-
 
         Calendar gc = new GregorianCalendar();
         Date time = date1;
@@ -150,6 +131,23 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
             time = d2;
             timeInMs = time.getTime();
         }
+
+    }
+
+    public void onClickBookAppointment(View view) {
+
+        TextView value = findViewById(R.id.dateTime);
+        String text = value.getText().toString();
+
+        TextView test = findViewById(R.id.textViewTESTDATE);
+//        test.setText(text);
+
+        // book appointment time
+        user.setAppointment(text);
+        ref.child("appointments").setValue(user.getAppointment());
+
+        Toast.makeText(PatientBookAppointmentActivity.this, "Appointment booked!", Toast.LENGTH_LONG).show();
+
     }
 
 }

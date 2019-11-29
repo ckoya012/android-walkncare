@@ -42,6 +42,13 @@
             android:layout_gravity="center"
             android:text="Date of Appointment" />
 
+        <Button
+            android:id="@+id/btnCancelAppt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Cancel Appointment" />
+
         <TextView
             android:id="@+id/textViewSelectedDate"
             android:textSize="25dp"
