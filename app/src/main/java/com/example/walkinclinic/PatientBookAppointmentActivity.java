@@ -39,7 +39,7 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
     private DatabaseReference ref;
     private String uid;
     private String selectedTime;
-    private TextView dateTime;
+    private TextView dateTime, test;
 
 
     ListView listViewDates;
@@ -71,6 +71,10 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         listViewDates = findViewById(R.id.listViewDates);
 
 
+        Button cancelBtn = (Button) findViewById(R.id.btnCancelAppt);
+        test = findViewById(R.id.textViewTESTDATE);
+
+
     }
 
 
@@ -91,7 +95,6 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         dates.clear();
 
 
-        TextView test = findViewById(R.id.textViewTESTDATE);
 
 
         String fromTime = currentDateString + " 10:00 AM";
@@ -148,6 +151,22 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
 
         Toast.makeText(PatientBookAppointmentActivity.this, "Appointment booked!", Toast.LENGTH_LONG).show();
 
+    }
+
+    public void onClickCancelAppointment(View view) {
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String s1= dataSnapshot.child("appointments").getValue(String.class);
+                ref.child("appointments").removeValue();
+                Toast.makeText(PatientBookAppointmentActivity.this, "Your appointment on " + s1 + " has been cancelled.", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }
