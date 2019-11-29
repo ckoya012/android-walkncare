@@ -41,7 +41,7 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
     private DatabaseReference ref;
     private String uid;
     private String selectedTime;
-    private TextView textWaitTimeLabel, dateTime, test;
+    private TextView textWaitTimeLabel, waitingTime, test;
     private boolean delete;
 
     private Calendar cal;
@@ -82,6 +82,8 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         clinicName = clinic.getTitle();
         textWaitTimeLabel = findViewById(R.id.textViewWaitingTimeLabel);
         textWaitTimeLabel.setText("Current waiting time for " + clinicName + ":");
+
+        waitingTime = findViewById(R.id.textViewWaitingTime);
 
         user = (Patient) getIntent().getSerializableExtra("USER_DATA");
         uid = user.getID();
@@ -191,6 +193,8 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         user.setAppointment(text);
         ref.child("appointments").setValue(user.getAppointment());
 
+        waitingTime.setText("0:15");
+
         Toast.makeText(PatientBookAppointmentActivity.this, "Appointment booked!", Toast.LENGTH_LONG).show();
 
     }
@@ -205,6 +209,7 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
                     ref.child("appointments").removeValue();
                     Toast.makeText(PatientBookAppointmentActivity.this, "Your appointment on " + s1 + " has been cancelled.", Toast.LENGTH_LONG).show();
                     delete = false;
+                    waitingTime.setText("0:00");
                 }
             }
 
