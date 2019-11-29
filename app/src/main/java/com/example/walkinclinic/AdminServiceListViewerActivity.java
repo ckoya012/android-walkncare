@@ -122,7 +122,7 @@ public class AdminServiceListViewerActivity extends AppCompatActivity {
         }*/
         String role = editTextRole.getText().toString().trim();
 
-        if (fieldsAreValid(name/*, price*/, role, AdminServiceListViewerActivity.this)) {
+        if (fieldsAreValid(name, /*price,*/ role, AdminServiceListViewerActivity.this)) {
             // get UID for the service to be added
             String id = db.push().getKey();
             Service service = new Service(name/*, price*/, role, id);
@@ -203,7 +203,6 @@ public class AdminServiceListViewerActivity extends AppCompatActivity {
                     updateService(productId, name, role );
                     b.dismiss();
                 }
-
             }
         });
     }
@@ -216,7 +215,7 @@ public class AdminServiceListViewerActivity extends AppCompatActivity {
     private void updateService(String sId, String name, String role){
         DatabaseReference dR = db.child(sId);
         //updating product
-        Service service = new Service(name,/*,0.0*/role,sId);
+        Service service = new Service(name,role,sId);
         dR.setValue(service);
         Toast.makeText(this, "Service Updated", Toast.LENGTH_LONG).show();
     }

@@ -2,7 +2,7 @@ package com.example.walkinclinic.account;
 
 public class Service {
     private String service;
-    //private double price;
+    private double price;
     private String role;
     private String id;
 
@@ -16,9 +16,9 @@ public class Service {
         this.id=id;
     }
 
-   /* public Service (String service, double price,String id) {
+   /*public Service (String service, double price,String id) {
         this.service = service;
-        //this.price = price;
+       // this.price = price;
         this.id=id;
 
     }*/
@@ -39,13 +39,13 @@ public class Service {
         this.service = s;
     }
 
-    /*public double getPrice() {
+    public double getPrice() {
         return price;
     }
 
     public void setPrice(double p) {
         this.price = p;
-    }*/
+    }
 
     public String getRole() {
         return role;

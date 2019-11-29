@@ -78,12 +78,18 @@
                 android:onClick="onSearchClicked"
                 app:srcCompat="@android:drawable/ic_search_category_default" />
 
-            <Space
-                android:layout_width="5dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
         </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"/>
 
     </LinearLayout>
 

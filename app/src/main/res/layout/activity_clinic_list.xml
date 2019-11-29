@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
-
+<!--
             <RatingBar
                 android:id="@+id/clinicRating"
                 style="@style/Widget.AppCompat.RatingBar.Indicator"
@@ -59,7 +59,7 @@
                 android:layout_weight="1"
                 android:isIndicator="true"
 
-                />
+                />-->
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

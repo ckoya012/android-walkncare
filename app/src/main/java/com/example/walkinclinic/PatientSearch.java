@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,9 +29,9 @@ import java.util.List;
 
 public class PatientSearch extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     Spinner searchSpinner;
-    String[] searchTypes = {"Address","Services","Name","Hours"};
+    String[] searchTypes = {"Address","Services","Name","Time"};
     String[] searchCategories = {"Administative", "GP", "Injection","Test"};
-    String [] hoursList= {"0","1","2"};
+    String [] hoursList= {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
     ImageView btnSearch;
     String validMatch;
     int searchSection;
@@ -43,6 +42,7 @@ public class PatientSearch extends AppCompatActivity implements AdapterView.OnIt
     DatabaseReference ref;
     List<String> adresses;
     List<String> clinicNames;
+    List<String> allServices;
 
 
 
@@ -60,7 +60,6 @@ public class PatientSearch extends AppCompatActivity implements AdapterView.OnIt
         searchByTV = findViewById(R.id.searchByTV);
         searchSpinner = findViewById(R.id.searchType);
         btnSearch= findViewById(R.id.searchIV);
-
         searchBar = findViewById(R.id.searchAutoComView);
 
         searchSpinner.setOnItemSelectedListener(this);
@@ -71,19 +70,14 @@ public class PatientSearch extends AppCompatActivity implements AdapterView.OnIt
         employeeList = new ArrayList<>();
         adresses= new ArrayList<>();
         clinicNames= new ArrayList<>();
+        allServices= new ArrayList<>();
 
 
         ArrayAdapter<String> searchFilter = new ArrayAdapter<String>(PatientSearch.this, android.R.layout.simple_list_item_1, searchTypes);
         searchFilter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         searchSpinner.setAdapter(searchFilter);
 
-
-
-
-
     }
-
-
 
     @Override
     protected void onStart() {
@@ -92,6 +86,7 @@ public class PatientSearch extends AppCompatActivity implements AdapterView.OnIt
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 adresses.clear();
+                clinicNames.clear();
 
                 for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
                     String address = (String) postSnapshot.child("address").getValue(String.class);
@@ -105,6 +100,7 @@ public class PatientSearch extends AppCompatActivity implements AdapterView.OnIt
 
             }
         }));
+
         searchBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,6 +183,7 @@ public class PatientSearch extends AppCompatActivity implements AdapterView.OnIt
     @Override
     protected void onResume() {
         super.onResume();
+
     }
     public void onClickSignOut (View view) {
         FirebaseAuth.getInstance().signOut();
