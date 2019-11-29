@@ -138,7 +138,7 @@ public class PatientSearch extends AppCompatActivity implements AdapterView.OnIt
             searchBar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    validMatch = adapter1.getItem(position).toString();
+                    validMatch = adapter1.getItem(position).toString(); //INDEXOUTOFBOUNDSEXCEPTION
                 }
             });
             searchBar.addTextChangedListener(new TextWatcher() {

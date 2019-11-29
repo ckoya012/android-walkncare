@@ -9,13 +9,18 @@ import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.walkinclinic.account.Employee;
 import com.example.walkinclinic.account.Patient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -29,7 +34,13 @@ import java.util.Locale;
 
 public class PatientBookAppointmentActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    private Employee user;
+    public Patient user;
+    private DatabaseReference ref;
+    private DatabaseReference scheduleRef;
+    private String uid;
+    private FirebaseAuth mAuth;
+
+
     DatabaseReference monday;
     ListView listViewDates;
     List<Date> dates;
@@ -54,12 +65,6 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         checkBoxState = new ArrayList<>();
 
         listViewDates = findViewById(R.id.listViewDates);
-
-        // create adapter
-//        DateAdapter adapter = new DateAdapter();
-
-        // attach adapter to ListView
-//        listViewDates.setAdapter(adapter);
     }
 
 
@@ -85,11 +90,57 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
 
         String fromTime = currentDateString + " 10:00 AM";
         String toTime = currentDateString + " 11:30 AM";
+        formatAndAddTimes(fromTime, toTime);
+
+        // create adapter
+        DateAdapter adapter = new DateAdapter(PatientBookAppointmentActivity.this, dates);
+
+        // attach adapter to ListView
+        listViewDates.setAdapter(adapter);
 
 
+
+
+        // book appt time
+//        user = (Patient) getIntent().getSerializableExtra("USER_DATA");
+//        uid = user.getID();
+//        user = (Patient) getIntent().getSerializableExtra("USER_DATA");
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        ref = FirebaseDatabase.getInstance().getReference().child("patients").child(uid);
+
+
+
+        user.setAppointment("January 1st, 2019");
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                user = dataSnapshot.getValue(Patient.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        scheduleRef = FirebaseDatabase.getInstance().getReference().child("patients").child(uid).child("schedule");
+
+
+
+
+
+
+
+
+    }
+
+
+    private void formatAndAddTimes(String fromTime, String toTime) {
         // Convert currentDateString into target format
         DateFormat originalFormat = new SimpleDateFormat("EEEE, MMMM dd, yyyy HH:mm a", Locale.ENGLISH);
-        DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm a");
+//        DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm a");
         Date date1 = null;
         Date date2 = null;
         try {
@@ -98,7 +149,7 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        String formattedDate = targetFormat.format(date2);
+//        String formattedDate = targetFormat.format(date2);
 
 
 
@@ -115,17 +166,6 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
             time = d2;
             timeInMs = time.getTime();
         }
-
-
-        // create adapter
-        DateAdapter adapter = new DateAdapter(PatientBookAppointmentActivity.this, dates);
-
-        // attach adapter to ListView
-        listViewDates.setAdapter(adapter);
-
-
-
-
     }
 
 }
