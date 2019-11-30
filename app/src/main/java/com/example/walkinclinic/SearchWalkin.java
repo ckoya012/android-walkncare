@@ -145,7 +145,7 @@ public class SearchWalkin extends AppCompatActivity {
     }
 
     public String refDay(int dayOfweek) {
-        String[] ref = {"7_sunday", "1_monday", "2_tuesday", "3_wednesday", "4_thursday", "5_friday", "6_staurday"};
+        String[] ref = {"7_sunday", "1_monday", "2_tuesday", "3_wednesday", "4_thursday", "5_friday", "6_saturday"};
         return ref[dayOfweek - 1];
     }
 
