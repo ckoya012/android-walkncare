@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
@@ -97,6 +98,40 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         Button cancelBtn = (Button) findViewById(R.id.btnCancelAppt);
         test = findViewById(R.id.textViewTESTDATE);
 
+        listViewDates.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // get the value of the view that was clicked on
+                View listViewItem = getViewByPosition(i, listViewDates);
+                TextView value = listViewItem.findViewById(R.id.dateTime);
+                String text = value.getText().toString();
+
+                TextView test = findViewById(R.id.textViewTESTDATE);
+                test.setText(text);
+
+                // book appointment time
+                user.setAppointment(text);
+                ref.child("appointments").setValue(user.getAppointment());
+
+                // hardcode dat shet
+                waitingTime.setText("0:15");
+
+                Toast.makeText(PatientBookAppointmentActivity.this, "Appointment booked!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public View getViewByPosition(int pos, ListView listView) {
+        final int firstListItemPosition = listView.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
+
+        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+            return listView.getAdapter().getView(pos, null, listView);
+        }
+        else {
+            final int childIndex = pos - firstListItemPosition;
+            return listView.getChildAt(childIndex);
+        }
     }
 
     @Override
@@ -181,33 +216,20 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
 
     }
 
-    public void onClickBookAppointment(View view) {
-
-        TextView value = findViewById(R.id.dateTime);
-        String text = value.getText().toString();
-
-        TextView test = findViewById(R.id.textViewTESTDATE);
-        test.setText(text);
-
-        // book appointment time
-        user.setAppointment(text);
-        ref.child("appointments").setValue(user.getAppointment());
-
-        waitingTime.setText("0:15");
-
-        Toast.makeText(PatientBookAppointmentActivity.this, "Appointment booked!", Toast.LENGTH_LONG).show();
-
-    }
-
     public void onClickCancelAppointment(View view) {
         delete = true;
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(delete) {
                     String s1 = dataSnapshot.child("appointments").getValue(String.class);
                     ref.child("appointments").removeValue();
-                    Toast.makeText(PatientBookAppointmentActivity.this, "Your appointment on " + s1 + " has been cancelled.", Toast.LENGTH_LONG).show();
+
+                    if (s1 != null)
+                        Toast.makeText(PatientBookAppointmentActivity.this, "Your appointment on " + s1 + " has been cancelled.", Toast.LENGTH_LONG).show();
+                    else
+                        Toast.makeText(PatientBookAppointmentActivity.this, "No appointment to cancel.", Toast.LENGTH_LONG).show();
+
                     delete = false;
                     waitingTime.setText("0:00");
                 }

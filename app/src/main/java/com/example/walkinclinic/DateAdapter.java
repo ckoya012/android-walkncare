@@ -17,7 +17,7 @@ public class DateAdapter extends ArrayAdapter<Date> {
     List<Date> dates;
 
     public DateAdapter(){
-        super(new Activity(), R.layout.activity_service_list);
+        super(new Activity(), R.layout.activity_date_adapter);
     }
 
     public DateAdapter(Activity context, List<Date> dates) {
