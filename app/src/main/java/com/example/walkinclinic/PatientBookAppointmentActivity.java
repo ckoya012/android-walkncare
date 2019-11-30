@@ -33,22 +33,26 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class PatientBookAppointmentActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private Patient user;
     private Employee clinic;
-    private String clinicName;
-    private DatabaseReference ref;
+    private String clinicName, clinicId;
+    private DatabaseReference ref, clinicRef;
     private String uid;
     private String selectedTime;
     private TextView textWaitTimeLabel, waitingTime, test;
     private boolean delete;
+    private Appointment appt;
 
     private Calendar cal;
     private int day;
     private int month;
     private int year;
+    private String currentDateString;
+    private long unixTime;
 
     static final int DATE_PICKER_ID = 1111;
 
@@ -66,29 +70,26 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                DialogFragment datePicker = new DatePickerFragment();
-//                datePicker.show(getSupportFragmentManager(), "date picker");
-
-
                 cal = Calendar.getInstance();
                 day = cal.get(Calendar.DAY_OF_MONTH);
                 month = cal.get(Calendar.MONTH);
                 year = cal.get(Calendar.YEAR);
                 showDialog(DATE_PICKER_ID);
-
             }
         });
 
+        appt = new Appointment();
+
         clinic = (Employee) getIntent().getSerializableExtra("CLINIC_DATA");
         clinicName = clinic.getTitle();
+        clinicId = clinic.getID();
         textWaitTimeLabel = findViewById(R.id.textViewWaitingTimeLabel);
         textWaitTimeLabel.setText("Current waiting time for " + clinicName + ":");
-
-        waitingTime = findViewById(R.id.textViewWaitingTime);
 
         user = (Patient) getIntent().getSerializableExtra("USER_DATA");
         uid = user.getID();
         ref = FirebaseDatabase.getInstance().getReference().child("patients").child(uid);
+        clinicRef = FirebaseDatabase.getInstance().getReference().child("employees").child(clinicId);
 
         dates = new ArrayList<>();
         checkBoxState = new ArrayList<>();
@@ -106,20 +107,33 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
                 TextView value = listViewItem.findViewById(R.id.dateTime);
                 String text = value.getText().toString();
 
-                TextView test = findViewById(R.id.textViewTESTDATE);
-                test.setText(text);
-
                 // book appointment time
                 user.setAppointment(text);
-                ref.child("appointments").setValue(user.getAppointment());
-
-                // hardcode dat shet
-                waitingTime.setText("0:15");
+                ref.child("appointment").setValue(user.getAppointment());
+                clinicRef.child("appointments").setValue(user.getAppointment());
+                try {
+                    convertToTime(text);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
                 Toast.makeText(PatientBookAppointmentActivity.this, "Appointment booked!", Toast.LENGTH_LONG).show();
             }
         });
     }
+
+    private void convertToTime(String date) throws ParseException {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+        cal.setTime(sdf.parse(date));
+
+        unixTime = cal.getTimeInMillis();
+        ref.child("appointment").child("time").setValue(cal.getTime());
+        ref.child("appointment").child("clinic").setValue(clinicId);
+        clinicRef.child("appointments").child(currentDateString).child(String.valueOf(unixTime)).setValue(uid);
+
+    }
+
 
     public View getViewByPosition(int pos, ListView listView) {
         final int firstListItemPosition = listView.getFirstVisiblePosition();
@@ -144,7 +158,6 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
                 Calendar calendar = Calendar.getInstance();
 
                 calendar.add(Calendar.DATE, 0); // Add 0 days to Calendar
-                Date newDate = calendar.getTime();
                 datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 return datePickerDialog;
         }
@@ -166,7 +179,7 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
             c.set(Calendar.YEAR, selectedYear);
             c.set(Calendar.MONTH, selectedMonth);
             c.set(Calendar.DAY_OF_MONTH, selectedDay);
-            String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+            currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
 
             TextView selectedDateLabel = findViewById(R.id.textViewSelectedDate);
             selectedDateLabel.setText(currentDateString);
@@ -199,7 +212,10 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        addTimesToList(date1, date2);
+    }
 
+    private void addTimesToList(Date date1, Date date2) {
         Calendar gc = new GregorianCalendar();
         Date time = date1;
         long timeInMs = date1.getTime();
@@ -213,26 +229,27 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
             time = d2;
             timeInMs = time.getTime();
         }
-
     }
 
     public void onClickCancelAppointment(View view) {
         delete = true;
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(delete) {
-                    String s1 = dataSnapshot.child("appointments").getValue(String.class);
-                    ref.child("appointments").removeValue();
+                    Long s1 = dataSnapshot.child("appointment").child("time").child("time").getValue(Long.class);
+                    if(s1 != null) {
+                        Date d1 = new java.util.Date(s1);
+                        ref.child("appointment").removeValue();
+                        clinicRef.child("appointments").child(currentDateString).child(String.valueOf(unixTime)).removeValue();
 
-                    if (s1 != null)
-                        Toast.makeText(PatientBookAppointmentActivity.this, "Your appointment on " + s1 + " has been cancelled.", Toast.LENGTH_LONG).show();
-                    else
-                        Toast.makeText(PatientBookAppointmentActivity.this, "No appointment to cancel.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(PatientBookAppointmentActivity.this, "Your appointment on " + d1.toString() + " has been cancelled.", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(PatientBookAppointmentActivity.this, "You do not have any appointments booked.", Toast.LENGTH_LONG).show();
 
-                    delete = false;
-                    waitingTime.setText("0:00");
+                    }
                 }
+                delete = false;
             }
 
             @Override
