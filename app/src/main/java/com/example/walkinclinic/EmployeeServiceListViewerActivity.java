@@ -1,13 +1,18 @@
 package com.example.walkinclinic;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckedTextView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +44,7 @@ public class EmployeeServiceListViewerActivity extends AppCompatActivity {
     List<Boolean> checkBoxState; // this gets populated when comparing available services to associated services
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +73,7 @@ public class EmployeeServiceListViewerActivity extends AppCompatActivity {
         associatedServices = new ArrayList<>();
         checkBoxState = new ArrayList<>();
 
+
         // event listener for checkable list items
         listViewServices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -74,8 +81,11 @@ public class EmployeeServiceListViewerActivity extends AppCompatActivity {
                 Service service = availableServices.get(i);
                 String serviceID = service.getId();
                 String serviceName = service.getService();
+                String serviceRole = service.getRole();
+                double serviceRate =service.getPrice();
 
                 View listViewItem = getViewByPosition(i, listViewServices);
+
                 final CheckedTextView checkBox = listViewItem.findViewById(R.id.checkBox);
                 final boolean isChecked = checkBox.isChecked();
 
@@ -85,25 +95,71 @@ public class EmployeeServiceListViewerActivity extends AppCompatActivity {
                     checkBox.setChecked(false);
                     checkBoxState.set(i, false);
                     associatedServices.remove(service);
+
                     refAssociatedServices.child(serviceID).removeValue();
                     Toast.makeText(getApplicationContext(), "Service removed: " + serviceName, Toast.LENGTH_SHORT).show();
                 }
                 else {
                     // add the service
                     checkBox.setChecked(true);
-                    checkBoxState.set(i, true);
+
                     // in the case that the checkbox is unchecked && the employee is already associated to this service
                     if (associatedServices.contains(service)) {
                         Toast.makeText(getApplicationContext(), "You already offer this service.", Toast.LENGTH_SHORT).show();
                     }
                     else {
+
+                        //refAssociatedServices.child(serviceID).setValue(service);
+                        double pS= showSetPriceDialog(service,serviceID, serviceName, serviceRate,serviceRole);//
                         associatedServices.add(service);
-                        refAssociatedServices.child(serviceID).setValue(service);
                         Toast.makeText(getApplicationContext(), "Service added: " + serviceName, Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
+    }
+    private double showSetPriceDialog(Service service, final String serviceID, final String serviceName, double serviceRate, final String serviceRole){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.activity_price_set, null);
+        dialogBuilder.setView(dialogView);
+
+        final EditText newPrice= (EditText) dialogView.findViewById(R.id.editTextSetPrice);
+        newPrice.setText(String.valueOf(serviceRate));
+
+
+        final Button buttonSetPrice = (Button) dialogView.findViewById(R.id.btnSetPrice);
+
+
+        dialogBuilder.setTitle(serviceName);
+        final AlertDialog b = dialogBuilder.create();
+        b.show();
+
+
+        buttonSetPrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String name= serviceName;
+                String role= serviceRole;
+                String priceS= newPrice.getText().toString().trim();
+                double price= Double.parseDouble(priceS);
+
+                if (!TextUtils.isEmpty(priceS)) {
+                    updateService(serviceID, name, role, price);
+                    b.dismiss();
+                }
+            }
+        });
+        return Double.parseDouble(newPrice.getText().toString().trim());
+    }
+    private void updateService(String sId, String name, String role, double price){
+
+        //updating product
+
+        Service service = new Service(name,role,sId);
+        service.setPrice(price);
+        refAssociatedServices.child(sId).setValue(service);
+        Toast.makeText(this, "Service Updated", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -154,11 +210,12 @@ public class EmployeeServiceListViewerActivity extends AppCompatActivity {
                     }
                     else {
                         checkBoxState.add(false);
+
                     }
                 }
 
                 // create adapter
-                ServiceListCheckable servicesAdapter = new ServiceListCheckable(EmployeeServiceListViewerActivity.this, availableServices, checkBoxState);
+                ServiceListCheckable servicesAdapter = new ServiceListCheckable(EmployeeServiceListViewerActivity.this, availableServices, checkBoxState,associatedServices);
                 // attach adapter to ListView
                 listViewServices.setAdapter(servicesAdapter);
             }

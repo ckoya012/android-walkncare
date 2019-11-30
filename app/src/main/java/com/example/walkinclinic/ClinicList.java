@@ -30,7 +30,7 @@ public class ClinicList extends ArrayAdapter<Employee> {
         TextView address= (TextView) listViewItem.findViewById(R.id.clinicAddressTV);
         TextView phone = (TextView) listViewItem.findViewById(R.id.clinicPhone);
         TextView schedule = (TextView) listViewItem.findViewById(R.id.clinicSchedule);
-        RatingBar rating = (RatingBar) listViewItem.findViewById(R.id.clinicRating);
+        //RatingBar rating = (RatingBar) listViewItem.findViewById(R.id.clinicRating);
 
 
         Employee employee = employeeList.get(position);

@@ -30,9 +30,9 @@ import java.util.List;
 
 public class PatientSearchActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     Spinner searchSpinner;
-    String[] searchTypes = {"Address","Services","Name","Hours"};
-    String[] searchCategories = {"Administrative", "GP", "Injection","Test"};
-    String [] hoursList= {"0","1","2"};
+    String[] searchTypes = {"Address","Services","Name","Time"};
+    String[] searchCategories = {"Administative", "GP", "Injection","Test"};
+    String [] hoursList= {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
     ImageView btnSearch;
     String validMatch;
     int searchSection;
@@ -43,6 +43,7 @@ public class PatientSearchActivity extends AppCompatActivity implements AdapterV
     DatabaseReference ref;
     List<String> adresses;
     List<String> clinicNames;
+    List<String> allServices;
 
     private Patient user;
 
@@ -64,7 +65,6 @@ public class PatientSearchActivity extends AppCompatActivity implements AdapterV
         searchByTV = findViewById(R.id.searchByTV);
         searchSpinner = findViewById(R.id.searchType);
         btnSearch= findViewById(R.id.searchIV);
-
         searchBar = findViewById(R.id.searchAutoComView);
 
         searchSpinner.setOnItemSelectedListener(this);
@@ -75,19 +75,14 @@ public class PatientSearchActivity extends AppCompatActivity implements AdapterV
         employeeList = new ArrayList<>();
         adresses= new ArrayList<>();
         clinicNames= new ArrayList<>();
+        allServices= new ArrayList<>();
 
 
         ArrayAdapter<String> searchFilter = new ArrayAdapter<String>(PatientSearchActivity.this, android.R.layout.simple_list_item_1, searchTypes);
         searchFilter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         searchSpinner.setAdapter(searchFilter);
 
-
-
-
-
     }
-
-
 
     @Override
     protected void onStart() {
@@ -96,6 +91,7 @@ public class PatientSearchActivity extends AppCompatActivity implements AdapterV
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 adresses.clear();
+                clinicNames.clear();
 
                 for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
                     String address = (String) postSnapshot.child("address").getValue(String.class);
@@ -109,6 +105,7 @@ public class PatientSearchActivity extends AppCompatActivity implements AdapterV
 
             }
         }));
+
         searchBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,6 +188,7 @@ public class PatientSearchActivity extends AppCompatActivity implements AdapterV
     @Override
     protected void onResume() {
         super.onResume();
+
     }
     public void onClickSignOut (View view) {
         FirebaseAuth.getInstance().signOut();
