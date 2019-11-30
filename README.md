@@ -5,10 +5,9 @@
 
 https://github.com/SEG2105-uottawa/seg2105-project-team-f19-5
 
-#### CircleCI Link:
+#### CircleCI Build Status:
 
-[![CircleCI](https://circleci.com/gh/SEG2105-uottawa/seg2105-project-team-f19-5.svg?style=shield)](https://circleci.com/gh/SEG2105-uottawa/seg2105-project-team-f19-5)
-https://circleci.com/gh/SEG2105-uottawa/seg2105-project-team-f19-5
+[![CircleCI](https://circleci.com/gh/SEG2105-uottawa/seg2105-project-team-f19-5.svg?style=svg&circle-token=fa8576c9c01eb67a88929841760b681ea30820b3)](https://circleci.com/gh/SEG2105-uottawa/seg2105-project-team-f19-5)
 
 #### Group 5 Members:
 
