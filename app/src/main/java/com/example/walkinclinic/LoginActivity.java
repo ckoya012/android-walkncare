@@ -109,10 +109,16 @@ public class LoginActivity extends AppCompatActivity {
                     String firstName = dataSnapshot.child(userID).child("nameFirst").getValue(String.class);
                     String lastName = dataSnapshot.child(userID).child("nameLast").getValue(String.class);
                     String id = dataSnapshot.child(userID).child("id").getValue(String.class);
-//                    String currentAppointment = dataSnapshot.child(userID).child("appointment").getValue(String.class);
+                    String currentAppointmentDate = dataSnapshot.child(userID).child("appointment").child("apptDate").getValue(String.class);
+                    Patient user;
+                    if (dataSnapshot.child(userID).child("appointment").child("time").child("time").exists()) {
+                        long currentAppointment = dataSnapshot.child(userID).child("appointment").child("time").child("time").getValue(Long.class);
+                        user = new Patient(email, pwd, firstName, lastName, id, currentAppointment, currentAppointmentDate);
+                    } else {
+                        user = new Patient(email, pwd, firstName, lastName, id, currentAppointmentDate);
+                    }
 
                     Intent intent = new Intent(getApplicationContext(), PatientSearchActivity.class);
-                    Patient user = new Patient(email, pwd, firstName, lastName, id);
                     intent.putExtra("USER_DATA", user);
                     startActivity(intent);
                     finish();

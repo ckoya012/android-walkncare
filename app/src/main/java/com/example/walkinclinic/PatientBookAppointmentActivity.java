@@ -1,6 +1,7 @@
 package com.example.walkinclinic;
 
 import android.app.DatePickerDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.View;
@@ -89,7 +90,6 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         dates = new ArrayList<>();
 
         listViewDates = findViewById(R.id.listViewDates);
-
         test = findViewById(R.id.textViewTESTDATE);
 
         listViewDates.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -108,11 +108,56 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
                 user.setAppointment(unixTime);
                 user.setAppointmentDate(currentDateString);
                 setWaitTime();
-
+                disableSelectedOptions();
                 Toast.makeText(PatientBookAppointmentActivity.this, "Appointment booked!", Toast.LENGTH_LONG).show();
             }
         });
     }
+
+    private void disableSelectedOptions() {
+        clinicRef.child("appointments").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot snapshot : dataSnapshot.child(currentDateString).getChildren()) {
+                    String num = snapshot.getKey();
+
+                    for (int i = 0; i < dates.size(); i++) {
+                        View listViewItem = getViewByPosition(i, listViewDates);
+                        TextView value = listViewItem.findViewById(R.id.dateTime);
+                        String text = value.getText().toString();
+
+                        Calendar cal = Calendar.getInstance();
+                        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+                        try {
+                            cal.setTime(sdf.parse(text));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        long milliseconds = cal.getTimeInMillis();
+
+                        if (Long.parseLong(num) == milliseconds) {
+                            value.setClickable(false);
+                            value.setEnabled(false);
+                            value.setTextColor(Color.parseColor("red"));
+                            value.setVisibility(View.GONE);
+                        } else {
+                            value.setClickable(true);
+                            value.setEnabled(true);
+                            value.setTextColor(Color.parseColor("grey"));
+                            value.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     private void setWaitTime() {
         clinicRef.child("appointments").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -140,11 +185,12 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
 
         unixTime = cal.getTimeInMillis();
         Date itemDate = new Date(unixTime);
-        String text = new SimpleDateFormat("hh:mm a").format(itemDate);
+        String text = new SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(itemDate);
         test.setText(text);
 
         ref.child("appointment").child("time").setValue(cal.getTime());
         ref.child("appointment").child("clinic").setValue(clinicId);
+        ref.child("appointment").child("apptDate").setValue(currentDateString);
 
         if (user.getAppointment() != 0) {
             clinicRef.child("appointments").child(user.getAppointmentDate()).child(String.valueOf(user.getAppointment())).removeValue();
@@ -158,10 +204,9 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         final int firstListItemPosition = listView.getFirstVisiblePosition();
         final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
 
-        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+        if (pos < firstListItemPosition || pos > lastListItemPosition) {
             return listView.getAdapter().getView(pos, null, listView);
-        }
-        else {
+        } else {
             final int childIndex = pos - firstListItemPosition;
             return listView.getChildAt(childIndex);
         }
@@ -232,6 +277,7 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
                     // attach adapter to ListView
                     listViewDates.setAdapter(adapter);
                     setWaitTime();
+                    disableSelectedOptions();
 
                 }
 
@@ -243,7 +289,7 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         }
     };
 
-    private String convertPmTo24h (String time) throws ParseException {
+    private String convertPmTo24h(String time) throws ParseException {
         SimpleDateFormat date12Format = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
         SimpleDateFormat date24Format = new SimpleDateFormat("HH:mm a", Locale.ENGLISH);
         return date24Format.format(Objects.requireNonNull(date12Format.parse(time)));
@@ -315,13 +361,18 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(delete) {
+                if (delete) {
                     Long s1 = dataSnapshot.child("appointment").child("time").child("time").getValue(Long.class);
-                    if(s1 != null) {
+                    if (s1 != null) {
                         Date d1 = new java.util.Date(s1);
                         ref.child("appointment").removeValue();
+
+                        // FIX CANCEL FOR EMPLOYEES
                         clinicRef.child("appointments").child(currentDateString).child(String.valueOf(unixTime)).removeValue();
+
                         test.setText("");
+                        user.setAppointment(0);
+                        user.setAppointmentDate("");
 
                         Toast.makeText(PatientBookAppointmentActivity.this, "Your appointment on " + d1.toString() + " has been cancelled.", Toast.LENGTH_LONG).show();
                     } else {
