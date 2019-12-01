@@ -39,26 +39,21 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
 
     private Patient user;
     private Employee clinic;
-    private String clinicName, clinicId;
+    private String clinicName, clinicId, uid;
     private DatabaseReference ref, clinicRef;
-    private String uid;
-    private String selectedTime;
     private TextView textWaitTimeLabel, waitingTime, test;
     private boolean delete;
-    private Appointment appt;
 
-    private Calendar cal;
-    private int day;
-    private int month;
-    private int year;
+    private Calendar cal, c;
+    private int day, dayOfWeek, month, year;
     private String currentDateString;
     private long unixTime;
+    private String fromTime, toTime, time1, time2;
+    private String dayStr;
+    private static final int DATE_PICKER_ID = 1111;
 
-    static final int DATE_PICKER_ID = 1111;
-
-    ListView listViewDates;
-    List<Date> dates;
-    List<Boolean> checkBoxState; // this gets populated when comparing available services to associated services
+    private ListView listViewDates;
+    private List<Date> dates;
 
 
     @Override
@@ -78,8 +73,6 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
             }
         });
 
-        appt = new Appointment();
-
         clinic = (Employee) getIntent().getSerializableExtra("CLINIC_DATA");
         clinicName = clinic.getTitle();
         clinicId = clinic.getID();
@@ -92,7 +85,6 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         clinicRef = FirebaseDatabase.getInstance().getReference().child("employees").child(clinicId);
 
         dates = new ArrayList<>();
-        checkBoxState = new ArrayList<>();
 
         listViewDates = findViewById(R.id.listViewDates);
 
@@ -108,9 +100,9 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
                 String text = value.getText().toString();
 
                 // book appointment time
-                user.setAppointment(text);
-                ref.child("appointment").setValue(user.getAppointment());
-                clinicRef.child("appointments").setValue(user.getAppointment());
+//                user.setAppointment(text);
+//                ref.child("appointment").setValue(user.getAppointment());
+//                clinicRef.child("appointments").setValue(user.getAppointment());
                 try {
                     convertToTime(text);
                 } catch (ParseException e) {
@@ -128,6 +120,10 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         cal.setTime(sdf.parse(date));
 
         unixTime = cal.getTimeInMillis();
+        Date itemDate = new Date(unixTime);
+        String text = new SimpleDateFormat("hh:mm a").format(itemDate);
+        test.setText(text);
+
         ref.child("appointment").child("time").setValue(cal.getTime());
         ref.child("appointment").child("clinic").setValue(clinicId);
         clinicRef.child("appointments").child(currentDateString).child(String.valueOf(unixTime)).setValue(uid);
@@ -135,7 +131,7 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
     }
 
 
-    public View getViewByPosition(int pos, ListView listView) {
+    private View getViewByPosition(int pos, ListView listView) {
         final int firstListItemPosition = listView.getFirstVisiblePosition();
         final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
 
@@ -170,12 +166,12 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
     }
 
 
-    public DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
         // the callback received when the user "sets" the Date in the
         // DatePickerDialog
         @Override
         public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
-            Calendar c = Calendar.getInstance();
+            c = Calendar.getInstance();
             c.set(Calendar.YEAR, selectedYear);
             c.set(Calendar.MONTH, selectedMonth);
             c.set(Calendar.DAY_OF_MONTH, selectedDay);
@@ -184,21 +180,79 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
             TextView selectedDateLabel = findViewById(R.id.textViewSelectedDate);
             selectedDateLabel.setText(currentDateString);
 
-            int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-
             dates.clear();
 
-            String fromTime = currentDateString + " 10:00 AM";
-            String toTime = currentDateString + " 11:30 AM";
-            formatAndAddTimes(fromTime, toTime);
+            clinicRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+                    dayStr = getDayOfWeek(dayOfWeek);
 
-            // create adapter
-            DateAdapter adapter = new DateAdapter(PatientBookAppointmentActivity.this, dates);
+                    String t1 = dataSnapshot.child("schedule").child(dayStr).child("time1").getValue(String.class);
+                    String t2 = dataSnapshot.child("schedule").child(dayStr).child("time2").getValue(String.class);
 
-            // attach adapter to ListView
-            listViewDates.setAdapter(adapter);
+                    try {
+                        time1 = convertPmTo24h(t1);
+                        time2 = convertPmTo24h(t2);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    fromTime = currentDateString + " " + time1;
+                    toTime = currentDateString + " " + time2;
+
+                    formatAndAddTimes(fromTime, toTime);
+
+                    // create adapter
+                    DateAdapter adapter = new DateAdapter(PatientBookAppointmentActivity.this, dates);
+
+                    // attach adapter to ListView
+                    listViewDates.setAdapter(adapter);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
         }
     };
+
+    private String convertPmTo24h (String time) throws ParseException {
+        SimpleDateFormat date12Format = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
+        SimpleDateFormat date24Format = new SimpleDateFormat("HH:mm a", Locale.ENGLISH);
+        return date24Format.format(Objects.requireNonNull(date12Format.parse(time)));
+    }
+
+    private String getDayOfWeek(int dayOfWeek) {
+
+        String day;
+        switch (dayOfWeek) {
+            case 1:
+                day = "7_sunday";
+                break;
+            case 3:
+                day = "2_tuesday";
+                break;
+            case 4:
+                day = "3_wednesday";
+                break;
+            case 5:
+                day = "4_thursday";
+                break;
+            case 6:
+                day = "5_friday";
+                break;
+            case 7:
+                day = "6_saturday";
+                break;
+            default:
+                day = "1_monday";
+        }
+
+        return day;
+
+    }
 
 
     private void formatAndAddTimes(String fromTime, String toTime) {
@@ -242,6 +296,7 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
                         Date d1 = new java.util.Date(s1);
                         ref.child("appointment").removeValue();
                         clinicRef.child("appointments").child(currentDateString).child(String.valueOf(unixTime)).removeValue();
+                        test.setText("");
 
                         Toast.makeText(PatientBookAppointmentActivity.this, "Your appointment on " + d1.toString() + " has been cancelled.", Toast.LENGTH_LONG).show();
                     } else {
