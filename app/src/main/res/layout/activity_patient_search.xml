@@ -62,6 +62,7 @@
                 android:layout_weight="1"
                 android:completionThreshold="1"
                 android:dropDownHeight="wrap_content"
+                android:hint="Double click for options"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"
                 android:hint="Double click for options"/>
