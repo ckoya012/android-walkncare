@@ -41,7 +41,7 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
     private Employee clinic;
     private String clinicName, clinicId, uid;
     private DatabaseReference ref, clinicRef;
-    private TextView textWaitTimeLabel, waitingTime, test;
+    private TextView textWaitTimeLabel, waitTime, test;
     private boolean delete;
 
     private Calendar cal, c;
@@ -79,6 +79,8 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         textWaitTimeLabel = findViewById(R.id.textViewWaitingTimeLabel);
         textWaitTimeLabel.setText("Current waiting time for " + clinicName + ":");
 
+        waitTime = findViewById(R.id.textViewWaitingTime);
+
         user = (Patient) getIntent().getSerializableExtra("USER_DATA");
         uid = user.getID();
         ref = FirebaseDatabase.getInstance().getReference().child("patients").child(uid);
@@ -108,8 +110,28 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+                setWaitTime();
 
                 Toast.makeText(PatientBookAppointmentActivity.this, "Appointment booked!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void setWaitTime() {
+        clinicRef.child("appointments").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long count = dataSnapshot.child(currentDateString).getChildrenCount();
+
+                long amtOfTime = count * 15;
+                int hours = (int) amtOfTime / 60; //since both are ints, you get an int
+                int minutes = (int) amtOfTime % 60;
+                waitTime.setText(String.format(Locale.CANADA, "%02d:%02d", hours, minutes));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }
@@ -208,6 +230,8 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
 
                     // attach adapter to ListView
                     listViewDates.setAdapter(adapter);
+                    setWaitTime();
+
                 }
 
                 @Override
