@@ -90,7 +90,6 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
 
         listViewDates = findViewById(R.id.listViewDates);
 
-        Button cancelBtn = (Button) findViewById(R.id.btnCancelAppt);
         test = findViewById(R.id.textViewTESTDATE);
 
         listViewDates.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -101,15 +100,13 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
                 TextView value = listViewItem.findViewById(R.id.dateTime);
                 String text = value.getText().toString();
 
-                // book appointment time
-//                user.setAppointment(text);
-//                ref.child("appointment").setValue(user.getAppointment());
-//                clinicRef.child("appointments").setValue(user.getAppointment());
                 try {
                     convertToTime(text);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+                user.setAppointment(unixTime);
+                user.setAppointmentDate(currentDateString);
                 setWaitTime();
 
                 Toast.makeText(PatientBookAppointmentActivity.this, "Appointment booked!", Toast.LENGTH_LONG).show();
@@ -148,6 +145,10 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
 
         ref.child("appointment").child("time").setValue(cal.getTime());
         ref.child("appointment").child("clinic").setValue(clinicId);
+
+        if (user.getAppointment() != 0) {
+            clinicRef.child("appointments").child(user.getAppointmentDate()).child(String.valueOf(user.getAppointment())).removeValue();
+        }
         clinicRef.child("appointments").child(currentDateString).child(String.valueOf(unixTime)).setValue(uid);
 
     }
