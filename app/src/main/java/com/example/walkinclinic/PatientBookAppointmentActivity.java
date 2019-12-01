@@ -364,13 +364,17 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
                         ref.child("appointment").removeValue();
 
                         // FIX CANCEL FOR EMPLOYEES
-                        clinicRef.child("appointments").child(currentDateString).child(String.valueOf(unixTime)).removeValue();
+                        if (currentDateString == null) {
+                            Toast.makeText(PatientBookAppointmentActivity.this, "Date not specified.", Toast.LENGTH_LONG).show();
+                        } else {
+                            clinicRef.child("appointments").child(currentDateString).child(String.valueOf(unixTime)).removeValue();
 
-                        test.setText("");
-                        user.setAppointment(0);
-                        user.setAppointmentDate("");
+                            test.setText("");
+                            user.setAppointment(0);
+                            user.setAppointmentDate("");
 
-                        Toast.makeText(PatientBookAppointmentActivity.this, "Your appointment on " + d1.toString() + " has been cancelled.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(PatientBookAppointmentActivity.this, "Your appointment on " + d1.toString() + " has been cancelled.", Toast.LENGTH_LONG).show();
+                        }
                     } else {
                         Toast.makeText(PatientBookAppointmentActivity.this, "You do not have any appointments booked.", Toast.LENGTH_LONG).show();
 

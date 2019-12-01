@@ -21,7 +21,7 @@
         <TextView
             android:id="@+id/textViewWaitingTime"
             android:textSize="50dp"
-            android:textColor="@color/design_default_color_primary"
+            android:textColor="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
