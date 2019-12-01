@@ -3,7 +3,6 @@ package com.example.walkinclinic;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -14,11 +13,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 
 import com.example.walkinclinic.account.Employee;
 import com.example.walkinclinic.account.Patient;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,10 +36,11 @@ import java.util.Objects;
 public class PatientBookAppointmentActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private Patient user;
-    private Employee clinic;
-    private String clinicName, clinicId, uid;
+    private String clinicId;
+    private String uid;
     private DatabaseReference ref, clinicRef;
-    private TextView textWaitTimeLabel, waitTime, test;
+    private TextView waitTime;
+    private TextView test;
     private boolean delete;
 
     private Calendar cal, c;
@@ -62,7 +60,7 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_book_appointment);
 
-        Button button = (Button) findViewById(R.id.btnSelectDate);
+        Button button = findViewById(R.id.btnSelectDate);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,16 +72,16 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
             }
         });
 
-        clinic = (Employee) getIntent().getSerializableExtra("CLINIC_DATA");
-        clinicName = clinic.getTitle();
+        Employee clinic = (Employee) getIntent().getSerializableExtra("CLINIC_DATA");
+        String clinicName = clinic.getTitle();
         clinicId = clinic.getID();
-        textWaitTimeLabel = findViewById(R.id.textViewWaitingTimeLabel);
+        TextView textWaitTimeLabel = findViewById(R.id.textViewWaitingTimeLabel);
         textWaitTimeLabel.setText("Current waiting time for " + clinicName + ":");
 
         waitTime = findViewById(R.id.textViewWaitingTime);
 
         user = (Patient) getIntent().getSerializableExtra("USER_DATA");
-        uid = user.getID();
+        uid = Objects.requireNonNull(user).getID();
         ref = FirebaseDatabase.getInstance().getReference().child("patients").child(uid);
         clinicRef = FirebaseDatabase.getInstance().getReference().child("employees").child(clinicId);
 
@@ -130,13 +128,13 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
                         Calendar cal = Calendar.getInstance();
                         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
                         try {
-                            cal.setTime(sdf.parse(text));
+                            cal.setTime(Objects.requireNonNull(sdf.parse(text)));
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
                         long milliseconds = cal.getTimeInMillis();
 
-                        if (Long.parseLong(num) == milliseconds) {
+                        if (Long.parseLong(Objects.requireNonNull(num)) == milliseconds) {
                             value.setClickable(false);
                             value.setEnabled(false);
                             value.setTextColor(Color.parseColor("red"));
@@ -181,7 +179,7 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
     private void convertToTime(String date) throws ParseException {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
-        cal.setTime(sdf.parse(date));
+        cal.setTime(Objects.requireNonNull(sdf.parse(date)));
 
         unixTime = cal.getTimeInMillis();
         Date itemDate = new Date(unixTime);
@@ -214,16 +212,14 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
 
     @Override
     protected DatePickerDialog onCreateDialog(int id) {
-        switch (id) {
-            case DATE_PICKER_ID:
-                // create a new DatePickerDialog with values you want to show
+        if (id == DATE_PICKER_ID) {// create a new DatePickerDialog with values you want to show
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(this, datePickerListener, year, month, day);
-                Calendar calendar = Calendar.getInstance();
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, datePickerListener, year, month, day);
+            Calendar calendar = Calendar.getInstance();
 
-                calendar.add(Calendar.DATE, 0); // Add 0 days to Calendar
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-                return datePickerDialog;
+            calendar.add(Calendar.DATE, 0); // Add 0 days to Calendar
+            datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+            return datePickerDialog;
         }
         return null;
     }
@@ -337,7 +333,7 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        addTimesToList(date1, date2);
+        addTimesToList(Objects.requireNonNull(date1), Objects.requireNonNull(date2));
     }
 
     private void addTimesToList(Date date1, Date date2) {
