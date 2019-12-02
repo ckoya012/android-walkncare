@@ -291,7 +291,7 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
         return date24Format.format(Objects.requireNonNull(date12Format.parse(time)));
     }
 
-    private String getDayOfWeek(int dayOfWeek) {
+    public static String getDayOfWeek(int dayOfWeek) {
 
         String day;
         switch (dayOfWeek) {
