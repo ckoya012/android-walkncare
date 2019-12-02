@@ -29,12 +29,13 @@ public class EmployeeMainActivity extends AppCompatActivity {
 
         // set variables
         user = (Employee) getIntent().getSerializableExtra("USER_DATA");
+        String userFirstName = user.getNameFirst();
         textNumServices = findViewById(R.id.textNumServicesOffered);
         refClinicServices = FirebaseDatabase.getInstance().getReference("employees").child(user.getID()).child("services");
 
         // set welcome message text
         TextView message = findViewById(R.id.welcomeMsgEmp);
-        message.setText("Welcome " + user.getNameFirst() + "! Your clinic has...");
+        message.setText("Welcome " + userFirstName + "! Your clinic has...");
     }
 
     // onStart will be used to update the textViews according to the database in real time

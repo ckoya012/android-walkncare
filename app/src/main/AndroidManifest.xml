@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ClinicList"></activity>
         <activity android:name=".SearchWalkin" />
-        <activity android:name=".PatientSearch" />
+        <activity android:name=".PatientSearchActivity" />
         <activity android:name=".EmployeeServiceManagementActivity" />
         <activity android:name=".PatientBookAppointmentActivity" />
         <activity android:name=".ServiceListCheckable" />
@@ -23,7 +23,6 @@
         <activity android:name=".EmployeeList" />
         <activity android:name=".AdminUserManagement" />
         <activity android:name=".AdminMainActivity" />
-        <activity android:name=".PatientMainActivity" />
         <activity android:name=".EmployeeMainActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".WelcomeActivity" />

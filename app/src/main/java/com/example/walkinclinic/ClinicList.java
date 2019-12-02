@@ -15,6 +15,10 @@ public class ClinicList extends ArrayAdapter<Employee> {
     private Activity context;
     List<Employee> employeeList;
 
+    public ClinicList() {
+        super(new Activity(), R.layout.activity_clinic_list);
+    }
+
     public ClinicList(Activity context, List<Employee> employeeList) {
         super(context, R.layout.activity_clinic_list, employeeList);
         this.context = context;

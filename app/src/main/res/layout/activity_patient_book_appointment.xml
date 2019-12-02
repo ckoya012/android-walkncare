@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textViewTitle1"
+            android:id="@+id/textViewWaitingTimeLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -21,11 +21,11 @@
         <TextView
             android:id="@+id/textViewWaitingTime"
             android:textSize="50dp"
-            android:textColor="@color/design_default_color_primary"
+            android:textColor="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="1:15" /> <!-- placeholder time-->
+            android:text="0:00" /> <!-- placeholder time-->
 
         <TextView
             android:id="@+id/textViewTitle2"
@@ -42,13 +42,33 @@
             android:layout_gravity="center"
             android:text="Date of Appointment" />
 
+        <Button
+            android:id="@+id/btnCancelAppt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:onClick="onClickCancelAppointment"
+            android:text="Cancel Appointment" />
+
         <TextView
             android:id="@+id/textViewSelectedDate"
             android:textSize="25dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="dd-mm-yyyy" />
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/textViewTESTDATE"
+            android:textSize="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
+
+        <ListView
+            android:id="@+id/listViewDates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </ListView>
 
     </LinearLayout>
 

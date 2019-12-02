@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_alignParentBottom="false"
-    tools:context=".PatientSearch">
+    tools:context=".PatientSearchActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -64,7 +64,7 @@
                 android:dropDownHeight="wrap_content"
                 android:hint="Double click for options"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <Space
                 android:layout_width="2dp"

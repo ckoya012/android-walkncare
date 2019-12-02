@@ -16,6 +16,8 @@ import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.example.walkinclinic.account.Employee;
+import com.example.walkinclinic.account.Patient;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,13 +31,14 @@ import java.util.List;
 
 public class SearchWalkin extends AppCompatActivity {
 
-    ListView clinicListV;
-    DatabaseReference clinicRef;
-    int section;
-    String filter;
-    List<Employee> employees;
-    DatabaseReference rateRef;
+    private ListView clinicListV;
+    private DatabaseReference clinicRef;
+    private int section;
+    private String filter;
+    private List<Employee> employees;
+    private DatabaseReference rateRef;
 
+    private Patient user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class SearchWalkin extends AppCompatActivity {
 
         filter = intent.getStringExtra("FILTER");
         section = intent.getIntExtra("SECTION", 0);
+        user = (Patient) getIntent().getSerializableExtra("USER_DATA");
 
         clinicListV = findViewById(R.id.clinicList);
         clinicRef = FirebaseDatabase.getInstance().getReference("employees");
@@ -64,6 +68,18 @@ public class SearchWalkin extends AppCompatActivity {
             }
         });
 
+        clinicListV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                // get the clinic that was clicked
+                Employee clinic = employees.get(i);
+                Intent intent = new Intent(getApplicationContext(), PatientBookAppointmentActivity.class);
+                intent.putExtra("USER_DATA", user);
+                intent.putExtra("CLINIC_DATA", clinic);
+                startActivity(intent);
+            }
+        });
 
 
 
@@ -174,10 +190,6 @@ public class SearchWalkin extends AppCompatActivity {
         });
     }
 
-    public void clinicVClick(View view){
-        Intent intent = new Intent(getApplicationContext(), PatientMainActivity.class);
-        startActivity(intent);
-    }
     //TODO: search by service and hours
     //TODO: rate method
 }

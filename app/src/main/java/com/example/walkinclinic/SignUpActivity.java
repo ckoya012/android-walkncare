@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -26,9 +25,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 
 
 public class SignUpActivity extends AppCompatActivity {
@@ -122,8 +118,9 @@ public class SignUpActivity extends AppCompatActivity {
                             Patient newUser = new Patient(email, hashedPwd, firstName, lastName,uid);
                             ref.child("patients").child(uid).setValue(newUser);
 
-                            Intent intent = new Intent(getApplicationContext(), PatientSearch.class);   //Application Context and Activity
+                            Intent intent = new Intent(getApplicationContext(), PatientSearchActivity.class);   //Application Context and Activity
                             intent.putExtra("USER_FIRSTNAME", firstName);
+                            intent.putExtra("USER_DATA", newUser);
                             startActivity(intent);//, ProfileActivity.REQUEST_NEW_TEAM);
                             finish();
                         }
