@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
         else {
-            if (emailIsValid(sEmail)) { // checks if login inputs are valid
+            if (emailIsValid(sEmail) && !(sPwd.equals(""))) { // checks if login inputs are valid
                 //creates listener used to authenticate login
                 mAuth.signInWithEmailAndPassword(sEmail, sPwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
             else {
-                Toast.makeText(this, "Please enter a valid email", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Please enter a valid email and password", Toast.LENGTH_LONG).show();
                 loading.setVisibility(View.GONE);
             }
         }
