@@ -1,6 +1,7 @@
 package com.example.walkinclinic;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -36,12 +37,14 @@ import java.util.Objects;
 public class PatientBookAppointmentActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private Patient user;
+    private Employee emp;
     private String clinicId;
     private String uid;
     private DatabaseReference ref, clinicRef;
     private TextView waitTime;
     private TextView test;
     private boolean delete;
+    private String clinicID;
 
     private Calendar cal, c;
     private int day, dayOfWeek, month, year;
@@ -74,13 +77,14 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
 
         Employee clinic = (Employee) getIntent().getSerializableExtra("CLINIC_DATA");
         String clinicName = clinic.getTitle();
-        clinicId = clinic.getID();
+        clinicId=clinic.getID();
         TextView textWaitTimeLabel = findViewById(R.id.textViewWaitingTimeLabel);
         textWaitTimeLabel.setText("Current waiting time for " + clinicName + ":");
 
         waitTime = findViewById(R.id.textViewWaitingTime);
 
         user = (Patient) getIntent().getSerializableExtra("USER_DATA");
+        //clinicID= (String) getIntent().getExtras().get("CLINIC_ID");
         uid = Objects.requireNonNull(user).getID();
         ref = FirebaseDatabase.getInstance().getReference().child("patients").child(uid);
         clinicRef = FirebaseDatabase.getInstance().getReference().child("employees").child(clinicId);
@@ -388,6 +392,14 @@ public class PatientBookAppointmentActivity extends AppCompatActivity implements
 
             }
         });
+    }
+
+    public void submitClinicRating(View view){
+        Intent intent = new Intent(getApplicationContext(), ClinicPage.class);
+        intent.putExtra("CLINIC_ID", clinicId);
+        startActivity(intent);
+        finish();
+
     }
 
 

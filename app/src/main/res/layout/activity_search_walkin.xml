@@ -11,9 +11,4 @@
         android:id="@+id/clinicList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:hint="Hold a clinic to give feedback."/>
 </LinearLayout>

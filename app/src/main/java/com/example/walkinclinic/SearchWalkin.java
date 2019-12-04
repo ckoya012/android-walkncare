@@ -60,7 +60,7 @@ public class SearchWalkin extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Employee employee = employees.get(i);
                 //TODO:rating pop up method
-                rateClinic(employee.getTitle(), employee.getID());
+                //rateClinic(employee.getTitle(), employee.getID());
                 // DatabaseReference rateRef= FirebaseDatabase.getInstance().getReference("employees").child(employee.getID()).child("rating");
                 //employee.setRating(rateC);
                 //rateRef.setValue(employee.getRating());
@@ -78,6 +78,7 @@ public class SearchWalkin extends AppCompatActivity {
                 intent.putExtra("USER_DATA", user);
                 intent.putExtra("CLINIC_DATA", clinic);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -165,9 +166,10 @@ public class SearchWalkin extends AppCompatActivity {
         return ref[dayOfweek - 1];
     }
 
+    /*
     private void rateClinic(String clinicName, final String id) {
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+       AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.activity_rate_clinic, null);
         dialogBuilder.setView(dialogView);
@@ -190,6 +192,5 @@ public class SearchWalkin extends AppCompatActivity {
         });
     }
 
-    //TODO: search by service and hours
-    //TODO: rate method
+    */
 }
