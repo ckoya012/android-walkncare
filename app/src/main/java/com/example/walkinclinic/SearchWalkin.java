@@ -40,6 +40,7 @@ public class SearchWalkin extends AppCompatActivity {
     private List<Employee> employees;
     private DatabaseReference rateRef;
     private DatabaseReference refComment;
+    private final String CLOSED = "  ";
 
 
     private Patient user;
@@ -110,7 +111,6 @@ public class SearchWalkin extends AppCompatActivity {
                     String phoneNum = postSnapshot.child("phoneNumber").getValue(String.class);
 
 
-
                     Date now = new Date();
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(now);
@@ -118,17 +118,19 @@ public class SearchWalkin extends AppCompatActivity {
                     String time1 = postSnapshot.child("schedule").child(refDay(day)).child("time1").getValue(String.class);
                     String time2 = postSnapshot.child("schedule").child(refDay(day)).child("time2").getValue(String.class);
 
+
                     DataSnapshot services = postSnapshot.child("services");
-                    for(DataSnapshot serviceSnapshot : services.getChildren()){
-                        for(DataSnapshot specific: serviceSnapshot.getChildren()){
-                            String service= specific.child("service").getValue(String.class);
-                            if(service.compareTo(filter)==0){
+                    for (DataSnapshot serviceSnapshot : services.getChildren()) {
+                        for (DataSnapshot specific : serviceSnapshot.getChildren()) {
+                            String service = specific.child("service").getValue(String.class);
+                            if (service.compareTo(filter) == 0) {
                                 Employee employee = new Employee(email, password, firstName, lastName, id);
                                 employee.setTitle(title);
                                 employee.setAddress(address);
                                 employee.setSchedule(time1, time2);
                                 employee.setPhoneNumber(phoneNum);
                                 employees.add(employee);
+                                break;
                             }
 
                         }
@@ -153,6 +155,136 @@ public class SearchWalkin extends AppCompatActivity {
                             employee.setSchedule(time1, time2);
                             employee.setPhoneNumber(phoneNum);
                             employees.add(employee);
+                        }
+                    }
+ /*                   if (filter.length() > 2) {
+                        if (filter.length() == 8) {
+
+                            String numRange = filter.substring(0, 2);
+                            String amOrPM = filter.substring(filter.length() - 2);
+
+                            if (time1.length() == 8) {
+                                String time1S = time1.substring(0, 2);
+                                String time1E = time1.substring(filter.length() - 2);
+                                if (time2.length() == 8) {
+                                    String time2S = time2.substring(0, 2);
+                                    String time2E = time2.substring(time2.length() - 2);
+
+                                    int compare = Integer.parseInt(numRange);
+                                    if (time1.compareTo(CLOSED) != 0) {
+                                        int mustStartBefore = Integer.parseInt(time1S);
+                                        int mustEndAfter = Integer.parseInt(time2S);
+
+
+                                        if (amOrPM.equals("am")) {
+                                            if (mustStartBefore <= compare) {
+                                                Employee employee = new Employee(email, password, firstName, lastName, id);
+                                                employee.setTitle(title);
+                                                employee.setAddress(address);
+                                                employee.setSchedule(time1, time2);
+                                                employee.setPhoneNumber(phoneNum);
+                                                employees.add(employee);
+                                            }
+                                        } else {
+                                            if (compare <= mustEndAfter) {
+                                                Employee employee = new Employee(email, password, firstName, lastName, id);
+                                                employee.setTitle(title);
+                                                employee.setAddress(address);
+                                                employee.setSchedule(time1, time2);
+                                                employee.setPhoneNumber(phoneNum);
+                                                employees.add(employee);
+                                            }
+                                        }
+
+                                    }
+
+
+                                } else {
+                                    String time2S = time2.substring(0, 1);
+                                    String time2E = time2.substring(time2.length() - 1);
+                                    int compare = Integer.parseInt(numRange);
+                                    if (time1.compareTo(CLOSED) != 0) {
+                                        int mustStartBefore = Integer.parseInt(time1S);
+                                        int mustEndAfter = Integer.parseInt(time2S);
+
+
+                                        if (amOrPM.equals("am")) {
+                                            if (mustStartBefore <= compare) {
+                                                Employee employee = new Employee(email, password, firstName, lastName, id);
+                                                employee.setTitle(title);
+                                                employee.setAddress(address);
+                                                employee.setSchedule(time1, time2);
+                                                employee.setPhoneNumber(phoneNum);
+                                                employees.add(employee);
+                                            }
+                                        } else {
+                                            if (compare <= mustEndAfter) {
+                                                Employee employee = new Employee(email, password, firstName, lastName, id);
+                                                employee.setTitle(title);
+                                                employee.setAddress(address);
+                                                employee.setSchedule(time1, time2);
+                                                employee.setPhoneNumber(phoneNum);
+                                                employees.add(employee);
+                                            }
+                                        }
+
+                                    }
+
+                                }
+
+
+                            } else {
+                                String time1S = time1.substring(0, 1);
+                                String time1E = time1.substring(filter.length() - 2);
+                                if (time2.length() == 8) {
+                                    String time2S = time2.substring(0, 2);
+
+
+                                } else {
+                                    String time2S = time2.substring(0, 2);
+                                    String time2E = time2.substring(time2.length() - 2);
+
+                                }
+                            }
+
+
+
+
+                        } else {
+                            String numRange = filter.substring(0, 1);
+                            String amOrPM = filter.substring(filter.length() - 2);
+                            String time1S = time1.substring(0, 1);
+                            String time2E = time2.substring(time2.length() - 2);
+                            int compare = Integer.parseInt(numRange);
+
+                            if (time1.compareTo(CLOSED) != 0) {
+                                if (time1S.substring(1).compareTo(":") != 0) {
+                                    int mustStartBefore = Integer.parseInt(time1S);
+                                    int mustEndAfter = Integer.parseInt(time2E);
+
+
+                                    if (amOrPM.equals("am")) {
+                                        if (mustStartBefore <= compare) {
+                                            Employee employee = new Employee(email, password, firstName, lastName, id);
+                                            employee.setTitle(title);
+                                            employee.setAddress(address);
+                                            employee.setSchedule(time1, time2);
+                                            employee.setPhoneNumber(phoneNum);
+                                            employees.add(employee);
+                                        }
+                                    } else {
+                                        if (compare <= mustEndAfter) {
+                                            Employee employee = new Employee(email, password, firstName, lastName, id);
+                                            employee.setTitle(title);
+                                            employee.setAddress(address);
+                                            employee.setSchedule(time1, time2);
+                                            employee.setPhoneNumber(phoneNum);
+                                            employees.add(employee);
+                                        }
+                                    }
+                                }
+
+                            }
                         }
                     }
 /*
@@ -226,7 +358,6 @@ public class SearchWalkin extends AppCompatActivity {
                         }
                     });
                     */
-
 
 
                 }

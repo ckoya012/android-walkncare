@@ -247,16 +247,114 @@ public class PatientSearchActivity extends AppCompatActivity implements AdapterV
             });
         } else if (sp1.contentEquals(searchTypes[1])) {//TODO: force selection for all list
             searchSection = 2;
-            ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, serviceName(allServices));//add array
-            searchBar.setAdapter(adapter2);
+           if (sp1.contentEquals(searchTypes[1])) {
+               searchSection = 1;
+               final ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, serviceName(allServices));//add array
+               //Toast.makeText(this, sp1, Toast.LENGTH_SHORT).show();
+               searchBar.setAdapter(adapter2);
+               searchBar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                   @Override
+                   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                       validMatch = adapter2.getItem(position).toString(); //INDEXOUTOFBOUNDSEXCEPTION
+                   }
+               });
+               searchBar.addTextChangedListener(new TextWatcher() {
+                   @Override
+                   public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                   }
+
+                   @Override
+                   public void onTextChanged(CharSequence s, int start, int before, int count) {
+                       String cSearchM = searchBar.getText().toString();
+                       for (int i = 0; i < adapter2.getCount(); i++) {
+                           String tmp = adapter2.getItem(i).toString();
+                           if (cSearchM.compareTo(tmp) == 0) {
+                               validMatch = cSearchM;
+                               return;
+                           } else {
+                               validMatch = null;
+                           }
+                       }
+                   }
+
+                   @Override
+                   public void afterTextChanged(Editable s) {
+                   }
+               });
+           }
         } else if (sp1.contentEquals(searchTypes[2])) {
             searchSection = 3;
-            ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, clinicNames);//add array
-            searchBar.setAdapter(adapter3);
+            if (sp1.contentEquals(searchTypes[2])) {
+                searchSection = 2;
+                final ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, clinicNames);//add array
+                //Toast.makeText(this, sp1, Toast.LENGTH_SHORT).show();
+                searchBar.setAdapter(adapter3);
+                searchBar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        validMatch = adapter3.getItem(position).toString(); //INDEXOUTOFBOUNDSEXCEPTION
+                    }
+                });
+                searchBar.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        String cSearchM = searchBar.getText().toString();
+                        for (int i = 0; i < adapter3.getCount(); i++) {
+                            String tmp = adapter3.getItem(i).toString();
+                            if (cSearchM.compareTo(tmp) == 0) {
+                                validMatch = cSearchM;
+                                return;
+                            } else {
+                                validMatch = null;
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                    }
+                });
+            }
         } else {
-            searchSection = 4;
-            ArrayAdapter<String> adapter4 = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, allHours());//add array
-            searchBar.setAdapter(adapter4);
+            if (sp1.contentEquals(searchTypes[3])) {
+                searchSection = 4;
+                final ArrayAdapter<String> adapter4 = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, allHours());//add array
+                //Toast.makeText(this, sp1, Toast.LENGTH_SHORT).show();
+                searchBar.setAdapter(adapter4);
+                searchBar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        validMatch = adapter4.getItem(position).toString(); //INDEXOUTOFBOUNDSEXCEPTION
+                    }
+                });
+                searchBar.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        String cSearchM = searchBar.getText().toString();
+                        for (int i = 0; i < adapter4.getCount(); i++) {
+                            String tmp = adapter4.getItem(i).toString();
+                            if (cSearchM.compareTo(tmp) == 0) {
+                                validMatch = cSearchM;
+                                return;
+                            } else {
+                                validMatch = null;
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                    }
+                });
+            }
         }
 
     }
