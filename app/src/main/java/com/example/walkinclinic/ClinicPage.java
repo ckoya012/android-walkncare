@@ -161,8 +161,8 @@ public class ClinicPage extends AppCompatActivity {
         }
         numUsers++;
         computeAverage(userRate, numUsers);
-        Intent intent = new Intent(getApplicationContext(), PatientSearchActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(getApplicationContext(), PatientSearchActivity.class);
+        //startActivity(intent);
         finish();
 
 
