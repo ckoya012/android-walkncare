@@ -191,7 +191,6 @@ public class PatientSearchActivity extends AppCompatActivity implements AdapterV
             intent.putExtra("SECTION", searchSection);
             intent.putExtra("USER_DATA", user);
             startActivity(intent);
-            finish();
 
         } else {
             Toast.makeText(this, "Sorry we were unable to find a clinic that mathed description", Toast.LENGTH_LONG).show();
