@@ -4,24 +4,10 @@
 
 [![CircleCI](https://circleci.com/gh/SEG2105-uottawa/seg2105-project-team-f19-5.svg?style=svg&circle-token=fa8576c9c01eb67a88929841760b681ea30820b3)](https://circleci.com/gh/SEG2105-uottawa/seg2105-project-team-f19-5)
 
-#### Group 5 Members:
+#### Team Members:
 
-<ul>
-  <li>
-    Name: Hajira Mohamed (300018158)
-  </li>
-  <li>
-    Name: Ladan Guled (300021664)
-  </li>
-  <li>
-    Name: Charita Koya (7239507)
-  </li>
-  <li>
-    Name: Thomas Hai Li (8666856)
-  </li>
-  <li>
-    Name: Ahmad Yama Ayubi (300021236)
-  </li>
-</ul>
-
-#### @wassim check out our cool cancel appointment feature I spent 9 hours getting it to work pls give us 55 bonus marks ok thnx bye - charita
+- Hajira Mohamed
+- Ladan Guled
+- Charita Koya
+- Thomas Hai Li
+- Ahmad Yama Ayubi
