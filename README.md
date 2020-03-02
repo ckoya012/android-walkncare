@@ -2,7 +2,7 @@
 
 #### About:
 
-Our team prototyped a mobile app as a simple clinic booking platform for patients, and as a clinic management tool for employees. The functionality depends on the type of user that is currently logged in. This app was made in a group of 5 for SEG2105 in the F19 semester, a second year software engineering course at the University of Ottawa.
+Our team prototyped a mobile app as a simple clinic booking platform for patients, and as a clinic management tool for employees. The functionality depends on the type of user that is currently logged in. This app was made in a group of 5 for SEG2105 in the F19 semester, a second-year software engineering course at the University of Ottawa.
 
 **Running the app:** Use any Android Studio virtual device or a phyiscal Android device.
 
