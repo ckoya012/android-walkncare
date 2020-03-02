@@ -20,7 +20,7 @@ Our team prototyped a mobile app as a simple clinic booking platform for patient
 
 #### Screenshots:
 
-Clinic employee dashboard for managing services, and a clinic-rating modal for once a patient has attended their booking.
+Clinic employee dashboard for managing services, and a clinic-rating modal for once a patient has attended their booking. View our [project report](https://github.com/thomas-hai-li/android-walkncare/blob/master/SEG%202105%20Android%20Project%202019%20-%20Final%20Report%20(Group%205).pdf) For more information and screenshots.
 
 <img align="left" src="https://user-images.githubusercontent.com/34053587/75723699-c9ea6980-5caa-11ea-96db-addd0e624584.png" height="800" />
 
